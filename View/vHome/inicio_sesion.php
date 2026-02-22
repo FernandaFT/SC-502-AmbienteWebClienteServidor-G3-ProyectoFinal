@@ -1,18 +1,14 @@
+<?php
+include_once $_SERVER["DOCUMENT_ROOT"]."/SC-502-AmbienteWebClienteServidor-G3-ProyectoFinal/View/layoutExterno.php";
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SGH</title>
 
-    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="shortcut icon" href="../assets/images/favicon.png" />
+<?php
+MostrarCSS();
+?>
 
-  </head>
   <body>
     <div class="container-scroller">
       <div class="container-fluid page-body-wrapper full-page-wrapper">
@@ -26,7 +22,7 @@
                 <h4>¡Bienvenidos!<br>Sistema de Gestión de Horas</h4>
                 <h6 class="font-weight-light">Inicie sesión para continuar.</h6>
                 <form class="pt-3">
-                  <div class="form-group">
+                  <div class="form-group" action="" method="POST">
                     <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Usuario">
                   </div>
                   <div class="form-group">
@@ -52,13 +48,8 @@
       </div>
     </div>
 
-    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
-
-    <script src="../assets/js/off-canvas.js"></script>
-    <script src="../assets/js/misc.js"></script>
-    <script src="../assets/js/settings.js"></script>
-    <script src="../assets/js/todolist.js"></script>
-    <script src="../assets/js/jquery.cookie.js"></script>
-
+<?php
+MostrarJS();
+?>
   </body>
 </html>

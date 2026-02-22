@@ -1,5 +1,5 @@
 <?php
-    header("Location: View/vHome/inicio.php");
+    header("Location: View/vHome/registro.php");
     exit;
 
 ?>
