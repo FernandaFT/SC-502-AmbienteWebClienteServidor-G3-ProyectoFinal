@@ -1,11 +1,11 @@
 <?php
 //include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Web/Controller/HomeController.php";
-if (session_status() === PHP_SESSION_NONE) {
-  session_start();
+if (session_status() === PHP_SESSION_NONE)
+{
+    session_start();
 }
 
-function CSSGeneral()
-{
+function CSSGeneral(){
   echo
   '<link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
@@ -17,12 +17,11 @@ function CSSGeneral()
     <link rel="shortcut icon" href="../assets/images/favicon.png" />';
 }
 
-function JSGeneral()
-{
+function JSGeneral(){
   echo
-  ' <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    '<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    
+    <script src="../assets/funciones/registro.js"></script>
     <script src="../assets/vendors/chart.js/chart.umd.js"></script>
     <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script
     <script src="../assets/js/off-canvas.js"></script>
@@ -33,10 +32,9 @@ function JSGeneral()
     <script src="../assets/js/dashboard.js"></script>';
 }
 
-function GeneralContenido()
-{
+function GeneralContenido(){
   $nombreUsuario = $_SESSION["NombreUsuario"];
-  echo '<div class="row p-0 m-0 proBanner" id="proBanner">
+    echo '<div class="row p-0 m-0 proBanner" id="proBanner">
         <div class="col-md-12 p-0 m-0">
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-3">
@@ -53,7 +51,7 @@ function GeneralContenido()
           </div>
         </div>
       </div>
-
+  
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a class="navbar-brand brand-logo" href="inicio.php"><img src="../assets/images/logo.png" alt="logo" /></a>
