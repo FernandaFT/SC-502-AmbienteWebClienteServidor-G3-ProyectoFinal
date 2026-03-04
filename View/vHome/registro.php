@@ -1,76 +1,155 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
+<?php
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerRegistro.php";
+?>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>SGH</title>
+<?php
+CSS();
+?>
 
-    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
-    <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
-    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
-    
-    <link rel="stylesheet" href="../assets/css/style.css">
-   
-    <link rel="shortcut icon" href="../assets/images/favicon.png" />
-  </head>
-  <body>
-    <div class="container-scroller">
-      <div class="container-fluid page-body-wrapper full-page-wrapper">
-        <div class="content-wrapper d-flex align-items-center auth">
-          <div class="row flex-grow">
-            <div class="col-lg-4 mx-auto">
-              <div class="auth-form-light text-left p-5">
-                <div class="brand-logo">
-                  <img src="../assets/images/Logo.png">
-                </div>
-                <h4>¿Nuevo aquí?</h4>
-                <h6 class="font-weight-light">Registrarse es facíl. Solo te toma un par de pasos.</h6>
-                <form class="pt-3">
-                  <div class="form-group">
-                    <input type="text" class="form-control form-control-lg" id="exampleInputUsername1" placeholder="Usuario">
-                  </div>
-                  <div class="form-group">
-                    <input type="email" class="form-control form-control-lg" id="exampleInputEmail1" placeholder="Correo">
-                  </div>
-                  <div class="form-group">
-                    <select class="form-select form-select-lg" id="exampleFormControlSelect2">
-                      <option>País</option>
-                      <option>Estados Unidos</option>
-                      <option>Reino Unido</option>
-                      <option>Costa Rica</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Contraseña">
-                  </div>
-                  <div class="mb-4">
-                    <div class="form-check">
-                      <label class="form-check-label text-muted">
-                        <input type="checkbox" class="form-check-input"> Estoy de acuerdo con todos los Terminos y Condiciones </label>
-                    </div>
-                  </div>
-                  <div class="mt-3 d-grid gap-2">
-                    <a class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" href="../../index.html">REGISTRARSE</a>
-                  </div>
-                  <div class="text-center mt-4 font-weight-light"> ¿Ya tienes una cuenta? <a href="inicio_sesion.php" class="text-primary">Iniciar Sesión</a>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+<div class="row">
+
+  <!-- FORMULARIO -->
+  <div class="col-lg-4 auth">
+
+    <div class="auth-form-light text-left p-5 border border-4 rounded">
+      <div class="brand-logo">
+        <img src="../assets/images/Logo.png">
       </div>
 
+      <h4>Registro de Empleados</h4>
+
+
+      <?php
+      if (isset($_POST["Mensaje"])) {
+        echo $_POST["Mensaje"];
+      }
+      ?>
+
+      <form class="pt-3" method="POST" id="formRegistro">
+        <div class="form-group">
+          <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" placeholder="Nombre">
+        </div>
+
+        <div class="form-group">
+          <input type="email" class="form-control form-control-lg" id="correo" name="correo" placeholder="Correo Electrónico">
+        </div>
+
+        <div class="form-group">
+          <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña">
+        </div>
+
+        <div class="form-group">
+          <select class="form-select form-select-lg" id="rol" name="rol" required>
+            <option value="" selected disabled>Seleccione el rol</option>
+            <option value="1">Administrador</option>
+            <option value="2">Empleado</option>
+          </select>
+        </div>
+
+        <div class="mt-3 d-grid gap-2">
+          <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
+            id="btnRegistro" name="btnRegistro" type="submit">
+            REGISTRAR EMPLEADO
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+
+  <!-- TABLA -->
+  <div class="col-lg-8">
+
+    <div class="card">
+      <div class="card-body">
+
+        <h5 class="mb-3">Empleados registrados</h5>
+
+        <div class="table-responsive" id="tablaEmpleados">
+
+          <table class="table table-hover">
+
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Rol</th>
+                <th>Estado</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php if (!empty($listaUsuarios)) { ?>
+                <?php foreach ($listaUsuarios as $u) { ?>
+
+                  <tr>
+                    <td><?php echo $u["id_usuario"]; ?></td>
+                    <td><?php echo $u["nombre"]; ?></td>
+                    <td><?php echo $u["correo"]; ?></td>
+
+                    <td>
+                      <?php if ($u["rol"] == 1) { ?>
+                        <span class="badge bg-warning text-dark">Admin</span>
+                      <?php } else { ?>
+                        <span class="badge bg-info">Empleado</span>
+                      <?php } ?>
+                    </td>
+
+                    <td>
+                      <?php if ($u["estado"]) { ?>
+                        <span class="badge bg-success">Activo</span>
+                      <?php } else { ?>
+                        <span class="badge bg-danger">Inactivo</span>
+                      <?php } ?>
+                    </td>
+                  </tr>
+
+                <?php } ?>
+              <?php } else { ?>
+
+                <tr>
+                  <td colspan="5">No hay usuarios registrados.</td>
+                </tr>
+
+              <?php } ?>
+            </tbody>
+
+          </table>
+
+          <!-- PAGINACIÓN -->
+          <nav class="mt-3">
+            <ul class="pagination justify-content-center">
+
+              <li class="page-item <?php echo ($pagina <= 1) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $pagina - 1; ?>">Anterior</a>
+              </li>
+
+              <?php for ($i = 1; $i <= $totalPaginas; $i++) { ?>
+
+                <li class="page-item <?php echo ($i == $pagina) ? 'active' : ''; ?>">
+                  <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+
+              <?php } ?>
+
+              <li class="page-item <?php echo ($pagina >= $totalPaginas) ? 'disabled' : ''; ?>">
+                <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $pagina + 1; ?>">Siguiente</a>
+              </li>
+
+            </ul>
+          </nav>
+
+        </div>
+
+      </div>
     </div>
 
-    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+  </div>
 
-    <script src="../assets/js/off-canvas.js"></script>
-    <script src="../assets/js/misc.js"></script>
-    <script src="../assets/js/settings.js"></script>
-    <script src="../assets/js/todolist.js"></script>
-    <script src="../assets/js/jquery.cookie.js"></script>
-  </body>
-</html>
+</div>
+
+<?php
+JS();
+?>
