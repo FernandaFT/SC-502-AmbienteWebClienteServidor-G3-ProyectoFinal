@@ -19,7 +19,9 @@ function CSSGeneral(){
 
 function JSGeneral(){
   echo
-  '<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+    '<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="../assets/funciones/registro.js"></script>
     <script src="../assets/vendors/chart.js/chart.umd.js"></script>
     <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script
     <script src="../assets/js/off-canvas.js"></script>
