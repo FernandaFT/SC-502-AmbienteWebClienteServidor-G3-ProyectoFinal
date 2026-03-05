@@ -1,8 +1,9 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/UtilitarioModel.php";
 
-function RegistrarUsuario($nombre,$correo,$contrasenna,$rol){
-    
+function RegistrarUsuario($nombre, $correo, $contrasenna, $rol)
+{
+
     $context = OpenDBPractica();
 
     $sp = "CALL sgh_RegistroUsuario('$nombre', '$correo','$contrasenna','$rol')";
@@ -12,7 +13,8 @@ function RegistrarUsuario($nombre,$correo,$contrasenna,$rol){
     return $result;
 }
 
-function ListarUsuarios($pagina, $registrosPorPagina){
+function ListarUsuarios($pagina, $registrosPorPagina)
+{
 
     $context = OpenDBPractica();
 
@@ -22,19 +24,21 @@ function ListarUsuarios($pagina, $registrosPorPagina){
     $result = $context->query($sql);
 
     $datos = [];
-    while($fila = $result->fetch_assoc()){
+    while ($fila = $result->fetch_assoc()) {
         $datos[] = $fila;
     }
 
     //limpiar resultados del SP
     $result->free();
-    while($context->more_results() && $context->next_result()) {;}
+    while ($context->more_results() && $context->next_result()) {;
+    }
 
     CloseDBPractica($context);
     return $datos;
 }
 
-function TotalUsuarios(){
+function TotalUsuarios()
+{
 
     $context = OpenDBPractica();
 
@@ -45,8 +49,38 @@ function TotalUsuarios(){
 
     //limpiar resultados del SP
     $result->free();
-    while($context->more_results() && $context->next_result()) {;}
+    while ($context->more_results() && $context->next_result()) {;
+    }
 
     CloseDBPractica($context);
     return $fila["total"];
+}
+
+function InactivarUsuario($id)
+{
+
+    $context = OpenDBPractica();
+
+    $sql = "CALL sgh_InactivarUsuario($id)";
+    $result = $context->query($sql);
+
+    CloseDBPractica($context);
+    return $result;
+}
+
+function CambiarEstadoUsuario($id, $estado)
+{
+    $context = OpenDBPractica();
+
+    $sql = "CALL sgh_CambiarEstadoUsuario($id,$estado)";
+    $result = $context->query($sql);
+
+    if ($result instanceof mysqli_result) {
+        $result->free();
+        while ($context->more_results() && $context->next_result()) {;
+        }
+    }
+
+    CloseDBPractica($context);
+    return $result;
 }
