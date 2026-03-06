@@ -1,11 +1,16 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerRegistro.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutGeneral.php";
 ?>
 
-<?php
-CSS();
-?>
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>SGH</title>
+  <?php CSSGeneral(); ?>
+</head>
 <div class="row">
 
   <!-- FORMULARIO -->
@@ -172,7 +177,7 @@ CSS();
   </div>
 
 </div>
-
+</html>
 <?php
-JS();
+JSGeneral();
 ?>

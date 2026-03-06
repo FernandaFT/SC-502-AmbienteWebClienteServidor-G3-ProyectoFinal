@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutLogin.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutGeneral.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerLogin.php";
 ?>
 <!DOCTYPE html>
@@ -10,7 +10,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>SGH</title>
   <?php
-  CSS();
+  CSSGeneral();
   ?>
 
 </head>
@@ -56,7 +56,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-
   </div>
 
   <?php
-  js();
+  JSGeneral();
   ?>
 </body>
 

@@ -19,9 +19,11 @@ function CSSGeneral(){
 
 function JSGeneral(){
   echo
-    '<script src="../assets/vendors/js/vendor.bundle.base.js"></script>
+    '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../assets/funciones/registro.js"></script>
+    <script src="../assets/funciones/login.js"></script>
     <script src="../assets/vendors/chart.js/chart.umd.js"></script>
     <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script
     <script src="../assets/js/off-canvas.js"></script>
@@ -32,7 +34,100 @@ function JSGeneral(){
     <script src="../assets/js/dashboard.js"></script>';
 }
 
-function GeneralContenido(){
+function menuEmpleado()
+{
+  $nombreUsuario = $_SESSION["NombreUsuario"];
+
+  echo '
+  <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
+    <ul class="nav">
+
+      <li class="nav-item nav-profile">
+        <a href="#" class="nav-link">
+          <div class="nav-profile-image">
+            <img src="../assets/images/faces/face1.jpg" alt="profile" />
+            <span class="login-status online"></span>
+          </div>
+
+          <div class="nav-profile-text d-flex flex-column">
+            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="text-secondary text-small">Empleado</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+          <span class="menu-title">Actividad Colaboradores</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-lock menu-icon"></i>
+        </a>
+
+        <div class="collapse" id="auth">
+          <ul class="nav flex-column sub-menu">
+
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php">
+                Registro de Horas
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+    </ul>
+  </nav>
+  ';
+}
+
+function menuAdmin(){
+  $nombreUsuario = $_SESSION["NombreUsuario"];
+
+  echo '
+  <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
+    <ul class="nav">
+
+      <li class="nav-item nav-profile">
+        <a href="#" class="nav-link">
+          <div class="nav-profile-image">
+            <img src="../assets/images/faces/face1.jpg" alt="profile" />
+            <span class="login-status online"></span>
+          </div>
+
+          <div class="nav-profile-text d-flex flex-column">
+            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="text-secondary text-small">Administrador</span>
+          </div>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+          <span class="menu-title">Configuración</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-lock menu-icon"></i>
+        </a>
+
+        <div class="collapse" id="auth">
+          <ul class="nav flex-column sub-menu">
+
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=registro">
+                Creación de Usuarios
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+    </ul>
+  </nav>
+  ';
+}
+
+function menuSuperiorGeneral(){
   $nombreUsuario = $_SESSION["NombreUsuario"];
     echo '<div class="row p-0 m-0 proBanner" id="proBanner">
         <div class="col-md-12 p-0 m-0">
