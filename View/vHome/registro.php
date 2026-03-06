@@ -2,22 +2,18 @@
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerRegistro.php";
 ?>
 
-<?php
-CSS();
-?>
-
 <div class="row">
 
   <!-- FORMULARIO -->
   <div class="col-lg-4 auth">
 
     <div class="auth-form-light text-left p-5 border border-4 rounded">
+
       <div class="brand-logo">
         <img src="../assets/images/Logo.png">
       </div>
 
       <h4>Registro de Empleados</h4>
-
 
       <?php
       if (isset($_POST["Mensaje"])) {
@@ -26,6 +22,7 @@ CSS();
       ?>
 
       <form class="pt-3" method="POST" id="formRegistro">
+
         <div class="form-group">
           <input type="text" class="form-control form-control-lg" id="nombre" name="nombre" placeholder="Nombre">
         </div>
@@ -34,9 +31,9 @@ CSS();
           <input type="email" class="form-control form-control-lg" id="correo" name="correo" placeholder="Correo Electrónico">
         </div>
 
-          <div class="form-group">
-            <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña">
-          </div>
+        <div class="form-group">
+          <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña">
+        </div>
 
         <div class="form-group">
           <select class="form-select form-select-lg" id="rol" name="rol" required>
@@ -54,6 +51,7 @@ CSS();
         </div>
 
       </form>
+
     </div>
   </div>
 
@@ -82,11 +80,17 @@ CSS();
             </thead>
 
             <tbody>
+
               <?php if (!empty($listaUsuarios)) { ?>
+
                 <?php foreach ($listaUsuarios as $u) { ?>
+
                   <tr>
+
                     <td><?php echo date("d/m/Y", strtotime($u["fecha_registro"])); ?></td>
+
                     <td><?php echo $u["nombre"]; ?></td>
+
                     <td><?php echo $u["correo"]; ?></td>
 
                     <td>
@@ -104,10 +108,12 @@ CSS();
                         <span class="badge bg-danger">Inactivo</span>
                       <?php } ?>
                     </td>
+
                     <td>
+
                       <div class="d-flex gap-2">
 
-                        <a href="inicio.php?vista=editar&id=<?php echo $u["id_usuario"]; ?>"
+                        <a href="?vista=editar&id=<?php echo $u["id_usuario"]; ?>"
                           class="btn btn-primary btn-sm">
                           Editar
                         </a>
@@ -129,39 +135,55 @@ CSS();
                         <?php } ?>
 
                       </div>
+
                     </td>
+
                   </tr>
+
                 <?php } ?>
+
               <?php } else { ?>
+
                 <tr>
                   <td colspan="6">No hay usuarios registrados.</td>
                 </tr>
+
               <?php } ?>
+
             </tbody>
 
           </table>
 
+
           <!-- PAGINACIÓN -->
           <nav class="mt-3">
+
             <ul class="pagination justify-content-center">
 
               <li class="page-item <?php echo ($pagina <= 1) ? 'disabled' : ''; ?>">
-                <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $pagina - 1; ?>">Anterior</a>
+                <a class="page-link" href="?vista=registro&pagina=<?php echo $pagina - 1; ?>">
+                  Anterior
+                </a>
               </li>
 
               <?php for ($i = 1; $i <= $totalPaginas; $i++) { ?>
 
                 <li class="page-item <?php echo ($i == $pagina) ? 'active' : ''; ?>">
-                  <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                  <a class="page-link" href="?vista=registro&pagina=<?php echo $i; ?>">
+                    <?php echo $i; ?>
+                  </a>
                 </li>
 
               <?php } ?>
 
               <li class="page-item <?php echo ($pagina >= $totalPaginas) ? 'disabled' : ''; ?>">
-                <a class="page-link" href="inicio.php?vista=registro&pagina=<?php echo $pagina + 1; ?>">Siguiente</a>
+                <a class="page-link" href="?vista=registro&pagina=<?php echo $pagina + 1; ?>">
+                  Siguiente
+                </a>
               </li>
 
             </ul>
+
           </nav>
 
         </div>
@@ -172,7 +194,3 @@ CSS();
   </div>
 
 </div>
-
-<?php
-JS();
-?>

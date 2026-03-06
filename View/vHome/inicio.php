@@ -1,9 +1,6 @@
 
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutRegistro.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutGeneral.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutAdmin.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutEmpleado.php";
 
 
 if (session_status() === PHP_SESSION_NONE) {
@@ -31,16 +28,16 @@ if ($rol == 0) {
 <body>
   <div class="container-scroller">
 
-    <?php GeneralContenido(); ?>
+    <?php menuSuperiorGeneral(); ?>
 
     <div class="container-fluid page-body-wrapper">
 
       <?php
         // Sidebar según rol
         if ($rol == 1) {
-          contenidoAdmin(); 
+          menuAdmin(); 
         } elseif ($rol == 2) {
-          contenidoEmpleado();
+          menuEmpleado();
         }
       ?>
 
