@@ -17,13 +17,19 @@ if (isset($_POST["btnRegistro"])) {
 
     if (empty($nombre) || empty($correo) || empty($contrasenna) || empty($rol)) {
         $mensaje = "<div class='alert alert-danger'>Todos los campos son obligatorios.</div>";
+        $esEdicion = false;
+        $usuarioEditar = null;
     } else {
         $result = RegistrarUsuario($nombre, $correo, $contrasenna, $rol);
 
         if ($result && $result["resultado"] == 1) {
             $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+            $esEdicion = false;
+            $usuarioEditar = null;
         } else {
             $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "No se pudo registrar el usuario.") . "</div>";
+            $esEdicion = false;
+            $usuarioEditar = null;
         }
     }
 }
@@ -48,7 +54,13 @@ if (isset($_GET["accion"]) && isset($_GET["id"])) {
 }
 
 /* CARGAR DATOS PARA EDITAR */
-if (isset($_GET["accion"]) && $_GET["accion"] == "editar" && isset($_GET["id"])) {
+if (
+    !isset($_POST["btnRegistro"]) &&
+    !isset($_POST["btnActualizar"]) &&
+    isset($_GET["accion"]) &&
+    $_GET["accion"] == "editar" &&
+    isset($_GET["id"])
+) {
     $idEditar = (int)$_GET["id"];
     $usuarioEditar = ObtenerUsuarioPorId($idEditar);
 
@@ -69,16 +81,20 @@ if (isset($_POST["btnActualizar"])) {
 
     if (empty($id) || empty($nombre) || empty($rol)) {
         $mensaje = "<div class='alert alert-danger'>Nombre y rol son obligatorios para actualizar.</div>";
+        $esEdicion = true;
+        $usuarioEditar = ObtenerUsuarioPorId($id);
     } else {
+
         $result = ActualizarUsuario($id, $nombre, $rol);
 
         if ($result) {
             $mensaje = "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
-            $usuarioEditar = null;
             $esEdicion = false;
-            $vista = "registro";
+            $usuarioEditar = null;
         } else {
             $mensaje = "<div class='alert alert-danger'>Error al actualizar usuario.</div>";
+            $esEdicion = true;
+            $usuarioEditar = ObtenerUsuarioPorId($id);
         }
     }
 }

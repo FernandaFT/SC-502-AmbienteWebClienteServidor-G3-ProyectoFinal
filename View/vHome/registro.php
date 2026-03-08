@@ -21,7 +21,7 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-
       }
       ?>
 
-      <form class="pt-3" method="POST" id="formRegistro">
+      <form class="pt-3" method="POST" id="formRegistro" action="?vista=registro">
 
         <?php if ($esEdicion) { ?>
           <input type="hidden" name="id_usuario" value="<?php echo $usuarioEditar["id_usuario"]; ?>">
