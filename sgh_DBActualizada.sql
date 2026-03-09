@@ -43,13 +43,62 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Fernanda Fajardo','mfajardo00557@ufide.ac.cr','ferf123',_binary '',1,'2026-03-05'),(2,'Test1','test1@gmail.com','test123',_binary '',2,'2026-03-05'),(3,'test2','test2@gmail.com','test2123',_binary '\0',2,'2026-03-05'),(4,'test3','test3@gmail.com','test3123',_binary '\0',2,'2026-03-05'),(5,'Sebastian Arroyo Molina','sebas@gmail.com','C0ntraseña1',_binary '',1,'2026-03-05');
+INSERT INTO `usuario` VALUES (1,'Fernanda Fajardo','mfajardo00557@ufide.ac.cr','ferf123',_binary '',1,'2026-03-06'),(2,'Sebastian Arroyo Molina','sebas@gmail.com','C0ntraseña1',_binary '',1,'2026-03-06'),(3,'Juan Perez','jp@gmail.com','juan123',_binary '\0',2,'2026-03-06'),(4,'Ana Lopez','alopez@gmail.com','anal123',_binary '',2,'2026-03-06'),(5,'Maria Martinez Mora','maria@gmail.com','maria123',_binary '',2,'2026-03-06');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
 -- Dumping routines for database 'sgh'
 --
+/*!50003 DROP PROCEDURE IF EXISTS `gh_ObtenerUsuarioPorId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `gh_ObtenerUsuarioPorId`(
+    pId INT
+)
+BEGIN
+	SELECT id_usuario, nombre, correo, rol
+    FROM usuario
+    WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ActualizarUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ActualizarUsuario`(
+    pId INT,
+    pNombre VARCHAR(200),
+    pRol INT
+)
+BEGIN
+	UPDATE usuario
+    SET nombre = pNombre,
+        rol = pRol
+    WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_CambiarEstadoUsuario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -141,6 +190,29 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerUsuarioPorId` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerUsuarioPorId`(
+    pId INT
+)
+BEGIN
+	SELECT id_usuario, nombre, correo, rol
+    FROM usuario
+    WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_RegistroUsuario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -158,8 +230,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistroUsuario`(
     pRol INT
 )
 BEGIN
-	INSERT INTO usuario(nombre,correo,contrasenna,estado,rol)
-    VALUES(pNombre,pCorreo,pContrasenna,b'1',pRol);
+	IF EXISTS (SELECT 1 FROM usuario WHERE correo = pCorreo) THEN
+        SELECT 0 AS resultado, 'El correo ya está registrado' AS mensaje;
+    ELSE
+        INSERT INTO usuario(nombre, correo, contrasenna, estado, rol)
+        VALUES(pNombre, pCorreo, pContrasenna, b'1', pRol);
+
+        SELECT 1 AS resultado, 'Usuario registrado correctamente' AS mensaje;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -196,4 +274,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-05 15:28:38
+-- Dump completed on 2026-03-06 12:57:39
