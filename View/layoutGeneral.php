@@ -1,11 +1,11 @@
 <?php
 //include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Web/Controller/HomeController.php";
-if (session_status() === PHP_SESSION_NONE)
-{
-    session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
 }
 
-function CSSGeneral(){
+function CSSGeneral()
+{
   echo
   '<link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
@@ -17,9 +17,10 @@ function CSSGeneral(){
     <link rel="shortcut icon" href="../assets/images/favicon.png" />';
 }
 
-function JSGeneral(){
+function JSGeneral()
+{
   echo
-    '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../assets/funciones/registro.js"></script>
@@ -50,7 +51,7 @@ function menuEmpleado()
           </div>
 
           <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Empleado</span>
           </div>
         </a>
@@ -71,17 +72,21 @@ function menuEmpleado()
                 Registro de Horas
               </a>
             </li>
-
           </ul>
         </div>
       </li>
-
+      <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+                Perfil Empleado
+              </a>
+            </li>
     </ul>
   </nav>
   ';
 }
 
-function menuAdmin(){
+function menuAdmin()
+{
   $nombreUsuario = $_SESSION["NombreUsuario"];
 
   echo '
@@ -96,7 +101,7 @@ function menuAdmin(){
           </div>
 
           <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Administrador</span>
           </div>
         </a>
@@ -121,15 +126,21 @@ function menuAdmin(){
           </ul>
         </div>
       </li>
+      <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+                Perfil Administrador
+              </a>
+      </li>
 
     </ul>
   </nav>
   ';
 }
 
-function menuSuperiorGeneral(){
+function menuSuperiorGeneral()
+{
   $nombreUsuario = $_SESSION["NombreUsuario"];
-    echo '<div class="row p-0 m-0 proBanner" id="proBanner">
+  echo '<div class="row p-0 m-0 proBanner" id="proBanner">
         <div class="col-md-12 p-0 m-0">
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-3">
