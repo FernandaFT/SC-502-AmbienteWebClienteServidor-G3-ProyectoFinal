@@ -1,6 +1,6 @@
 CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
 USE `sgh`;
--- MySQL dump 10.13  Distrib 8.0.43, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
 -- ------------------------------------------------------
@@ -16,6 +16,93 @@ USE `sgh`;
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `categoria_hora`
+--
+
+DROP TABLE IF EXISTS `categoria_hora`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `categoria_hora` (
+  `id_categoria_hora` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `activo` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`id_categoria_hora`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `categoria_hora`
+--
+
+LOCK TABLES `categoria_hora` WRITE;
+/*!40000 ALTER TABLE `categoria_hora` DISABLE KEYS */;
+INSERT INTO `categoria_hora` VALUES (1,'Ordinaria','Horas normales de trabajo según contrato',_binary ''),(2,'Extra','Horas adicionales fuera de jornada laboral',_binary ''),(3,'Doble','Horas con pago doble en días feriados',_binary '');
+/*!40000 ALTER TABLE `categoria_hora` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cliente`
+--
+
+DROP TABLE IF EXISTS `cliente`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cliente` (
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(200) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `activo` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cliente`
+--
+
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'Ministerio de Salud','Proyecto de digitalización de expedientes clínicos',_binary ''),(2,'Universidad Nacional','Sistema de gestión académica',_binary ''),(3,'Banco de Costa Rica','Plataforma de servicios financieros',_binary '');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `registro_horas`
+--
+
+DROP TABLE IF EXISTS `registro_horas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `registro_horas` (
+  `id_registro_horas` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario` int(11) NOT NULL,
+  `fecha` date NOT NULL,
+  `cantidad_horas` decimal(5,2) NOT NULL,
+  `descripcion` varchar(255) DEFAULT NULL,
+  `id_cliente` int(11) NOT NULL,
+  `id_categoria_hora` int(11) NOT NULL,
+  `estado` enum('pendiente','aprobado','rechazado') DEFAULT 'pendiente',
+  PRIMARY KEY (`id_registro_horas`),
+  KEY `fk_usuario` (`id_usuario`),
+  KEY `fk_cliente` (`id_cliente`),
+  KEY `fk_categoria_hora` (`id_categoria_hora`),
+  CONSTRAINT `fk_categoria_hora` FOREIGN KEY (`id_categoria_hora`) REFERENCES `categoria_hora` (`id_categoria_hora`),
+  CONSTRAINT `fk_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
+  CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `registro_horas`
+--
+
+LOCK TABLES `registro_horas` WRITE;
+/*!40000 ALTER TABLE `registro_horas` DISABLE KEYS */;
+/*!40000 ALTER TABLE `registro_horas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `usuario`
@@ -123,6 +210,36 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_EditarHoras` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_EditarHoras`(
+    IN pIdRegistro INT,
+    IN pCantidad DECIMAL(5,2),
+    IN pDescripcion VARCHAR(255)
+)
+BEGIN
+    IF pCantidad <= 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La cantidad de horas debe ser mayor a 0';
+    ELSE
+        UPDATE registro_horas
+        SET cantidad_horas = pCantidad,
+            descripcion = pDescripcion
+        WHERE id_registro_horas = pIdRegistro;
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_InactivarUsuario` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -159,6 +276,33 @@ DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_InicioSesion`(pCorreo varchar(255), pPassword varchar(255))
 BEGIN
 	Select * from usuario where correo=pCorreo and contrasenna=pPassword;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ListarHorasPorUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ListarHorasPorUsuario`(
+    IN pIdUsuario INT
+)
+BEGIN
+    SELECT rh.id_registro_horas, rh.fecha, rh.cantidad_horas, rh.descripcion,
+           c.nombre AS cliente, ch.nombre AS categoria, rh.estado
+    FROM registro_horas rh
+    INNER JOIN cliente c ON rh.id_cliente = c.id_cliente
+    INNER JOIN categoria_hora ch ON rh.id_categoria_hora = ch.id_categoria_hora
+    WHERE rh.id_usuario = pIdUsuario
+    ORDER BY rh.fecha DESC;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -207,6 +351,39 @@ BEGIN
 	SELECT id_usuario, nombre, correo, rol
     FROM usuario
     WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_RegistrarHoras` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistrarHoras`(
+    IN pIdUsuario INT,
+    IN pFecha DATE,
+    IN pCantidad DECIMAL(5,2),
+    IN pDescripcion VARCHAR(255),
+    IN pIdCliente INT,
+    IN pIdCategoriaHora INT
+)
+BEGIN
+    IF pCantidad <= 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'La cantidad de horas debe ser mayor a 0';
+    ELSEIF pFecha > CURDATE() THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No se permiten fechas futuras';
+    ELSE
+        INSERT INTO registro_horas(id_usuario, fecha, cantidad_horas, descripcion, id_cliente, id_categoria_hora)
+        VALUES(pIdUsuario, pFecha, pCantidad, pDescripcion, pIdCliente, pIdCategoriaHora);
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -274,4 +451,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-06 12:57:39
+-- Dump completed on 2026-03-09 22:23:48
