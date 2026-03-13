@@ -1,5 +1,9 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerRegistro.php";
+if (!isset($_SESSION["NombreUsuario"])) {
+  header("Location: inicio_sesion.php");
+  exit;
+}
 ?>
 
 <div class="row">

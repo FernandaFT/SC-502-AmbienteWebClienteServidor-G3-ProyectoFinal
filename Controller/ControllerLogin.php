@@ -15,11 +15,20 @@ if(isset($_POST["btnInicioSesion"])){
     if ($result) {
         $_SESSION["NombreUsuario"] = $result["nombre"];
         $_SESSION["Rol"] = $result["rol"];
+        $_SESSION["Correo"] = $result["correo"];
+        $_SESSION["Fecha"] = $result["fecha_registro"];
         header("Location: ../../View/vHome/inicio.php");
         exit;
     }else{
         $_POST["Mensaje"]="Usuario no encontrado, intente nuevamente";
     }
+}
+
+if(isset($_POST["btnCerrarSesion"])){
+    session_unset();
+    session_destroy();
+
+    echo json_encode("OK");
 }
 
 ?>

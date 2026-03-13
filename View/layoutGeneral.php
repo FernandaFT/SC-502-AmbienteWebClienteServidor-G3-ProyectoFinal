@@ -1,11 +1,11 @@
 <?php
 //include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Web/Controller/HomeController.php";
-if (session_status() === PHP_SESSION_NONE)
-{
-    session_start();
+if (session_status() === PHP_SESSION_NONE) {
+  session_start();
 }
 
-function CSSGeneral(){
+function CSSGeneral()
+{
   echo
   '<link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
@@ -17,9 +17,10 @@ function CSSGeneral(){
     <link rel="shortcut icon" href="../assets/images/favicon.png" />';
 }
 
-function JSGeneral(){
+function JSGeneral()
+{
   echo
-    '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../assets/funciones/registro.js"></script>
@@ -31,12 +32,20 @@ function JSGeneral(){
     <script src="../assets/js/settings.js"></script>
     <script src="../assets/js/todolist.js"></script>
     <script src="../assets/js/jquery.cookie.js"></script>
-    <script src="../assets/js/dashboard.js"></script>';
+    <script src="../assets/js/dashboard.js"></script>
+    <script src="../assets/funciones/cerrarSesion.js"></script>';
 }
 
 function menuEmpleado()
 {
-  $nombreUsuario = $_SESSION["NombreUsuario"];
+  $nombreUsuario = "";
+  if (isset($_SESSION["NombreUsuario"])) {
+    $nombreUsuario = $_SESSION["NombreUsuario"];
+  } else {
+    header("Location: login.php");
+    exit;
+  }
+
 
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
@@ -50,7 +59,7 @@ function menuEmpleado()
           </div>
 
           <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Empleado</span>
           </div>
         </a>
@@ -68,21 +77,34 @@ function menuEmpleado()
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php">
-                Registro de Horas
+                <span class="menu-title">Registro de Horas</span>
+                <i class="mdi mdi-clock-outline menu-icon"></i>
               </a>
             </li>
-
           </ul>
         </div>
       </li>
-
+      <li class="nav-item">
+        <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+          <span class="menu-title">Perfil Empleado</span>
+          <i class="mdi mdi-account menu-icon"></i>
+        </a>
+      </li>
     </ul>
   </nav>
   ';
 }
 
-function menuAdmin(){
-  $nombreUsuario = $_SESSION["NombreUsuario"];
+function menuAdmin()
+{
+  $nombreUsuario = "";
+  if (isset($_SESSION["NombreUsuario"])) {
+    $nombreUsuario = $_SESSION["NombreUsuario"];
+  } else {
+    header("Location: login.php");
+    exit;
+  }
+
 
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
@@ -96,7 +118,7 @@ function menuAdmin(){
           </div>
 
           <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">'.$nombreUsuario.'</span>
+            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Administrador</span>
           </div>
         </a>
@@ -121,15 +143,29 @@ function menuAdmin(){
           </ul>
         </div>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+            <span class="menu-title">Perfil Administrador</span>
+            <i class="mdi mdi-account menu-icon"></i>
+          </a>
+        </li>
 
     </ul>
   </nav>
   ';
 }
 
-function menuSuperiorGeneral(){
-  $nombreUsuario = $_SESSION["NombreUsuario"];
-    echo '<div class="row p-0 m-0 proBanner" id="proBanner">
+function menuSuperiorGeneral()
+{
+  $nombreUsuario = "";
+  if (isset($_SESSION["NombreUsuario"])) {
+    $nombreUsuario = $_SESSION["NombreUsuario"];
+  } else {
+    header("Location: login.php");
+    exit;
+  }
+
+  echo '<div class="row p-0 m-0 proBanner" id="proBanner">
         <div class="col-md-12 p-0 m-0">
           <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
             <div class="ps-lg-3">
@@ -170,7 +206,7 @@ function menuSuperiorGeneral(){
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="inicio_sesion.php">
+                <a class="dropdown-item" href="#0" onclick="CerrarSesion()">
                   <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar Sesión </a>
               </div>
             </li>
