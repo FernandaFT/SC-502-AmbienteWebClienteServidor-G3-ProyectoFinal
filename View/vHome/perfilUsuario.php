@@ -2,18 +2,22 @@
 if (session_status() === PHP_SESSION_NONE) {
   session_start();
 }
+if (!isset($_SESSION["NombreUsuario"])) {
+  header("Location: inicio_sesion.php");
+  exit;
+} else {
+  $nombre = $_SESSION["NombreUsuario"];
+  $correo = $_SESSION["Correo"];
+  $rol = $_SESSION["Rol"];
+  $fecha = $_SESSION["Fecha"];
 
-$nombre = $_SESSION["NombreUsuario"];
-$correo = $_SESSION["Correo"];
-$rol = $_SESSION["Rol"];
-$fecha = $_SESSION["Fecha"];
-
-/* Convertir rol */
-$rolTexto = "";
-if ($rol == 1) {
-  $rolTexto = "Administrador";
-} elseif ($rol == 2) {
-  $rolTexto = "Empleado";
+  /* Convertir rol */
+  $rolTexto = "";
+  if ($rol == 1) {
+    $rolTexto = "Administrador";
+  } elseif ($rol == 2) {
+    $rolTexto = "Empleado";
+  }
 }
 ?>
 

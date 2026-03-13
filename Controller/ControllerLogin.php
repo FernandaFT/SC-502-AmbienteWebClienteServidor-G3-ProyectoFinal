@@ -24,4 +24,11 @@ if(isset($_POST["btnInicioSesion"])){
     }
 }
 
+if(isset($_POST["btnCerrarSesion"])){
+    session_unset();
+    session_destroy();
+
+    echo json_encode("OK");
+}
+
 ?>
