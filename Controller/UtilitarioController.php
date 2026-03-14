@@ -19,8 +19,8 @@ function EnviarCorreo($asunto, $contenido, $destinatario)
     require 'PHPMailer/src/PHPMailer.php';
     require 'PHPMailer/src/SMTP.php';
 
-    $correoSalida = "mfajardo00557@ufide.ac.cr";
-    $contrasennaSalida = "RYWF_TFR9";
+    $correoSalida = "@ufide.ac.cr"; //Añadir el correo de fide
+    $contrasennaSalida = ""; // su contraseña
 
     $mail = new PHPMailer();
     $mail->CharSet = 'UTF-8';
