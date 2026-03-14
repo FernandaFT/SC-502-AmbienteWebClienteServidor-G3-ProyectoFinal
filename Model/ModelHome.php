@@ -1,18 +1,17 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/UtilitarioModel.php";
 
-function RegistrarUsuario($nombre, $correo, $contrasenna, $rol)
+
+function RegistrarCliente($nombre, $descripcion)
 {
     $context = OpenDBPractica();
 
     $nombre = $context->real_escape_string($nombre);
-    $correo = $context->real_escape_string($correo);
-    $contrasenna = $context->real_escape_string($contrasenna);
-    $rol = (int)$rol;
+    $descripcion = $context->real_escape_string($descripcion);
 
-    $sp = "CALL sgh_RegistroUsuario('$nombre', '$correo', '$contrasenna', '$rol')";
-    $result = $context->query($sp);
+    $sql= "CALL sgh_RegistroCliente('$nombre', '$descripcion')";
 
+    $result = $context->query($sql);
     $respuesta = null;
 
     if ($result) {
@@ -21,12 +20,13 @@ function RegistrarUsuario($nombre, $correo, $contrasenna, $rol)
         $result->free();
         while ($context->more_results() && $context->next_result()) { }
     }
-
+    
     CloseDBPractica($context);
     return $respuesta;
 }
 
-function ListarUsuarios($pagina, $registrosPorPagina)
+
+function ListarClientes($pagina, $registrosPorPagina)
 {
     $context = OpenDBPractica();
 
@@ -34,100 +34,90 @@ function ListarUsuarios($pagina, $registrosPorPagina)
     $registrosPorPagina = (int)$registrosPorPagina;
     $inicio = ($pagina - 1) * $registrosPorPagina;
 
-    $sql = "CALL sgh_ListarUsuarios('$inicio', '$registrosPorPagina')";
+    $sql = "CALL sgh_ListarClientes('$inicio', '$registrosPorPagina')";
     $result = $context->query($sql);
 
     $datos = [];
 
     if ($result) {
+
         while ($fila = $result->fetch_assoc()) {
             $datos[] = $fila;
         }
-
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
     }
 
     CloseDBPractica($context);
     return $datos;
 }
 
-function TotalUsuarios()
+
+function TotalClientes()
 {
     $context = OpenDBPractica();
 
-    $sql = "CALL sgh_TotalUsuarios()";
+    $sql = "CALL sgh_TotalClientes()";
     $result = $context->query($sql);
 
     $total = 0;
 
     if ($result) {
+
         $fila = $result->fetch_assoc();
         $total = $fila["total"] ?? 0;
-
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
     }
 
     CloseDBPractica($context);
     return $total;
 }
 
-function CambiarEstadoUsuario($id, $estado)
+
+function CambiarEstadoCliente($id, $estado)
 {
     $context = OpenDBPractica();
 
     $id = (int)$id;
     $estado = (int)$estado;
 
-    $sql = "CALL sgh_CambiarEstadoUsuario('$id', '$estado')";
+    $sql = "CALL sgh_CambiarEstadoCliente($id, $estado)";
     $result = $context->query($sql);
-
-    if ($result instanceof mysqli_result) {
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
-    }
 
     CloseDBPractica($context);
     return $result;
 }
 
-function ObtenerUsuarioPorId($id)
+
+function ObtenerClientePorId($id)
 {
     $context = OpenDBPractica();
 
     $id = (int)$id;
-    $sql = "CALL sgh_ObtenerUsuarioPorId($id)";
+
+    $sql = "CALL sgh_ObtenerClientePorId('$id')";
+
     $result = $context->query($sql);
 
-    $usuario = null;
+    $cliente = null;
 
     if ($result) {
-        $usuario = $result->fetch_assoc();
-
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
+        $cliente = $result->fetch_assoc();
     }
 
     CloseDBPractica($context);
-    return $usuario;
+    return $cliente;
 }
 
-function ActualizarUsuario($id, $nombre, $rol)
+
+function ActualizarCliente($id, $nombre, $descripcion)
 {
     $context = OpenDBPractica();
 
     $id = (int)$id;
     $nombre = $context->real_escape_string($nombre);
-    $rol = (int)$rol;
+    $descripcion = $context->real_escape_string($descripcion);
 
-    $sql = "CALL sgh_ActualizarUsuario('$id', '$nombre', '$rol')";
+    $sql = "CALL sgh_ActualizarCliente('$id', '$nombre', '$descripcion')";
+
     $result = $context->query($sql);
-
-    if ($result instanceof mysqli_result) {
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
-    }
 
     CloseDBPractica($context);
     return $result;

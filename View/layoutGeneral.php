@@ -35,7 +35,8 @@ function JSGeneral()
     <script src="../assets/js/dashboard.js"></script>
     <script src="../assets/funciones/cerrarSesion.js"></script>
     <script src="../assets/funciones/recuperarAcceso.js"></script>
-    <script src="../assets/funciones/cambiarAcceso.js"></script>';
+    <script src="../assets/funciones/cambiarAcceso.js"></script>
+    <script src="../assets/funciones/clientes.js"></script>';
 }
 
 function menuEmpleado()
@@ -155,6 +156,11 @@ function menuAdmin()
               </a>
             </li>
 
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=clientes">
+                Creación Clientes
+              </a>
+            </li>
           </ul>
         </div>
       </li>

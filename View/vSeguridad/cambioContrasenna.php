@@ -1,6 +1,10 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerSeguridad.php";
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutGeneral.php";
+if (!isset($_SESSION["NombreUsuario"])) {
+  header("Location: ../vHome/inicio_sesion.php");
+  exit;
+}
 ?>
 
 <div class="row justify-content-center">
