@@ -1,6 +1,6 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/View/layoutGeneral.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerLogin.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerRecuperarC.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,26 +25,25 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-
               <div class="brand-logo">
                 <img src="../assets/images/Logo.png">
               </div>
-              <h4>¡Bienvenid@!<br>Sistema de Gestión de Horas</h4>
-              <h6 class="font-weight-light">Inicie sesión para continuar.</h6>
+              <h4>Recuperar Acceso</h4>
+              <h6 class="font-weight-light">Te enviaremos un correo electrónico con una contraseña nueva.</h6>
               <?php
                 if(isset($_POST["Mensaje"])){
                   echo $_POST["Mensaje"];
               }
               ?>
-              <form class="pt-3" method="POST" id="FormInicioSesion">
+              <form class="pt-3" method="POST" id="FormRecuperarAcceso" action="">
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-lg" id="correo" name="correo" placeholder="Correo Electrónico">
-                </div>
-                <div class="form-group">
-                  <input type="password" class="form-control form-control-lg" id="password" name="password" placeholder="Contraseña">
+                  <input type="email" class="form-control form-control-lg" 
+                         id="correo" name="correo" placeholder="Correo Electrónico">
                 </div>
                 <div class="mt-3 d-grid gap-2">
-                  <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" id="btnInicioSesion" name="btnInicioSesion">INICIAR SESIÓN</button>
+                  <button type="submit" class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn" 
+                          id="btnRecuperarAcceso" name="btnRecuperarAcceso">RECUPERAR ACCESO</button>
                 </div>
                 <div class="my-2 d-flex justify-content-between align-items-center">
 
-                  <a href="recuperar_acceso.php" class="auth-link text-primary">¿Has olvidado tu contraseña?</a>
+                  <a href="inicio_sesion.php" class="auth-link text-primary">¿Ya tienes una cuenta?</a>
                 </div>
 
               </form>
