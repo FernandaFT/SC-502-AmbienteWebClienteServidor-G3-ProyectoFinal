@@ -48,7 +48,9 @@ if ($rol == 0) {
           <?php
           if ($rol == 1 && $vista == "registro") {
             include_once __DIR__ . "/registro.php";
-          } elseif ($vista == "perfilUsuario") {
+          }elseif ($vista == "cambioContrasenna") {
+            include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
+          }elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
           } else {
             echo "<h4>Bienvenid@s al SGH</h4>";

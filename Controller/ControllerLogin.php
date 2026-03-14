@@ -14,6 +14,7 @@ if(isset($_POST["btnInicioSesion"])){
 
     if ($result) {
         $_SESSION["NombreUsuario"] = $result["nombre"];
+        $_SESSION["IdUsuario"] = $result["id_usuario"];
         $_SESSION["Rol"] = $result["rol"];
         $_SESSION["Correo"] = $result["correo"];
         $_SESSION["Fecha"] = $result["fecha_registro"];

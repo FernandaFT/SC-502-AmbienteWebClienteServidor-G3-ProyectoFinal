@@ -33,7 +33,9 @@ function JSGeneral()
     <script src="../assets/js/todolist.js"></script>
     <script src="../assets/js/jquery.cookie.js"></script>
     <script src="../assets/js/dashboard.js"></script>
-    <script src="../assets/funciones/cerrarSesion.js"></script>';
+    <script src="../assets/funciones/cerrarSesion.js"></script>
+    <script src="../assets/funciones/recuperarAcceso.js"></script>
+    <script src="../assets/funciones/cambiarAcceso.js"></script>';
 }
 
 function menuEmpleado()
@@ -81,6 +83,13 @@ function menuEmpleado()
                 <i class="mdi mdi-clock-outline menu-icon"></i>
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
+                Cambiar mi Contraseña
+              </a>
+            </li>
+            
           </ul>
         </div>
       </li>
@@ -137,6 +146,12 @@ function menuAdmin()
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=registro">
                 Creación de Usuarios
+              </a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
+                Cambiar mi Contraseña
               </a>
             </li>
 
