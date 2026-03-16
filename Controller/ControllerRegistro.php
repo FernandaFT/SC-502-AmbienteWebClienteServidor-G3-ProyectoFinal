@@ -42,14 +42,12 @@ if (isset($_GET["accion"]) && isset($_GET["id"])) {
 
     if ($accion == "inactivar") {
         CambiarEstadoUsuario($id, 0);
-        header("Location: ../View/vHome/inicio.php?vista=registro");
-        exit();
+        $mensaje = "<div class='alert alert-success'>Usuario inactivado.</div>";
     }
 
     if ($accion == "activar") {
         CambiarEstadoUsuario($id, 1);
-        header("Location: ../View/vHome/inicio.php?vista=registro");
-        exit();
+        $mensaje = "<div class='alert alert-success'>Usuario activado.</div>";
     }
 }
 
