@@ -154,16 +154,22 @@ if (!isset($_SESSION["NombreUsuario"])) {
                         </a>
 
                         <?php if ($u["estado"]) { ?>
-                          <a href="../../Controller/ControllerRegistro.php?accion=inactivar&id=<?php echo $u["id_usuario"]; ?>"
+
+                          <a href="?vista=registro&accion=inactivar&id=<?php echo $u["id_usuario"]; ?>"
                             class="btn btn-gradient-danger btn-rounded btn-sm">
                             Inactivar
                           </a>
+
                         <?php } else { ?>
-                          <a href="../../Controller/ControllerRegistro.php?accion=activar&id=<?php echo $u["id_usuario"]; ?>"
+
+                          <a href="?vista=registro&accion=activar&id=<?php echo $u["id_usuario"]; ?>"
                             class="btn btn-gradient-success btn-rounded btn-sm">
                             Activar
                           </a>
+
                         <?php } ?>
+
+
 
                       </div>
                     </td>
