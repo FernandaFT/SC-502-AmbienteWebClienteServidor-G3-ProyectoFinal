@@ -94,6 +94,29 @@ function menuEmpleado()
           </ul>
         </div>
       </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false" aria-controls="permisos">
+          <span class="menu-title">Solicitud de Permisos</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-calendar-check menu-icon"></i>
+        </a>
+
+        <div class="collapse" id="permisos">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">
+                <i class="mdi mdi-plus-circle"></i> Solicitar Permiso
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">
+                <i class="mdi mdi-list-status"></i> Mis Solicitudes
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
           <span class="menu-title">Perfil Empleado</span>
