@@ -9,7 +9,6 @@ if (session_status() === PHP_SESSION_NONE) {
 $rol   = $_SESSION["Rol"] ?? 0;
 $vista = $_GET["vista"] ?? "dashboard";
 
-// Si no hay sesión válida, manda a login
 if ($rol == 0) {
   header("Location: inicio_sesion.php");
   exit;
@@ -33,7 +32,6 @@ if ($rol == 0) {
     <div class="container-fluid page-body-wrapper">
 
       <?php
-      // Sidebar según rol
       if ($rol == 1) {
         menuAdmin();
       } elseif ($rol == 2) {
@@ -41,7 +39,6 @@ if ($rol == 0) {
       }
       ?>
 
-      <!-- Panel derecho -->
       <div class="main-panel">
         <div class="content-wrapper">
 
@@ -54,9 +51,12 @@ if ($rol == 0) {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
           }elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
+          }elseif ($vista == "solicitud_vacaciones") {
+            include_once __DIR__ . "/solicitud_vacaciones.php";
           } else {
             echo "<h4>Bienvenid@s al SGH</h4>";
           }
+          
           ?>
 
         </div>

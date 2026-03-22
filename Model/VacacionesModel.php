@@ -1,5 +1,5 @@
 <?php
-require_once 'UtilitarioModel.php'; 
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/UtilitarioModel.php";
 
 class VacacionesModel {
 
@@ -11,8 +11,8 @@ class VacacionesModel {
         $fin = $datos['fecha_fin'];
         $dias = $datos['dias_solicitados'];
 
-        $sql = "INSERT INTO solicitud_vacaciones (id_usuario, fecha_inicio, fecha_fin, dias_solicitados, estado) 
-                VALUES ('$id', '$inicio', '$fin', '$dias', 'Pendiente')";
+        
+        $sql = "CALL sp_registrar_solicitud_vacaciones('$id', '$inicio', '$fin', '$dias')";
         
         $resultado = mysqli_query($enlace, $sql);
 

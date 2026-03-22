@@ -1,17 +1,15 @@
 <?php
-//include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Web/Controller/HomeController.php";
 if (session_status() === PHP_SESSION_NONE) {
-  session_start();
+    session_start();
 }
 
 function CSSGeneral()
 {
-  echo
-  '<link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
+    echo '
+    <link rel="stylesheet" href="../assets/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="shortcut icon" href="../assets/images/favicon.png" />';
@@ -19,14 +17,14 @@ function CSSGeneral()
 
 function JSGeneral()
 {
-  echo
-  '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    echo '
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../assets/funciones/registro.js"></script>
     <script src="../assets/funciones/login.js"></script>
     <script src="../assets/vendors/chart.js/chart.umd.js"></script>
-    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script
+    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="../assets/js/off-canvas.js"></script>
     <script src="../assets/js/misc.js"></script>
     <script src="../assets/js/settings.js"></script>
@@ -41,206 +39,67 @@ function JSGeneral()
 
 function menuEmpleado()
 {
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
-    header("Location: login.php");
-    exit;
-  }
-
-
-  echo '
-  <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
-    <ul class="nav">
-
-      <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
-          <div class="nav-profile-image">
-            <img src="../assets/images/faces/face1.jpg" alt="profile" />
-            <span class="login-status online"></span>
-          </div>
-
-          <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
-            <span class="text-secondary text-small">Empleado</span>
-          </div>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-          <span class="menu-title">Actividad Colaboradores</span>
-          <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
-        </a>
-
-        <div class="collapse" id="auth">
-          <ul class="nav flex-column sub-menu">
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php">
-                <span class="menu-title">Registro de Horas</span>
-                <i class="mdi mdi-clock-outline menu-icon"></i>
-              </a>
+    $nombreUsuario = isset($_SESSION["NombreUsuario"]) ? $_SESSION["NombreUsuario"] : "Empleado";
+    echo '
+    <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item nav-profile">
+                <a href="#" class="nav-link">
+                    <div class="nav-profile-image">
+                        <img src="../assets/images/faces/face1.jpg" alt="profile" />
+                    </div>
+                    <div class="nav-profile-text d-flex flex-column">
+                        <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
+                        <span class="text-secondary text-small">Empleado</span>
+                    </div>
+                </a>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
-              </a>
+                <a class="nav-link" href="../vHome/inicio.php">
+                    <span class="menu-title">Registro de Horas</span>
+                    <i class="mdi mdi-clock-outline menu-icon"></i>
+                </a>
             </li>
-            
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
-          <span class="menu-title">Perfil Empleado</span>
-          <i class="mdi mdi-account menu-icon"></i>
-        </a>
-      </li>
-    </ul>
-  </nav>
-  ';
-}
-
-function menuAdmin()
-{
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
-    header("Location: login.php");
-    exit;
-  }
-
-
-  echo '
-  <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
-    <ul class="nav">
-
-      <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
-          <div class="nav-profile-image">
-            <img src="../assets/images/faces/face1.jpg" alt="profile" />
-            <span class="login-status online"></span>
-          </div>
-
-          <div class="nav-profile-text d-flex flex-column">
-            <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
-            <span class="text-secondary text-small">Administrador</span>
-          </div>
-        </a>
-      </li>
-
-      <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
-          <span class="menu-title">Configuración</span>
-          <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
-        </a>
-
-        <div class="collapse" id="auth">
-          <ul class="nav flex-column sub-menu">
-
             <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=registro">
-                Creación de Usuarios
-              </a>
+                <a class="nav-link" href="../vHome/inicio.php?vista=solicitud_vacaciones">
+                    <span class="menu-title">Solicitud de Vacaciones</span>
+                    <i class="mdi mdi-account menu-icon"></i>
+                </a>
             </li>
-
             <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
-              </a>
+                <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+                    <span class="menu-title">Perfil Empleado</span>
+                    <i class="mdi mdi-account menu-icon"></i>
+                </a>
             </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=clientes">
-                Creación Clientes
-              </a>
-            </li>
-          </ul>
-        </div>
-      </li>
-      <li class="nav-item">
-          <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
-            <span class="menu-title">Perfil Administrador</span>
-            <i class="mdi mdi-account menu-icon"></i>
-          </a>
-        </li>
-
-    </ul>
-  </nav>
-  ';
+        </ul>
+    </nav>';
 }
 
 function menuSuperiorGeneral()
 {
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
-    header("Location: login.php");
-    exit;
-  }
-
-  echo '<div class="row p-0 m-0 proBanner" id="proBanner">
-        <div class="col-md-12 p-0 m-0">
-          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
-            <div class="ps-lg-3">
-              <div class="d-flex align-items-center justify-content-between">
-            
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/"><i class="mdi mdi-home me-3 text-white"></i></a>
-              <button id="bannerClose" class="btn border-0 p-0">
-                <i class="mdi mdi-close text-white mr-0"></i>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    $nombreUsuario = isset($_SESSION["NombreUsuario"]) ? $_SESSION["NombreUsuario"] : "Usuario";
+    echo '
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
-          <a class="navbar-brand brand-logo" href="inicio.php"><img src="../assets/images/logo.png" alt="logo" /></a>
-          <a class="navbar-brand brand-logo-mini" href="inicio.php"><img src="../assets/images/logo-mini.svg" alt="logo" /></a>
+            <a class="navbar-brand brand-logo" href="inicio.php"><img src="../assets/images/logo.png" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
-      
-          <ul class="navbar-nav navbar-nav-right">
-            <li class="nav-item nav-profile dropdown">
-              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="nav-profile-img">
-                  <img src="../assets/images/faces/face1.jpg" alt="image">
-                  <span class="availability-status online"></span>
-                </div>
-                <div class="nav-profile-text">
-                  <p class="mb-1 text-black">' . $nombreUsuario . '</p>
-                </div>
-              </a>
-              <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#0" onclick="CerrarSesion()">
-                  <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar Sesión </a>
-              </div>
-            </li>
-            <li class="nav-item d-none d-lg-block full-screen-link">
-              <a class="nav-link">
-                <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
-              </a>
-            </li>       
-
-          </ul>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
-          </button>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown">
+                        <div class="nav-profile-text">
+                            <p class="mb-1 text-black">' . $nombreUsuario . '</p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+                        <a class="dropdown-item" href="#0" onclick="CerrarSesion()">
+                            <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar Sesión </a>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </nav>';
+    </nav>';
 }
+
+?>

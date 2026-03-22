@@ -1,19 +1,21 @@
 <?php
-require_once '../Model/VacacionesModel.php';
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/VacacionesModel.php";
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $model = new VacacionesModel();
-    $datos = [
-        'id_usuario' => 1, 
-        'fecha_inicio' => $_POST['fecha_inicio'],
-        'fecha_fin' => $_POST['fecha_fin'],
-        'dias_solicitados' => $_POST['dias_solicitados']
-    ];
+if (isset($_POST["btnEnviarSolicitud"])) {
+    $datos = array(
+        'id_usuario'       => $_POST["txtIdUsuario"],
+        'fecha_inicio'     => $_POST["txtFechaInicio"],
+        'fecha_fin'        => $_POST["txtFechaFin"],
+        'dias_solicitados' => $_POST["txtDias"]
+    );
 
-    if ($model->guardarSolicitud($datos)) {
-        echo "<script>alert('¡Solicitud enviada!'); window.location.href='../View/solicitudVacaciones.php';</script>";
+    $objModel = new VacacionesModel();
+    $resultado = $objModel->guardarSolicitud($datos);
+
+    if ($resultado) {
+        header("Location: ../View/solicitud_vacaciones.php?msj=success");
     } else {
-        echo "<script>alert('Error al guardar'); window.history.back();</script>";
+        header("Location: ../View/solicitud_vacaciones.php?msj=error");
     }
 }
-?>
+
