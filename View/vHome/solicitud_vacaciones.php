@@ -43,9 +43,7 @@
                                     <p class="card-description">Ingresa las fechas de tu descanso</p>
                                     
                                     <form action="/SC-502-AmbienteWebClienteServidor-G3-ProyectoFinal/Controller/VacacionesController.php" method="POST">
-                                        <input type="hidden" name="txtIdUsuario" value="<?php echo $_SESSION['IdUsuario']; ?>">
-
-                                        <div class="form-group">
+                                    <input type="hidden" name="txtIdUsuario" value="<?php echo $_SESSION['IdUsuario']; ?>">                                        <div class="form-group">
                                             <label>Fecha de Inicio</label>
                                             <input type="date" name="txtFechaInicio" class="form-control" required>
                                         </div>
@@ -69,4 +67,53 @@
                         <div class="col-md-8 grid-margin stretch-card">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Mi
+                                    <h4 class="card-title">Mi Historial de Solicitudes</h4>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Inicio</th>
+                                                    <th>Fin</th>
+                                                    <th>Días</th>
+                                                    <th>Estado</th>
+                                                    <th>Acción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                    $objModel = new VacacionesModel();
+                                                    $datos = $objModel->consultarSolicitudes($_SESSION["IdUsuario"]);
+
+                                                    if($datos) {
+                                                        while($fila = mysqli_fetch_array($datos)) {
+                                                            echo "<tr>";
+                                                            echo "<td>" . $fila["fecha_inicio"] . "</td>";
+                                                            echo "<td>" . $fila["fecha_fin"] . "</td>";
+                                                            echo "<td>" . $fila["dias_solicitados"] . "</td>";
+                                                            
+                                                            $claseBadge = ($fila["estado_solicitud"] == 'Pendiente') ? 'badge-warning' : 'badge-success';
+                                                            echo "<td><label class='badge $claseBadge'>" . $fila["estado_solicitud"] . "</label></td>";
+                                                            
+                                                            echo "<td>
+                                                                    <button class='btn btn-outline-danger btn-sm'>
+                                                                        <i class='fa fa-trash'></i>
+                                                                    </button>
+                                                                  </td>";
+                                                            echo "</tr>";
+                                                        }
+                                                    }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> </div>
+            </div>
+        </div>
+    </div>
+
+    <?php JSGeneral(); ?>
+</body>
+</html>
