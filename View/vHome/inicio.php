@@ -53,12 +53,14 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
           <?php
           if ($rol == 1 && $vista == "registro") {
             include_once __DIR__ . "/registro.php";
-          }elseif ($rol == 1 && $vista == "clientes") {
+          } elseif ($rol == 1 && $vista == "clientes") {
             include_once __DIR__ . "/clientes.php";
-          }elseif ($vista == "cambioContrasenna") {
+          } elseif ($vista == "cambioContrasenna") {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
-          }elseif ($vista == "perfilUsuario") {
+          } elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
+          } elseif ($vista == "horas") {
+            include_once __DIR__ . "/../vHome/registroHoras.php";
           }elseif ($vista == "solicitar_permiso") {
             include_once __DIR__ . "/solicitar_permiso.php";
           }elseif ($vista == "mi_solicitudes") {

@@ -26,7 +26,7 @@ function JSGeneral()
     <script src="../assets/funciones/registro.js"></script>
     <script src="../assets/funciones/login.js"></script>
     <script src="../assets/vendors/chart.js/chart.umd.js"></script>
-    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script
+    <script src="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
     <script src="../assets/js/off-canvas.js"></script>
     <script src="../assets/js/misc.js"></script>
     <script src="../assets/js/settings.js"></script>
@@ -36,7 +36,8 @@ function JSGeneral()
     <script src="../assets/funciones/cerrarSesion.js"></script>
     <script src="../assets/funciones/recuperarAcceso.js"></script>
     <script src="../assets/funciones/cambiarAcceso.js"></script>
-    <script src="../assets/funciones/clientes.js"></script>';
+    <script src="../assets/funciones/clientes.js"></script>
+    <script src="../assets/funciones/horas.js"></script>';
 }
 
 function menuEmpleado()
@@ -48,7 +49,6 @@ function menuEmpleado()
     header("Location: login.php");
     exit;
   }
-
 
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
@@ -79,7 +79,7 @@ function menuEmpleado()
           <ul class="nav flex-column sub-menu">
 
             <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php">
+              <a class="nav-link" href="../vHome/inicio.php?vista=horas">
                 <span class="menu-title">Registro de Horas</span>
                 <i class="mdi mdi-clock-outline menu-icon"></i>
               </a>
@@ -123,6 +123,7 @@ function menuEmpleado()
           <i class="mdi mdi-account menu-icon"></i>
         </a>
       </li>
+
     </ul>
   </nav>
   ';
