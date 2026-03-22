@@ -80,7 +80,7 @@ function CambiarEstadoUsuario($id, $estado)
     $id = (int)$id;
     $estado = (int)$estado;
 
-    $sql = "CALL sgh_CambiarEstadoUsuario('$id', '$estado')";
+    $sql = "CALL sgh_CambiarEstadoUsuario($id, $estado)";
     $result = $context->query($sql);
 
     if ($result instanceof mysqli_result) {

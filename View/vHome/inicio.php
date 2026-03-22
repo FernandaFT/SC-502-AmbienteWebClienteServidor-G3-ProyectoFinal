@@ -13,6 +13,11 @@ if ($rol == 0) {
   header("Location: inicio_sesion.php");
   exit;
 }
+
+// Incluir controlador de permisos si es necesario
+if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"])) {
+  include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerPermiso.php";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,8 +56,18 @@ if ($rol == 0) {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
           }elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
-          }elseif ($vista == "solicitud_vacaciones") {
+elseif ($vista == "solicitud_vacaciones") {
             include_once __DIR__ . "/solicitud_vacaciones.php";
+        }
+        elseif ($vista == "solicitar_permiso") {
+            include_once __DIR__ . "/solicitar_permiso.php";
+        }
+        elseif ($vista == "mi_solicitudes") {
+            include_once __DIR__ . "/mi_solicitudes.php";
+        }
+        elseif ($vista == "detalle_solicitud") {
+            include_once __DIR__ . "/detalle_solicitud.php";
+        }
           } else {
             echo "<h4>Bienvenid@s al SGH</h4>";
           }

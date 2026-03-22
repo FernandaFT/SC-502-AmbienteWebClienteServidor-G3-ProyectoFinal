@@ -60,6 +60,44 @@ function menuEmpleado()
                     <i class="mdi mdi-clock-outline menu-icon"></i>
                 </a>
             </li>
+<li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#vacaciones" aria-expanded="false" aria-controls="vacaciones">
+          <span class="menu-title">Solicitud de Vacaciones</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-calendar menu-icon"></i>
+        </a>
+        <div class="collapse" id="vacaciones">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> 
+              <a class="nav-link" href="../vHome/inicio.php?vista=solicitud_vacaciones">
+                <i class="mdi mdi-plus-circle"></i> Nueva Solicitud
+              </a> 
+            </li>
+          </ul>
+        </div>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false" aria-controls="permisos">
+          <span class="menu-title">Solicitud de Permisos</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-calendar-check menu-icon"></i>
+        </a>
+        <div class="collapse" id="permisos">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">
+                <i class="mdi mdi-plus-circle"></i> Solicitar Permiso
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">
+                <i class="mdi mdi-list-status"></i> Mis Solicitudes
+              </a>
+            </li>
+          </ul>
+        </div>
+      </li>
             <li class="nav-item">
                 <a class="nav-link" href="../vHome/inicio.php?vista=solicitud_vacaciones">
                     <span class="menu-title">Solicitud de Vacaciones</span>
