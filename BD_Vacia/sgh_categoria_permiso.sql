@@ -39,7 +39,7 @@ CREATE TABLE `categoria_permiso` (
 
 LOCK TABLES `categoria_permiso` WRITE;
 /*!40000 ALTER TABLE `categoria_permiso` DISABLE KEYS */;
-INSERT INTO `categoria_permiso` VALUES (1,'Enfermedad/Incapacidad','Permiso por motivos de salud',_binary ''),(2,'Asuntos Personales','Permiso para asuntos familiares o personales',_binary ''),(3,'Maternidad/Paternidad','Permiso por nacimiento o adopción',_binary ''),(4,'Enfermedad/Incapacidad','Permiso por motivos de salud',_binary ''),(5,'Asuntos Personales','Permiso para asuntos familiares o personales',_binary ''),(6,'Maternidad/Paternidad','Permiso por nacimiento o adopción',_binary '');
+INSERT INTO `categoria_permiso` VALUES (1,'Enfermedad/Incapacidad','Permiso por motivos de salud',_binary ''),(2,'Asuntos Personales','Permiso para asuntos familiares o personales',_binary ''),(3,'Maternidad/Paternidad','Permiso por nacimiento o adopción',_binary '');
 /*!40000 ALTER TABLE `categoria_permiso` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-24 18:36:13
+-- Dump completed on 2026-03-24 22:19:01
