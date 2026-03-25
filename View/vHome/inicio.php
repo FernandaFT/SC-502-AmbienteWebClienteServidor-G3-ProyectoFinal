@@ -67,6 +67,8 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
             include_once __DIR__ . "/mi_solicitudes.php";
           }elseif ($vista == "detalle_solicitud") {
             include_once __DIR__ . "/detalle_solicitud.php";
+          }elseif ($vista == "solicitar_vacaciones") {
+            include_once __DIR__ . "/solicitar_vacaciones.php";
           } else {
             echo "<h4>Bienvenid@s al SGH</h4>";
           }

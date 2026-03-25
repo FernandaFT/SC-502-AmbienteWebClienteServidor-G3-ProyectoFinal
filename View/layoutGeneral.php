@@ -37,7 +37,9 @@ function JSGeneral()
     <script src="../assets/funciones/recuperarAcceso.js"></script>
     <script src="../assets/funciones/cambiarAcceso.js"></script>
     <script src="../assets/funciones/clientes.js"></script>
-    <script src="../assets/funciones/horas.js"></script>';
+    <script src="../assets/funciones/horas.js"></script>
+    <script src="../assets/funciones/vacaciones.js"></script>
+    <script src="../assets/funciones/permisos.js"></script>';
 }
 
 function menuEmpleado()
@@ -55,7 +57,7 @@ function menuEmpleado()
     <ul class="nav">
 
       <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
+        <a href="../vHome/inicio.php?vista=perfilUsuario" class="nav-link">
           <div class="nav-profile-image">
             <img src="../assets/images/faces/face1.jpg" alt="profile" />
             <span class="login-status online"></span>
@@ -81,7 +83,6 @@ function menuEmpleado()
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=horas">
                 <span class="menu-title">Registro de Horas</span>
-                <i class="mdi mdi-clock-outline menu-icon"></i>
               </a>
             </li>
 
@@ -97,7 +98,7 @@ function menuEmpleado()
 
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false" aria-controls="permisos">
-          <span class="menu-title">Solicitud de Permisos</span>
+          <span class="menu-title">Acciones de Personal</span>
           <i class="menu-arrow"></i>
           <i class="mdi mdi-calendar-check menu-icon"></i>
         </a>
@@ -106,12 +107,17 @@ function menuEmpleado()
           <ul class="nav flex-column sub-menu">
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">
-                <i class="mdi mdi-plus-circle"></i> Solicitar Permiso
+                Solicitar Permiso
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_vacaciones">
+                Solicitar Vacación
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">
-                <i class="mdi mdi-list-status"></i> Mis Solicitudes
+                 Mis Solicitudes
               </a>
             </li>
           </ul>
@@ -145,7 +151,7 @@ function menuAdmin()
     <ul class="nav">
 
       <li class="nav-item nav-profile">
-        <a href="#" class="nav-link">
+        <a href="../vHome/inicio.php?vista=perfilUsuario" class="nav-link">
           <div class="nav-profile-image">
             <img src="../assets/images/faces/face1.jpg" alt="profile" />
             <span class="login-status online"></span>
@@ -210,24 +216,9 @@ function menuSuperiorGeneral()
     exit;
   }
 
-  echo '<div class="row p-0 m-0 proBanner" id="proBanner">
+  echo '
         <div class="col-md-12 p-0 m-0">
-          <div class="card-body card-body-padding d-flex align-items-center justify-content-between">
-            <div class="ps-lg-3">
-              <div class="d-flex align-items-center justify-content-between">
-            
-              </div>
-            </div>
-            <div class="d-flex align-items-center justify-content-between">
-              <a href="https://www.bootstrapdash.com/product/purple-bootstrap-admin-template/"><i class="mdi mdi-home me-3 text-white"></i></a>
-              <button id="bannerClose" class="btn border-0 p-0">
-                <i class="mdi mdi-close text-white mr-0"></i>
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-  
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a class="navbar-brand brand-logo" href="inicio.php"><img src="../assets/images/logo.png" alt="logo" /></a>

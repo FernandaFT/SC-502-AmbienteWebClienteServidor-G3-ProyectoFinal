@@ -6,17 +6,20 @@ $(document).ready(function(){
             id_cliente:{
                 required:true
             },
-            id_categoria:{
+            id_categoria_hora:{
                 required:true
             },
-            cantidad_horas:{
+            cantidad:{
                 required:true,
                 digits:true,
                 min:1
             },
-            fecha:{
+            descripcion:{
                 required:true,
-                date:true
+                maxlength:255
+            },
+            fecha:{
+                required:true
             }
         },
 
@@ -24,17 +27,19 @@ $(document).ready(function(){
             id_cliente:{
                 required:"Debe seleccionar un cliente"
             },
-            id_categoria:{
+            id_categoria_hora:{
                 required:"Debe seleccionar una categoría"
             },
-            cantidad_horas:{
+            cantidad:{
                 required:"Ingrese la cantidad de horas",
                 digits:"Ingrese solo números enteros",
                 min:"Debe registrar al menos 1 hora"
             },
+            descripcion:{
+                required:"Ingrese la descripción"
+            },
             fecha:{
-                required:"Debe ingresar la fecha",
-                date:"Ingrese una fecha válida"
+                required:"Debe ingresar la fecha"
             }
         },
 

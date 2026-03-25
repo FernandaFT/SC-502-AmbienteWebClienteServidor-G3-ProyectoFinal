@@ -54,47 +54,7 @@ if (isset($_POST["btnSolicitar"])) {
     }
 }
 
-// ===================== EVALUAR SOLICITUD =====================
-if (isset($_POST["btnEvaluar"])) {
-    $idSolicitud = (int)($_POST["id_solicitud"] ?? 0);
-    $estado = trim($_POST["estado"] ?? "");
-    $motivoRechazo = trim($_POST["motivo_rechazo"] ?? "");
-    $observaciones = trim($_POST["observaciones"] ?? "");
-
-    // Validación
-    if ($idSolicitud == 0 || empty($estado)) {
-        $mensaje = "<div class='alert alert-danger'>Datos incompletos para evaluar la solicitud.</div>";
-    } else {
-        if ($estado == "Rechazado" && empty($motivoRechazo)) {
-            $mensaje = "<div class='alert alert-danger'>Debe indicar un motivo al rechazar la solicitud.</div>";
-        } else {
-            // Actualizar estado
-            $result = ActualizarEstadoPermiso($idSolicitud, $estado, $idUsuarioLogueado, $motivoRechazo, $observaciones);
-
-            if ($result && $result["resultado"] == 1) {
-                $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
-            } else {
-                $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "Error al actualizar la solicitud.") . "</div>";
-            }
-        }
-    }
-}
-
-// ===================== VER DETALLE DE SOLICITUD =====================
-if (isset($_GET["id"]) && $vista == "detalle_solicitud") {
-    $idSolicitud = (int)$_GET["id"];
-    $solicitudDetalle = ObtenerDetalleSolicitud($idSolicitud);
-    
-    if (!$solicitudDetalle) {
-        $mensaje = "<div class='alert alert-danger'>Solicitud no encontrada.</div>";
-    }
-}
-
 // Cargar categorías para el formulario
 $categorias = ObtenerCategoriasPermisos();
 
-// Cargar solicitudes según la vista
-if ($vista == "mi_solicitudes") {
-    $solicitudes = ObtenerSolicitudesUsuario($idUsuarioLogueado);
-}
 ?>

@@ -26,7 +26,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
 
         <div class="form-group">
           <label>Cliente</label>
-          <select class="form-control form-control-lg" name="id_cliente" required>
+          <select class="form-control form-control-lg" name="id_cliente" id="id_cliente" >
             <option value="">Seleccione un cliente</option>
             <?php foreach (ListarClientesActivos() as $cli) { ?>
               <option value="<?php echo $cli["id_cliente"]; ?>"
@@ -39,7 +39,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
 
         <div class="form-group">
           <label>Categoría</label>
-          <select class="form-control form-control-lg" name="id_categoria_hora" required>
+          <select class="form-control form-control-lg" name="id_categoria_hora" id="id_categoria_hora" >
             <option value="">Seleccione una categoría</option>
             <?php foreach (ListarCategoriasHoras() as $cat) { ?>
               <option value="<?php echo $cat["id_categoria_hora"]; ?>"
@@ -54,9 +54,8 @@ if (!isset($_SESSION["NombreUsuario"])) {
           <label>Cantidad de horas</label>
           <input type="number"
             class="form-control form-control-lg"
-            name="cantidad"
+            name="cantidad" id= "cantidad"
             min="1"
-            required
             value="<?php echo $esEdicion ? htmlspecialchars($registroEditar["cantidad"]) : ""; ?>">
         </div>
 
@@ -64,9 +63,8 @@ if (!isset($_SESSION["NombreUsuario"])) {
           <label>Descripción</label>
           <input type="text"
             class="form-control form-control-lg"
-            name="descripcion"
+            name="descripcion" id="descripcion"
             maxlength="255"
-            required
             value="<?php echo $esEdicion ? htmlspecialchars($registroEditar["descripcion"]) : ""; ?>">
         </div>
 
@@ -74,22 +72,21 @@ if (!isset($_SESSION["NombreUsuario"])) {
           <label>Fecha</label>
           <input type="date"
             class="form-control form-control-lg"
-            name="fecha"
-            required
+            name="fecha" id="fecha"
             value="<?php echo $esEdicion ? htmlspecialchars($registroEditar["fecha"]) : ""; ?>">
         </div>
 
         <div class="mt-3 d-grid gap-2">
           <?php if ($esEdicion) { ?>
             <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-              name="btnActualizarHoras"
+              name="btnActualizarHoras" id="btnActualizarHoras"
               type="submit">
               ACTUALIZAR
             </button>
             <a href="?vista=horas" class="btn btn-light btn-lg">CANCELAR</a>
           <?php } else { ?>
             <button class="btn btn-block btn-gradient-primary btn-lg font-weight-medium auth-form-btn"
-              name="btnRegistrarHoras"
+              name="btnRegistrarHoras" id="btnRegistrarHoras"
               type="submit">
               REGISTRAR HORAS
             </button>
