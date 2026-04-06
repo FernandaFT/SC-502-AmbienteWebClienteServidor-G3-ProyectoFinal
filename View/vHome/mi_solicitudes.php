@@ -114,7 +114,7 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
                                         </td>
 
                                         <td>
-                                            <a href="?vista=detalle_solicitud&id=<?php echo $solicitud['id_solicitud']; ?>"
+                                            <a href="?vista=detalle_solicitud&id=<?php echo $solicitud['id_solicitud']; ?>&tipo=<?php echo $solicitud['tipo']; ?>"
                                                 class="btn btn-sm btn-outline-primary">
                                                 Ver
                                             </a>

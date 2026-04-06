@@ -5,11 +5,13 @@ if (!isset($_SESSION["NombreUsuario"])) {
     header("Location: inicio_sesion.php");
     exit;
 }
-if ($vista == "detalle_solicitud" && isset($_GET["id"])) {
+if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"])) {
 
     $idSolicitud = $_GET["id"];
+    $tipoSolicitud = $_GET["tipo"];
 
-    $solicitudDetalle = DetalleSolicitud($idSolicitud);
+    $solicitudDetalle = DetalleSolicitud($idSolicitud, $tipoSolicitud);
+    
 }
 ?>
 

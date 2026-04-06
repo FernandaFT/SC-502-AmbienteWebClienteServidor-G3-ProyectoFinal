@@ -55,7 +55,9 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
             include_once __DIR__ . "/registro.php";
           } elseif ($rol == 1 && $vista == "clientes") {
             include_once __DIR__ . "/clientes.php";
-          } elseif ($vista == "cambioContrasenna") {
+          } elseif ($rol == 1 && $vista == "pantallaAccionesAdmin") {
+            include_once __DIR__ . "/pantallaAccionesAdmin.php";
+          }elseif ($vista == "cambioContrasenna") {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
           } elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";

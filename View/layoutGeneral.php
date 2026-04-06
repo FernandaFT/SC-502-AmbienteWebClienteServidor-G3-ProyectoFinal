@@ -145,7 +145,6 @@ function menuAdmin()
     exit;
   }
 
-
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
     <ul class="nav">
@@ -164,14 +163,15 @@ function menuAdmin()
         </a>
       </li>
 
+      <!-- CONFIGURACION -->
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <a class="nav-link" data-bs-toggle="collapse" href="#configuracionMenu" aria-expanded="false">
           <span class="menu-title">Configuración</span>
           <i class="menu-arrow"></i>
           <i class="mdi mdi-lock menu-icon"></i>
         </a>
 
-        <div class="collapse" id="auth">
+        <div class="collapse" id="configuracionMenu">
           <ul class="nav flex-column sub-menu">
 
             <li class="nav-item">
@@ -191,15 +191,39 @@ function menuAdmin()
                 Creación Clientes
               </a>
             </li>
+
           </ul>
         </div>
       </li>
+
+      <!-- ACCIONES DE PERSONAL -->
       <li class="nav-item">
-          <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
-            <span class="menu-title">Perfil Administrador</span>
-            <i class="mdi mdi-account menu-icon"></i>
-          </a>
-        </li>
+        <a class="nav-link" data-bs-toggle="collapse" href="#accionesPersonalMenu" aria-expanded="false">
+          <span class="menu-title">Acciones de Personal</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-lock menu-icon"></i>
+        </a>
+
+        <div class="collapse" id="accionesPersonalMenu">
+          <ul class="nav flex-column sub-menu">
+
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=pantallaAccionesAdmin">
+                Gestión de Acciones <br> de Personal
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </li>
+
+      <!-- PERFIL -->
+      <li class="nav-item">
+        <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
+          <span class="menu-title">Perfil Administrador</span>
+          <i class="mdi mdi-account menu-icon"></i>
+        </a>
+      </li>
 
     </ul>
   </nav>
