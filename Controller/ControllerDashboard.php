@@ -46,4 +46,8 @@ if ($rol === 2) {
 /* ADMIN */
 if ($rol === 1) {
     $solicitudesPorRevisar = (int)($datosDashboard["pendientes_admin"] ?? 0);
+    $totalUsuarios = (int)($datosDashboard["total_usuarios"] ?? 0);
+    $clientesActivos = (int)($datosDashboard["clientes_activos"] ?? 0);
+    $solicitudesAprobadas = (int)($datosDashboard["solicitudes_aprobadas"] ?? 0);
+    $solicitudesRechazadas = (int)($datosDashboard["solicitudes_rechazadas"] ?? 0);
 }
