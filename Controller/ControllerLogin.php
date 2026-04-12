@@ -21,7 +21,7 @@ if(isset($_POST["btnInicioSesion"])){
         header("Location: ../../View/vHome/inicio.php");
         exit;
     }else{
-        $_POST["Mensaje"]="Usuario no encontrado, intente nuevamente";
+        $_POST["Mensaje"]="<div class='alert alert-danger'>Usuario no encontrado, intente nuevamente</div>";
     }
 }
 

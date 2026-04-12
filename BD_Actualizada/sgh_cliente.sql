@@ -1,5 +1,3 @@
-CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
-USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -18,33 +16,29 @@ USE `sgh`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `usuario`
+-- Table structure for table `cliente`
 --
 
-DROP TABLE IF EXISTS `usuario`;
+DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `usuario` (
-  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `cliente` (
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(200) NOT NULL,
-  `correo` varchar(150) NOT NULL,
-  `contrasenna` varchar(255) NOT NULL,
-  `estado` bit(1) NOT NULL,
-  `rol` int(11) NOT NULL,
-  `fecha_registro` date NOT NULL DEFAULT curdate(),
-  PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `descripcion` varchar(255) DEFAULT NULL,
+  `activo` bit(1) DEFAULT b'1',
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `usuario`
+-- Dumping data for table `cliente`
 --
 
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Fernanda Fajardo','mfajardo00557@ufide.ac.cr','ferf123',_binary '',1,'2026-03-06'),(2,'Sebastian Arroyo Molina','sebas@gmail.com','FakeDark',_binary '',1,'2026-03-06'),(3,'Juan Perez','jp@gmail.com','juan123',_binary '',2,'2026-03-06'),(4,'Ana Lopez','alopez@gmail.com','anal123',_binary '',2,'2026-03-06'),(5,'Maria Martinez Mora','maria@gmail.com','maria123',_binary '',2,'2026-03-06'),(6,'Sebastian','arroyo.molina.sebas@gmail.com','YHGICNWM',_binary '',2,'2026-03-14');
-/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+INSERT INTO `cliente` VALUES (1,'ICE','Pruebas',_binary '');
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -56,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-14 17:32:11
+-- Dump completed on 2026-04-06 12:05:21
