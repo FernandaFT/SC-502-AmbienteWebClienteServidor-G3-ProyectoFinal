@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelCliente.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelHome.php";
 
 $vista = $_GET["vista"] ?? "clientes";
 
@@ -13,18 +13,26 @@ if (isset($_POST["btnRegistrar"])) {
     $nombre = trim($_POST["nombre"] ?? "");
     $descripcion = trim($_POST["descripcion"] ?? "");
 
-    $result = RegistrarCliente($nombre, $descripcion);
+    if (empty($nombre) || empty($descripcion)) {
 
-    if ($result && $result["resultado"] == 1) {
-
-        $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+        $mensaje = "<div class='alert alert-danger'>Todos los campos son obligatorios.</div>";
         $esEdicion = false;
         $clienteEditar = null;
     } else {
 
-        $mensaje = "<div class='alert alert-danger'>" . $result["mensaje"] . "</div>";
-        $esEdicion = false;
-        $clienteEditar = null;
+        $result = RegistrarCliente($nombre, $descripcion);
+
+        if ($result && $result["resultado"] == 1) {
+
+            $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+            $esEdicion = false;
+            $clienteEditar = null;
+        } else {
+
+            $mensaje = "<div class='alert alert-danger'>" . $result["mensaje"] . "</div>";
+            $esEdicion = false;
+            $clienteEditar = null;
+        }
     }
 }
 
@@ -77,18 +85,26 @@ if (isset($_POST["btnActualizar"])) {
     $nombre = trim($_POST["nombre"] ?? "");
     $descripcion = trim($_POST["descripcion"] ?? "");
 
-    $result = ActualizarCliente($id, $nombre, $descripcion);
+    if (empty($id) || empty($nombre) || empty($descripcion)) {
 
-    if ($result) {
-
-        $mensaje = "<div class='alert alert-success'>Cliente actualizado correctamente.</div>";
-        $esEdicion = false;
-        $clienteEditar = null;
-    } else {
-
-        $mensaje = "<div class='alert alert-danger'>Error al actualizar el cliente.</div>";
+        $mensaje = "<div class='alert alert-danger'>Todos los campos son obligatorios para actualizar.</div>";
         $esEdicion = true;
         $clienteEditar = ObtenerClientePorId($id);
+    } else {
+
+        $result = ActualizarCliente($id, $nombre, $descripcion);
+
+        if ($result) {
+
+            $mensaje = "<div class='alert alert-success'>Cliente actualizado correctamente.</div>";
+            $esEdicion = false;
+            $clienteEditar = null;
+        } else {
+
+            $mensaje = "<div class='alert alert-danger'>Error al actualizar el cliente.</div>";
+            $esEdicion = true;
+            $clienteEditar = ObtenerClientePorId($id);
+        }
     }
 }
 

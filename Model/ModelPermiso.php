@@ -28,6 +28,105 @@ function CrearSolicitudPermiso($idUsuario, $fechaInicio, $fechaFin, $descripcion
     return $respuesta;
 }
 
+// Obtener solicitudes pendientes
+function ObtenerSolicitudesPendientes($idEncargado)
+{
+    $context = OpenDBPractica();
+
+    $idEncargado = (int)$idEncargado;
+
+    $sp = "CALL sgh_ObtenerSolicitudespendientes($idEncargado)";
+    $result = $context->query($sp);
+
+    $datos = [];
+
+    if ($result) {
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
+
+    CloseDBPractica($context);
+    return $datos;
+}
+
+// Obtener solicitudes de un usuario
+function ObtenerSolicitudesUsuario($idUsuario)
+{
+    $context = OpenDBPractica();
+
+    $idUsuario = (int)$idUsuario;
+
+    $sp = "CALL sgh_ObtenerSolicitudesUsuario($idUsuario)";
+    $result = $context->query($sp);
+
+    $datos = [];
+
+    if ($result) {
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
+
+    CloseDBPractica($context);
+    return $datos;
+}
+
+// Obtener detalles de una solicitud específica
+function ObtenerDetalleSolicitud($idSolicitud)
+{
+    $context = OpenDBPractica();
+
+    $idSolicitud = (int)$idSolicitud;
+
+    $sp = "CALL sgh_ObtenerDetalleSolicitud($idSolicitud)";
+    $result = $context->query($sp);
+
+    $respuesta = null;
+
+    if ($result) {
+        $respuesta = $result->fetch_assoc();
+
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
+
+    CloseDBPractica($context);
+    return $respuesta;
+}
+
+// Actualizar estado de una solicitud
+function ActualizarEstadoPermiso($idSolicitud, $estado, $idEncargado, $motivoRechazo = "", $observaciones = "")
+{
+    $context = OpenDBPractica();
+
+    $idSolicitud = (int)$idSolicitud;
+    $estado = $context->real_escape_string($estado);
+    $idEncargado = (int)$idEncargado;
+    $motivoRechazo = $context->real_escape_string($motivoRechazo);
+    $observaciones = $context->real_escape_string($observaciones);
+
+    $sp = "CALL sgh_ActualizarEstadoPermiso($idSolicitud, '$estado', $idEncargado, '$motivoRechazo', '$observaciones')";
+    $result = $context->query($sp);
+
+    $respuesta = null;
+
+    if ($result) {
+        $respuesta = $result->fetch_assoc();
+
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
+
+    CloseDBPractica($context);
+    return $respuesta;
+}
 
 // Obtener categorías de permisos
 function ObtenerCategoriasPermisos()

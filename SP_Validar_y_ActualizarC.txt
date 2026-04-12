@@ -1,0 +1,26 @@
+CREATE PROCEDURE sgh_ValidarCorreo(
+	pCorreo VARCHAR(150)
+)
+BEGIN
+	SELECT id_usuario,
+		nombre,
+            	correo,
+            	estado
+    	FROM usuario
+    	WHERE correo = pCorreo
+    	AND estado = b'1';
+END
+
+
+------------------
+
+
+CREATE PROCEDURE sgh_ActualizarContrasenna(
+	pNuevaContrasenna varchar(255),
+    	pIdUsuario INT
+)
+BEGIN
+	UPDATE usuario
+    	SET contrasenna = pNuevaContrasenna
+    	WHERE id_usuario = pIdUsuario;
+END

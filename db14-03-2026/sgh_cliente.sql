@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -16,29 +18,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categoria_permiso`
+-- Table structure for table `cliente`
 --
 
-DROP TABLE IF EXISTS `categoria_permiso`;
+DROP TABLE IF EXISTS `cliente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categoria_permiso` (
-  `id_categoria` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `cliente` (
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `estado` bit(1) NOT NULL DEFAULT b'1',
-  PRIMARY KEY (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `descripcion` varchar(255) NOT NULL,
+  `activo` bit(1) NOT NULL DEFAULT b'1',
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categoria_permiso`
+-- Dumping data for table `cliente`
 --
 
-LOCK TABLES `categoria_permiso` WRITE;
-/*!40000 ALTER TABLE `categoria_permiso` DISABLE KEYS */;
-INSERT INTO `categoria_permiso` VALUES (1,'Enfermedad/Incapacidad','Permiso por motivos de salud',_binary ''),(2,'Asuntos Personales','Permiso para asuntos familiares o personales',_binary ''),(3,'Maternidad/Paternidad','Permiso por nacimiento o adopción',_binary '');
-/*!40000 ALTER TABLE `categoria_permiso` ENABLE KEYS */;
+LOCK TABLES `cliente` WRITE;
+/*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -50,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-06 12:05:21
+-- Dump completed on 2026-03-14 17:32:11

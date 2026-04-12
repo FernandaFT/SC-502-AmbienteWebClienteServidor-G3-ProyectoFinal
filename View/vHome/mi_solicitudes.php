@@ -1,11 +1,9 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerPermiso.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelConsultasAcciones.php";
 if (!isset($_SESSION["NombreUsuario"])) {
     header("Location: inicio_sesion.php");
     exit;
 }
-$solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
 ?>
 
 <div class="row">
@@ -14,18 +12,11 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
             <div class="card-header bg-gradient-primary text-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h4 class="mb-0">
-                        Mis Solicitudes de Acciones de Personal
+                     Mis Solicitudes de Permiso
                     </h4>
-
-                    <div class="d-flex gap-2">
-                        <a href="?vista=solicitar_permiso" class="btn btn-light btn-sm">
-                            Nuevo Permiso
-                        </a>
-
-                        <a href="?vista=solicitar_vacaciones" class="btn btn-light btn-sm">
-                            Nueva Vacación
-                        </a>
-                    </div>
+                    <a href="?vista=solicitar_permiso" class="btn btn-light btn-sm">
+                     Nueva Solicitud
+                    </a>
                 </div>
             </div>
 
@@ -39,91 +30,71 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
 
                 <?php if (empty($solicitudes)): ?>
                     <div class="alert alert-info" role="alert">
-                        No tienes solicitudes registradas.
+                         No tienes solicitudes registradas.
                         <a href="?vista=solicitar_permiso" class="alert-link">Crea una nueva.</a>
                     </div>
                 <?php else: ?>
                     <div class="table-responsive">
-                        <table class="table table-striped table-hover align-middle">
-                            <thead class="table-dark">
+                        <table class="table table-hover table-bordered">
+                            <thead class="table-light">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Tipo</th>
                                     <th>Período</th>
                                     <th>Categoría</th>
                                     <th>Descripción</th>
+                                    <th>Solicitado el</th>
                                     <th>Estado</th>
-                                    <th>Fecha solicitud</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
-
                                 <?php foreach ($solicitudes as $solicitud): ?>
-
-                                    <?php
-                                    $estado = $solicitud['estado'];
-
-                                    $badgeEstado = match ($estado) {
-                                        'Pendiente', '1' => 'bg-warning text-dark',
-                                        'Aprobado', '2' => 'bg-success',
-                                        'Rechazado', '3' => 'bg-danger',
-                                        default => 'bg-secondary'
-                                    };
-
-                                    $badgeTipo = $solicitud['tipo'] == 'Vacaciones'
-                                        ? 'bg-primary'
-                                        : 'bg-info';
-                                    ?>
-
                                     <tr>
-
-                                        <td><?php echo $solicitud['id_solicitud']; ?></td>
-
-                                        <td>
-                                            <span class="badge <?php echo $badgeTipo; ?>">
-                                                <?php echo $solicitud['tipo']; ?>
-                                            </span>
-                                        </td>
-
-                                        <td>
-                                            <?php echo date('d/m/Y', strtotime($solicitud['fecha_inicio'])); ?>
+                                        <td class="text-center" style="width: 50px;">
+                                            <strong><?php echo date('d/m/Y', strtotime($solicitud['fecha_inicio'])); ?></strong>
                                             <br>
-                                            <small class="text-muted">
-                                                hasta
-                                                <?php echo date('d/m/Y', strtotime($solicitud['fecha_fin'])); ?>
-                                            </small>
+                                            <small class="text-muted">hasta</small>
+                                            <br>
+                                            <strong><?php echo date('d/m/Y', strtotime($solicitud['fecha_fin'])); ?></strong>
                                         </td>
-
-                                        <td>
-                                            <?php echo $solicitud['categoria']; ?>
-                                        </td>
-
-                                        <td>
-                                            <?php echo substr($solicitud['descripcion'], 0, 40); ?>
-                                        </td>
-
-                                        <td>
-                                            <span class="badge <?php echo $badgeEstado; ?>">
-                                                <?php echo $estado; ?>
+                                        <td class="text-center" style="width: 50px;">
+                                            <span class="badge bg-info">
+                                                <?php echo htmlspecialchars($solicitud['categoria']); ?>
                                             </span>
                                         </td>
-
-                                        <td>
-                                            <?php echo date('d/m/Y', strtotime($solicitud['fecha_solicitud'])); ?>
+                                        <td class="text-center" style="width: 50px;">
+                                            <small><?php echo htmlspecialchars(substr($solicitud['descripcion'], 0, 50)) . (strlen($solicitud['descripcion']) > 50 ? '...' : ''); ?></small>
                                         </td>
-
-                                        <td>
-                                            <a href="?vista=detalle_solicitud&id=<?php echo $solicitud['id_solicitud']; ?>&tipo=<?php echo $solicitud['tipo']; ?>"
-                                                class="btn btn-sm btn-outline-primary">
-                                                Ver
+                                        <td class="text-center" style="width: 50px;">
+                                            <small><?php echo date('d/m/Y H:i', strtotime($solicitud['fecha_solicitud'])); ?></small>
+                                        </td>
+                                        <td class="text-center" style="width: 50px;">
+                                            <?php
+                                            $estado = $solicitud['estado'];
+                                            $badgeClass = match ($estado) {
+                                                'Pendiente' => 'bg-warning text-dark', 
+                                                'Aprobado' => 'bg-success',
+                                                'Rechazado' => 'bg-danger',
+                                                default => 'bg-secondary'
+                                            };
+                                            $icono = match ($estado) {
+                                                'Pendiente' => 'fa-hourglass-end',
+                                                'Aprobado' => 'fa-check-circle',
+                                                'Rechazado' => 'fa-times-circle',
+                                                default => 'fa-question-circle'
+                                            };
+                                            ?>
+                                            <span class="badge <?php echo $badgeClass; ?>">
+                                             <?php echo $estado; ?>
+                                            </span>
+                                        </td>
+                                        <td class="text-center" style="width: 50px;">
+                                            <a href="?vista=detalle_solicitud&id=<?php echo $solicitud['id_solicitud']; ?>" 
+                                               class="btn btn-sm btn-outline-primary" title="Ver detalles">
+                                                Detalle solicitud
                                             </a>
                                         </td>
-
                                     </tr>
-
                                 <?php endforeach; ?>
-
                             </tbody>
                         </table>
                     </div>
@@ -133,3 +104,5 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
         </div>
     </div>
 </div>
+
+

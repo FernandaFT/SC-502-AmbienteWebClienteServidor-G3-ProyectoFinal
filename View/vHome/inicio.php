@@ -50,13 +50,11 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
           <?php
           if ($rol == 1 && $vista == "registro") {
             include_once __DIR__ . "/registro.php";
-          } elseif ($rol == 1 && $vista == "clientes") {
+          }elseif ($rol == 1 && $vista == "clientes") {
             include_once __DIR__ . "/clientes.php";
-          } elseif ($rol == 1 && $vista == "pantallaAccionesAdmin") {
-            include_once __DIR__ . "/pantallaAccionesAdmin.php";
           }elseif ($vista == "cambioContrasenna") {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
-          } elseif ($vista == "perfilUsuario") {
+          }elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
 elseif ($vista == "solicitud_vacaciones") {
             include_once __DIR__ . "/solicitud_vacaciones.php";
@@ -70,8 +68,6 @@ elseif ($vista == "solicitud_vacaciones") {
         elseif ($vista == "detalle_solicitud") {
             include_once __DIR__ . "/detalle_solicitud.php";
         }
-          }elseif ($vista == "solicitud_vacaciones") {
-            include_once __DIR__ . "/solicitud_vacaciones.php";
           } else {
             echo "<h4>Bienvenid@s al SGH</h4>";
           }
