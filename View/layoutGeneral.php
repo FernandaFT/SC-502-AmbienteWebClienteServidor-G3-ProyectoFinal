@@ -34,7 +34,10 @@ function JSGeneral()
     <script src="../assets/funciones/cerrarSesion.js"></script>
     <script src="../assets/funciones/recuperarAcceso.js"></script>
     <script src="../assets/funciones/cambiarAcceso.js"></script>
-    <script src="../assets/funciones/clientes.js"></script>';
+    <script src="../assets/funciones/clientes.js"></script>
+    <script src="../assets/funciones/horas.js"></script>
+    <script src="../assets/funciones/vacaciones.js"></script>
+    <script src="../assets/funciones/permisos.js"></script>';
 }
 
 function menuEmpleado()

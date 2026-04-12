@@ -15,22 +15,16 @@ if (isset($_POST["btnRegistro"])) {
     $contrasenna = trim($_POST["password"] ?? "");
     $rol = (int)($_POST["rol"] ?? 0);
 
-    if (empty($nombre) || empty($correo) || empty($contrasenna) || empty($rol)) {
-        $mensaje = "<div class='alert alert-danger'>Todos los campos son obligatorios.</div>";
+    $result = RegistrarUsuario($nombre, $correo, $contrasenna, $rol);
+
+    if ($result && $result["resultado"] == 1) {
+        $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
         $esEdicion = false;
         $usuarioEditar = null;
     } else {
-        $result = RegistrarUsuario($nombre, $correo, $contrasenna, $rol);
-
-        if ($result && $result["resultado"] == 1) {
-            $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
-            $esEdicion = false;
-            $usuarioEditar = null;
-        } else {
-            $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "No se pudo registrar el usuario.") . "</div>";
-            $esEdicion = false;
-            $usuarioEditar = null;
-        }
+        $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "No se pudo registrar el usuario.") . "</div>";
+        $esEdicion = false;
+        $usuarioEditar = null;
     }
 }
 
@@ -42,14 +36,12 @@ if (isset($_GET["accion"]) && isset($_GET["id"])) {
 
     if ($accion == "inactivar") {
         CambiarEstadoUsuario($id, 0);
-        header("Location: ../View/vHome/inicio.php?vista=registro");
-        exit();
+        $mensaje = "<div class='alert alert-success'>Usuario inactivado.</div>";
     }
 
     if ($accion == "activar") {
         CambiarEstadoUsuario($id, 1);
-        header("Location: ../View/vHome/inicio.php?vista=registro");
-        exit();
+        $mensaje = "<div class='alert alert-success'>Usuario activado.</div>";
     }
 }
 
@@ -79,23 +71,16 @@ if (isset($_POST["btnActualizar"])) {
     $nombre = trim($_POST["nombre"] ?? "");
     $rol = (int)($_POST["rol"] ?? 0);
 
-    if (empty($id) || empty($nombre) || empty($rol)) {
-        $mensaje = "<div class='alert alert-danger'>Nombre y rol son obligatorios para actualizar.</div>";
+    $result = ActualizarUsuario($id, $nombre, $rol);
+
+    if ($result) {
+        $mensaje = "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
+        $esEdicion = false;
+        $usuarioEditar = null;
+    } else {
+        $mensaje = "<div class='alert alert-danger'>Error al actualizar usuario.</div>";
         $esEdicion = true;
         $usuarioEditar = ObtenerUsuarioPorId($id);
-    } else {
-
-        $result = ActualizarUsuario($id, $nombre, $rol);
-
-        if ($result) {
-            $mensaje = "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
-            $esEdicion = false;
-            $usuarioEditar = null;
-        } else {
-            $mensaje = "<div class='alert alert-danger'>Error al actualizar usuario.</div>";
-            $esEdicion = true;
-            $usuarioEditar = ObtenerUsuarioPorId($id);
-        }
     }
 }
 
@@ -119,4 +104,3 @@ if ($pagina > $totalPaginas) {
 }
 
 $listaUsuarios = ListarUsuarios($pagina, $registrosPorPagina);
-?>
