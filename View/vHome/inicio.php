@@ -57,22 +57,24 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
             include_once __DIR__ . "/clientes.php";
           } elseif ($rol == 1 && $vista == "pantallaAccionesAdmin") {
             include_once __DIR__ . "/pantallaAccionesAdmin.php";
-          }elseif ($vista == "cambioContrasenna") {
+          } elseif ($vista == "cambioContrasenna") {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
           } elseif ($vista == "perfilUsuario") {
             include_once __DIR__ . "/perfilUsuario.php";
           } elseif ($vista == "horas") {
             include_once __DIR__ . "/../vHome/registroHoras.php";
-          }elseif ($vista == "solicitar_permiso") {
+          } elseif ($vista == "solicitar_permiso") {
             include_once __DIR__ . "/solicitar_permiso.php";
-          }elseif ($vista == "mi_solicitudes") {
+          } elseif ($vista == "mi_solicitudes") {
             include_once __DIR__ . "/mi_solicitudes.php";
-          }elseif ($vista == "detalle_solicitud") {
+          } elseif ($vista == "detalle_solicitud") {
             include_once __DIR__ . "/detalle_solicitud.php";
-          }elseif ($vista == "solicitar_vacaciones") {
+          } elseif ($vista == "solicitar_vacaciones") {
             include_once __DIR__ . "/solicitar_vacaciones.php";
+          } elseif ($vista == "dashboard") {
+            include_once __DIR__ . "/dashboard.php";
           } else {
-            echo "<h4>Bienvenid@s al SGH</h4>";
+            include_once __DIR__ . "/dashboard.php";
           }
           ?>
 
