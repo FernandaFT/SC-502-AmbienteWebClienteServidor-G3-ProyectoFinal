@@ -18,6 +18,7 @@ function RegistrarHoras($idUsuario, $idCliente, $idCategoriaHora, $cantidad, $de
     return $respuesta;
 }
 
+
 function EditarHoras($idRegistro, $idCliente, $idCategoriaHora, $cantidad, $descripcion, $fecha)
 {
     $context = OpenDBPractica();

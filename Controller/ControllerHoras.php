@@ -57,6 +57,21 @@ if (isset($_POST["btnActualizarHoras"])) {
     }
 }
 
+if (isset($_POST["btnGenerarReporte"])) {
+    $fechaInicio = $_POST["txtFechaInicio"] ?? "";
+    $fechaFin = $_POST["txtFechaFin"] ?? "";
+
+    if (!empty($fechaInicio) && !empty($fechaFin)) {
+        $datosReporte = ConsultarReporteHoras($fechaInicio, $fechaFin);
+        
+        if (empty($datosReporte)) {
+            $mensaje = "<div class='alert alert-warning'>No se encontraron registros de horas para el rango seleccionado.</div>";
+        }
+    } else {
+        $mensaje = "<div class='alert alert-danger'>Por favor, seleccione ambas fechas para generar el reporte.</div>";
+    }
+}
+
 // Paginación
 $idUsuario = $_SESSION["IdUsuario"] ?? 0;
 $registrosPorPagina = 5;
@@ -70,3 +85,4 @@ if ($pagina > $totalPaginas) $pagina = $totalPaginas;
 
 $inicio = ($pagina - 1) * $registrosPorPagina;
 $listaHoras = ListarHorasPorUsuario($idUsuario, $inicio, $registrosPorPagina);
+
