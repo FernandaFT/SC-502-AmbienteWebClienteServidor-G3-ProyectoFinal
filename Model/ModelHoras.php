@@ -124,4 +124,24 @@ function ListarClientesActivos()
     CloseDBPractica($context);
     return $datos;
 }
+
+function ConsultarReporteHoras($fechaInicio, $fechaFin)
+{
+    $context = OpenDBPractica();
+
+    $sql = "CALL sgh_ConsultarReporteHoras('$fechaInicio','$fechaFin')";
+    $result = $context->query($sql);
+
+    $datos = [];
+    if ($result) {
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
+
+    CloseDBPractica($context);
+    return $datos;
+}
 ?>
