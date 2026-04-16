@@ -96,5 +96,20 @@ $diasDisponibles = ObtenerDiasDisponibles($_SESSION["IdUsuario"]);
                 </form>
             </div>
         </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Información Importante</h5>
+            </div>
+            <div class="card-body">
+                <ul class="mb-0">
+                    <li>Las solicitudes serán evaluadas en un plazo de <strong>2 días hábiles</strong></li>
+                    <li>Su saldo actual de vacaciones es de <strong><?php echo (int)($diasDisponibles ?? 0); ?> días</strong>; no puede solicitar más días de los disponibles</li>
+                    <li>Se recomienda <strong>anticipar la solicitud</strong> con la mayor antelación posible respecto a las fechas deseadas</li>
+                    <li>Incluya una <strong>descripción detallada</strong> del período y motivo de su ausencia</li>
+                    <li>Recibirá una notificación cuando se evalúe su solicitud</li>
+                </ul>
+            </div>
+        </div>
     </div>
 </div>

@@ -1,11 +1,8 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerPermiso.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelConsultasAcciones.php";
 if (!isset($_SESSION["NombreUsuario"])) {
     header("Location: inicio_sesion.php");
     exit;
 }
-$solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
 ?>
 
 <div class="row">
@@ -37,7 +34,7 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
                 }
                 ?>
 
-                <?php if (empty($solicitudes)): ?>
+                <?php if ($totalMisSolicitudes === 0): ?>
                     <div class="alert alert-info" role="alert">
                         No tienes solicitudes registradas.
                         <a href="?vista=solicitar_permiso" class="alert-link">Crea una nueva.</a>
@@ -127,6 +124,24 @@ $solicitudes = ObtenerMisSolicitudes($_SESSION["IdUsuario"]);
                             </tbody>
                         </table>
                     </div>
+
+                    <?php if ($totalPaginasSolicitudes > 1): ?>
+                    <nav class="mt-3" aria-label="Paginación">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <?php echo $paginaSolicitudes <= 1 ? "disabled" : ""; ?>">
+                                <a class="page-link" href="?vista=mi_solicitudes&pagina=<?php echo $paginaSolicitudes - 1; ?>">Anterior</a>
+                            </li>
+                            <?php for ($i = 1; $i <= $totalPaginasSolicitudes; $i++): ?>
+                            <li class="page-item <?php echo $i === $paginaSolicitudes ? "active" : ""; ?>">
+                                <a class="page-link" href="?vista=mi_solicitudes&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                            </li>
+                            <?php endfor; ?>
+                            <li class="page-item <?php echo $paginaSolicitudes >= $totalPaginasSolicitudes ? "disabled" : ""; ?>">
+                                <a class="page-link" href="?vista=mi_solicitudes&pagina=<?php echo $paginaSolicitudes + 1; ?>">Siguiente</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <?php endif; ?>
                 <?php endif; ?>
 
             </div>

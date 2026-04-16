@@ -50,6 +50,18 @@ if (!isset($_SESSION["NombreUsuario"])) {
           </select>
         </div>
 
+        <?php
+        $clasSel = $esEdicion ? ($registroEditar["clasificacion_hora"] ?? "Ordinaria") : "Ordinaria";
+        ?>
+        <div class="form-group">
+          <label>Clasificación de hora</label>
+          <select class="form-control form-control-lg" name="clasificacion_hora" id="clasificacion_hora">
+            <option value="Ordinaria" <?php echo $clasSel === "Ordinaria" ? "selected" : ""; ?>>Ordinaria</option>
+            <option value="Extra" <?php echo $clasSel === "Extra" ? "selected" : ""; ?>>Extra</option>
+            <option value="Doble" <?php echo $clasSel === "Doble" ? "selected" : ""; ?>>Doble</option>
+          </select>
+        </div>
+
         <div class="form-group">
           <label>Cantidad de horas</label>
           <input type="number"
@@ -108,6 +120,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
               <tr>
                 <th>Cliente</th>
                 <th>Categoría</th>
+                <th>Clasificación</th>
                 <th>Cantidad</th>
                 <th>Descripción</th>
                 <th>Fecha</th>
@@ -120,6 +133,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
                   <tr>
                     <td><?php echo htmlspecialchars($h["cliente"]); ?></td>
                     <td><?php echo htmlspecialchars($h["categoria"]); ?></td>
+                    <td><?php echo htmlspecialchars($h["clasificacion_hora"] ?? ""); ?></td>
                     <td><?php echo htmlspecialchars($h["cantidad"]); ?></td>
                     <td><?php echo htmlspecialchars($h["descripcion"]); ?></td>
                     <td><?php echo htmlspecialchars($h["fecha"]); ?></td>
@@ -131,7 +145,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
                 <?php } ?>
               <?php } else { ?>
                 <tr>
-                  <td colspan="6">No hay registros de horas.</td>
+                  <td colspan="7">No hay registros de horas.</td>
                 </tr>
               <?php } ?>
             </tbody>

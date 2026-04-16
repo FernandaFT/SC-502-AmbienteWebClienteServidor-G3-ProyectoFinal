@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelPermiso.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelConsultasAcciones.php";
 
 // Variables de sesión
 $idUsuarioLogueado = $_SESSION["IdUsuario"] ?? null;
@@ -15,6 +16,9 @@ if (!$idUsuarioLogueado) {
 $mensaje = "";
 $categorias = [];
 $solicitudes = [];
+$totalMisSolicitudes = 0;
+$paginaSolicitudes = 1;
+$totalPaginasSolicitudes = 1;
 $solicitudDetalle = null;
 $fechaInicio = "";
 $fechaFin = "";
@@ -57,4 +61,22 @@ if (isset($_POST["btnSolicitar"])) {
 // Cargar categorías para el formulario
 $categorias = ObtenerCategoriasPermisos();
 
-?>
+if ($vista === "mi_solicitudes") {
+    $registrosPorPagina = 5;
+    $paginaSolicitudes = isset($_GET["pagina"]) ? (int)$_GET["pagina"] : 1;
+    if ($paginaSolicitudes < 1) {
+        $paginaSolicitudes = 1;
+    }
+    $todasMisSolicitudes = ObtenerMisSolicitudes($idUsuarioLogueado);
+    $totalMisSolicitudes = count($todasMisSolicitudes);
+    $totalPaginasSolicitudes = (int)ceil($totalMisSolicitudes / $registrosPorPagina);
+    if ($totalPaginasSolicitudes < 1) {
+        $totalPaginasSolicitudes = 1;
+    }
+    if ($paginaSolicitudes > $totalPaginasSolicitudes) {
+        $paginaSolicitudes = $totalPaginasSolicitudes;
+    }
+    $offset = ($paginaSolicitudes - 1) * $registrosPorPagina;
+    $solicitudes = array_slice($todasMisSolicitudes, $offset, $registrosPorPagina);
+}
+
