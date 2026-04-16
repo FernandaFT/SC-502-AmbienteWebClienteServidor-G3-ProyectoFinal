@@ -79,3 +79,66 @@ function RechazarSolicitudModel($id, $tipo)
     CloseDBPractica($context);
     return $resultado;
 }
+
+/**
+ * Obtener el ID del usuario que realizó la solicitud
+ * @param int $id_solicitud - ID de la solicitud
+ * @param string $tipo - Tipo de solicitud ('Permiso' o 'Vacaciones')
+ * @return int - ID del usuario o 0 si no existe
+ */
+function ObtenerIdUsuarioSolicitante($id_solicitud, $tipo)
+{
+    $context = OpenDBPractica();
+    $id_solicitud = (int)$id_solicitud;
+    $idUsuario = 0;
+
+    if ($tipo === "Permiso") {
+        $query = "SELECT id_usuario FROM solicitud_permiso WHERE id_solicitud = $id_solicitud LIMIT 1";
+    } else {
+        $query = "SELECT id_usuario_solicita as id_usuario FROM solicitud_vacaciones WHERE id_solicitud = $id_solicitud LIMIT 1";
+    }
+
+    if ($result = $context->query($query)) {
+        $row = $result->fetch_assoc();
+        if ($row && isset($row['id_usuario'])) {
+            $idUsuario = (int)$row['id_usuario'];
+        }
+        $result->free();
+    }
+
+    CloseDBPractica($context);
+    return $idUsuario;
+}
+
+/**
+ * Obtener datos básicos del usuario (nombre y correo) para notificaciones por correo.
+ * Se usa al aprobar/rechazar solicitudes para avisar al empleado.
+ *
+ * @param int $idUsuario
+ * @return array|null  ['nombre' => string, 'correo' => string] o null si no existe
+ */
+function ObtenerDatosUsuarioBasicosPorId($idUsuario)
+{
+    $context = OpenDBPractica();
+    $idUsuario = (int)$idUsuario;
+
+    $query = "SELECT nombre, correo
+              FROM usuario
+              WHERE id_usuario = $idUsuario
+              LIMIT 1";
+
+    $datos = null;
+    if ($result = $context->query($query)) {
+        $row = $result->fetch_assoc();
+        if ($row) {
+            $datos = [
+                'nombre' => $row['nombre'] ?? null,
+                'correo' => $row['correo'] ?? null,
+            ];
+        }
+        $result->free();
+    }
+
+    CloseDBPractica($context);
+    return $datos;
+}

@@ -77,6 +77,8 @@ if (in_array($vista, ["horas", "reporteria", "consultar_reporteria"])) {
             include_once __DIR__ . "/detalle_solicitud.php";
           } elseif ($vista == "solicitar_vacaciones") {
             include_once __DIR__ . "/solicitar_vacaciones.php";
+          } elseif ($vista == "historialNotificaciones") {
+            include_once __DIR__ . "/historialNotificaciones.php";
           } elseif ($vista == "dashboard") {
             include_once __DIR__ . "/dashboard.php";
           } else {

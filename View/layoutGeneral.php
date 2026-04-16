@@ -13,13 +13,18 @@ function CSSGeneral()
     <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/notificacionesBadge.css">
     <link rel="shortcut icon" href="../assets/images/favicon.png" />';
 }
 
 function JSGeneral()
 {
+  $rol = $_SESSION["Rol"] ?? 2;
   echo
-  '<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  '<script>
+    var userRol = ' . $rol . ';
+  </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script src="../assets/vendors/js/vendor.bundle.base.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
     <script src="../assets/funciones/registro.js"></script>
@@ -39,6 +44,7 @@ function JSGeneral()
     <script src="../assets/funciones/horas.js"></script>
     <script src="../assets/funciones/vacaciones.js"></script>
     <script src="../assets/funciones/permisos.js"></script>
+    <script src="../assets/funciones/notificaciones.js"></script>
     <script src="../assets/funciones/reporte.js"></script>';
 }
 
@@ -185,6 +191,29 @@ function menuSuperiorGeneral()
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
           <ul class="navbar-nav navbar-nav-right">
+
+            <li class="nav-item dropdown">
+              <a class="nav-link count-indicator dropdown-toggle" id="notificationDropdown" href="#" data-bs-toggle="dropdown" style="position: relative;">
+                <i class="mdi mdi-bell-outline" style="font-size: 22px;"></i>
+                <span id="notificacionesCounter" class="count-symbol bg-danger"></span>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="notificationDropdown" style="min-width: 300px;">
+                <h6 class="p-3 mb-0">Notificaciones 
+                   <a href="../vHome/inicio.php?vista=historialNotificaciones" class="float-end" style="font-size: 11px; text-decoration: none;">Ver todas</a>
+                </h6>
+                <div class="dropdown-divider"></div>
+                
+                <div id="notificacionesContainer" style="max-height: 300px; overflow-y: auto;">
+                   <p class="text-center p-3 text-muted">Cargando...</p>
+                </div>
+
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-center small text-primary py-2" href="#" id="marcarTodasLeidasBtn">
+                  Marcar como leídas
+                </a>
+              </div>
+            </li>
+
             <li class="nav-item nav-profile dropdown">
               <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown">
                 <div class="nav-profile-text">
@@ -196,6 +225,13 @@ function menuSuperiorGeneral()
                   <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar Sesión </a>
               </div>
             </li>
+            
+            <li class="nav-item d-none d-lg-block full-screen-link">
+              <a class="nav-link">
+                <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+              </a>
+            </li>        
+
           </ul>
         </div>
       </nav>';
