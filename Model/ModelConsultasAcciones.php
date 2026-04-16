@@ -4,11 +4,19 @@ include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-
 function ObtenerMisSolicitudes($idUsuario)
 {
     $context = OpenDBPractica();
+    $idUsuario = (int)$idUsuario;
     $sp = "CALL sgh_ObtenerAccionesPersonal('$idUsuario')";
     $result = $context->query($sp);
+    $datos = [];
+    if ($result) {
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
+    }
     CloseDBPractica($context);
-
-    return $result;
+    return $datos;
 }
 
 function DetalleSolicitud($id_solicitud, $tipo_solicitud)
@@ -29,8 +37,12 @@ function ObtenerSolicitudes()
     $result = $context->query($sp);
     $datos = [];
 
-    while ($fila = mysqli_fetch_assoc($result)) {
-        $datos[] = $fila;
+    if ($result) {
+        while ($fila = $result->fetch_assoc()) {
+            $datos[] = $fila;
+        }
+        $result->free();
+        while ($context->more_results() && $context->next_result()) { }
     }
     CloseDBPractica($context);
     return $datos;

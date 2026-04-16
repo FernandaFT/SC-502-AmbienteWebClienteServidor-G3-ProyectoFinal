@@ -20,7 +20,7 @@ if (in_array($vista, ["solicitar_permiso", "mi_solicitudes", "detalle_solicitud"
   include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerPermiso.php";
 }
 // Incluir controlador de horas para la reportería
-if (in_array($vista, ["horas", "reporteria", "mostrar_reporte"])) {
+if (in_array($vista, ["horas", "reporteria", "consultar_reporteria"])) {
   include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerHoras.php";
 }
 ?>
@@ -61,10 +61,8 @@ if (in_array($vista, ["horas", "reporteria", "mostrar_reporte"])) {
             include_once __DIR__ . "/clientes.php";
           } elseif ($rol == 1 && $vista == "pantallaAccionesAdmin") {
             include_once __DIR__ . "/pantallaAccionesAdmin.php";
-          } elseif ($rol == 1 && $vista == "reporteria") { 
+          } elseif ($rol == 1 && ($vista == "reporteria" || $vista == "consultar_reporteria")) {
             include_once __DIR__ . "/consultar_reporteria.php";
-          } elseif ($rol == 1 && $vista == "mostrar_reporte") { 
-            include_once __DIR__ . "/mostrar_reporte.php";
           } elseif ($vista == "cambioContrasenna") {
             include_once __DIR__ . "/../vSeguridad/cambioContrasenna.php";
           } elseif ($vista == "perfilUsuario") {

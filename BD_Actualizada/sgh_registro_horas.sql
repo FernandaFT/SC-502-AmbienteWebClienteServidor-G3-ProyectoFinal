@@ -27,6 +27,7 @@ CREATE TABLE `registro_horas` (
   `id_usuario` int(11) NOT NULL,
   `id_cliente` int(11) NOT NULL,
   `id_categoria_hora` int(11) NOT NULL,
+  `clasificacion_hora` enum('Ordinaria','Extra','Doble') NOT NULL DEFAULT 'Ordinaria',
   `cantidad` int(11) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
   `fecha` date NOT NULL DEFAULT curdate(),

@@ -1,14 +1,11 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Controller/ControllerConsultaAcciones.php";
-include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelConsultasAcciones.php";
 
 if (!isset($_SESSION["NombreUsuario"])) {
     header("Location: inicio_sesion.php");
     exit;
 }
 
-//Todas las solicitudes para aprobar o rechazar
-$solicitudes = ObtenerSolicitudes();
 ?>
 
 <div class="row">
@@ -40,6 +37,11 @@ $solicitudes = ObtenerSolicitudes();
 
                         <tbody>
 
+                            <?php if ($totalSolicitudesAdmin === 0): ?>
+                            <tr>
+                                <td colspan="8" class="text-center text-muted">No hay solicitudes para gestionar.</td>
+                            </tr>
+                            <?php else: ?>
                             <?php foreach ($solicitudes as $solicitud): ?>
 
                                 <?php
@@ -125,10 +127,29 @@ $solicitudes = ObtenerSolicitudes();
                                 </tr>
 
                             <?php endforeach; ?>
+                            <?php endif; ?>
 
                         </tbody>
                     </table>
                 </div>
+
+                <?php if ($totalSolicitudesAdmin > 0 && $totalPaginas > 1): ?>
+                <nav class="mt-3" aria-label="Paginación">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <?php echo $pagina <= 1 ? "disabled" : ""; ?>">
+                            <a class="page-link" href="?vista=pantallaAccionesAdmin&pagina=<?php echo $pagina - 1; ?>">Anterior</a>
+                        </li>
+                        <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                        <li class="page-item <?php echo $i === $pagina ? "active" : ""; ?>">
+                            <a class="page-link" href="?vista=pantallaAccionesAdmin&pagina=<?php echo $i; ?>"><?php echo $i; ?></a>
+                        </li>
+                        <?php endfor; ?>
+                        <li class="page-item <?php echo $pagina >= $totalPaginas ? "disabled" : ""; ?>">
+                            <a class="page-link" href="?vista=pantallaAccionesAdmin&pagina=<?php echo $pagina + 1; ?>">Siguiente</a>
+                        </li>
+                    </ul>
+                </nav>
+                <?php endif; ?>
 
             </div>
         </div>

@@ -1,10 +1,11 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/UtilitarioModel.php";
 
-function RegistrarHoras($idUsuario, $idCliente, $idCategoriaHora, $cantidad, $descripcion, $fecha)
+function RegistrarHoras($idUsuario, $idCliente, $idCategoriaHora, $clasificacionHora, $cantidad, $descripcion, $fecha)
 {
     $context = OpenDBPractica();
-    $sql = "CALL sgh_RegistrarHoras('$idUsuario','$idCliente','$idCategoriaHora','$cantidad','$descripcion','$fecha')";
+    $clasificacionHora = $context->real_escape_string($clasificacionHora);
+    $sql = "CALL sgh_RegistrarHoras('$idUsuario','$idCliente','$idCategoriaHora','$clasificacionHora','$cantidad','$descripcion','$fecha')";
     $result = $context->query($sql);
 
     $respuesta = null;
@@ -19,10 +20,11 @@ function RegistrarHoras($idUsuario, $idCliente, $idCategoriaHora, $cantidad, $de
 }
 
 
-function EditarHoras($idRegistro, $idCliente, $idCategoriaHora, $cantidad, $descripcion, $fecha)
+function EditarHoras($idRegistro, $idCliente, $idCategoriaHora, $clasificacionHora, $cantidad, $descripcion, $fecha)
 {
     $context = OpenDBPractica();
-    $sql = "CALL sgh_EditarHoras('$idRegistro','$idCliente','$idCategoriaHora','$cantidad','$descripcion','$fecha')";
+    $clasificacionHora = $context->real_escape_string($clasificacionHora);
+    $sql = "CALL sgh_EditarHoras('$idRegistro','$idCliente','$idCategoriaHora','$clasificacionHora','$cantidad','$descripcion','$fecha')";
     $result = $context->query($sql);
 
     if ($result) {
@@ -125,23 +127,70 @@ function ListarClientesActivos()
     return $datos;
 }
 
-function ConsultarReporteHoras($fechaInicio, $fechaFin)
+function ObtenerReporteHoras($fechaInicio, $fechaFin, $idCliente)
 {
-    $context = OpenDBPractica();
+    $conn = OpenDBPractica();
+    $idCliente = (int)$idCliente;
 
-    $sql = "CALL sgh_ConsultarReporteHoras('$fechaInicio','$fechaFin')";
-    $result = $context->query($sql);
+    $sql = "SELECT u.nombre AS empleado,
+                   cat.nombre AS categoria,
+                   rh.clasificacion_hora AS clasificacion_hora,
+                   SUM(rh.cantidad) AS cantidad_horas
+            FROM registro_horas rh
+            INNER JOIN usuario u ON rh.id_usuario = u.id_usuario
+            INNER JOIN categoria_hora cat ON rh.id_categoria_hora = cat.id_categoria_hora
+            WHERE rh.fecha BETWEEN ? AND ?";
 
-    $datos = [];
-    if ($result) {
-        while ($fila = $result->fetch_assoc()) {
-            $datos[] = $fila;
-        }
-        $result->free();
-        while ($context->more_results() && $context->next_result()) { }
+    if ($idCliente > 0) {
+        $sql .= " AND rh.id_cliente = ?";
     }
 
-    CloseDBPractica($context);
+    $sql .= " GROUP BY u.id_usuario, u.nombre, cat.id_categoria_hora, cat.nombre, rh.clasificacion_hora
+              ORDER BY u.nombre ASC, cat.nombre ASC, rh.clasificacion_hora ASC";
+
+    $stmt = $conn->prepare($sql);
+    if (!$stmt) {
+        CloseDBPractica($conn);
+        return [];
+    }
+
+    if ($idCliente > 0) {
+        $stmt->bind_param("ssi", $fechaInicio, $fechaFin, $idCliente);
+    } else {
+        $stmt->bind_param("ss", $fechaInicio, $fechaFin);
+    }
+
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $datos = [];
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $datos[] = $row;
+        }
+    }
+    $stmt->close();
+    CloseDBPractica($conn);
     return $datos;
+}
+
+function ExportarReporteHorasCsv(array $datos)
+{
+    $filename = "reporte_horas_" . date("Y-m-d_His") . ".csv";
+    header("Content-Type: text/csv; charset=UTF-8");
+    header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
+    header("Cache-Control: max-age=0");
+    echo "\xEF\xBB\xBF";
+
+    $out = fopen("php://output", "w");
+    fputcsv($out, ["Empleado", "Categoría", "Clasificación (Ordinaria/Extra/Doble)", "Cantidad de horas"], ";");
+    foreach ($datos as $row) {
+        fputcsv($out, [
+            $row["empleado"] ?? "",
+            $row["categoria"] ?? "",
+            $row["clasificacion_hora"] ?? "",
+            $row["cantidad_horas"] ?? "",
+        ], ";");
+    }
+    fclose($out);
 }
 ?>

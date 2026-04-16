@@ -1,6 +1,8 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelConsultasAcciones.php";
 
+$mensaje = "";
+
 if (isset($_POST["btnAprobar"])) {
     $id_accion = $_POST["Solicitud_id"] ?? 0;
     $tipo = $_POST["tipo"];
@@ -26,3 +28,22 @@ if (isset($_POST["btnRechazar"])) {
         $mensaje = "<div class='alert alert-danger'>Error al rechazar la solicitud.</div>";
     }
 }
+
+$registrosPorPagina = 5;
+$pagina = isset($_GET["pagina"]) ? (int)$_GET["pagina"] : 1;
+if ($pagina < 1) {
+    $pagina = 1;
+}
+
+$todosSolicitudesAdmin = ObtenerSolicitudes();
+$totalSolicitudesAdmin = count($todosSolicitudesAdmin);
+$totalPaginas = (int)ceil($totalSolicitudesAdmin / $registrosPorPagina);
+if ($totalPaginas < 1) {
+    $totalPaginas = 1;
+}
+if ($pagina > $totalPaginas) {
+    $pagina = $totalPaginas;
+}
+
+$offset = ($pagina - 1) * $registrosPorPagina;
+$solicitudes = array_slice($todosSolicitudesAdmin, $offset, $registrosPorPagina);
