@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelVacaciones.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelNotificacion.php";
 
 $vista = $_GET["vista"] ?? "solicitar_vacaciones";
 $mensaje = "";
@@ -20,6 +21,18 @@ if (isset($_POST["btnSolicitar"])) {
     $result = RegistrarSolicitudVacaciones($idUsuario, $diasSolicitados, $fechaInicio, $fechaFin, $descripcion);
     if ($result && $result["resultado"] == 1) {
         $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+        
+        // Registrar notificación a TODOS los encargados (administradores)
+        $encargados = ObtenerTodosEncargados();
+        if (!empty($encargados)) {
+            $nombreUsuario = $_SESSION["NombreUsuario"] ?? "Un usuario";
+            $descripcionNotif = "$nombreUsuario ha creado una solicitud de vacaciones";
+            
+            // Notificar a cada administrador
+            foreach ($encargados as $idEncargado) {
+                RegistrarNotificacion($idEncargado, $idUsuario, $descripcionNotif);
+            }
+        }
     } else {
         $mensaje = "<div class='alert alert-danger'>" .
             ($result["mensaje"] ?? "No se pudo registrar la solicitud.") .
