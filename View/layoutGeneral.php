@@ -11,7 +11,6 @@ function CSSGeneral()
     <link rel="stylesheet" href="../assets/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="../assets/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../assets/vendors/font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/notificacionesBadge.css">
@@ -46,14 +45,13 @@ function JSGeneral()
     <script src="../assets/funciones/vacaciones.js"></script>
     <script src="../assets/funciones/permisos.js"></script>
     <script src="../assets/funciones/notificaciones.js"></script>';
+    <script src="../assets/funciones/reporte.js"></script>';
 }
 
 function menuEmpleado()
 {
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
+  $nombreUsuario = $_SESSION["NombreUsuario"] ?? "";
+  if ($nombreUsuario == "") {
     header("Location: login.php");
     exit;
   }
@@ -61,92 +59,53 @@ function menuEmpleado()
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
     <ul class="nav">
-
       <li class="nav-item nav-profile">
         <a href="../vHome/inicio.php?vista=perfilUsuario" class="nav-link">
           <div class="nav-profile-image">
             <img src="../assets/images/faces/face1.jpg" alt="profile" />
             <span class="login-status online"></span>
           </div>
-
           <div class="nav-profile-text d-flex flex-column">
             <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Empleado</span>
           </div>
         </a>
       </li>
-
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+        <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false">
           <span class="menu-title">Actividad Colaboradores</span>
           <i class="menu-arrow"></i>
           <i class="mdi mdi-lock menu-icon"></i>
         </a>
-
         <div class="collapse" id="auth">
           <ul class="nav flex-column sub-menu">
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=horas">
-                <span class="menu-title">Registro de Horas</span>
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
-              </a>
-            </li>
-            
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=horas">Registro de Horas</a></li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">Cambiar Contraseña</a></li>
           </ul>
         </div>
       </li>
-
       <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false" aria-controls="permisos">
+        <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false">
           <span class="menu-title">Acciones de Personal</span>
           <i class="menu-arrow"></i>
           <i class="mdi mdi-calendar-check menu-icon"></i>
         </a>
-
         <div class="collapse" id="permisos">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">
-                Solicitar Permiso
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_vacaciones">
-                Solicitar Vacación
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">
-                 Mis Solicitudes
-              </a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">Solicitar Permiso</a></li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=solicitar_vacaciones">Solicitar Vacación</a></li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">Mis Solicitudes</a></li>
           </ul>
         </div>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
-          <span class="menu-title">Perfil Empleado</span>
-          <i class="mdi mdi-account menu-icon"></i>
-        </a>
-      </li>
-
     </ul>
-  </nav>
-  ';
+  </nav>';
 }
 
 function menuAdmin()
 {
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
+  $nombreUsuario = $_SESSION["NombreUsuario"] ?? "";
+  if ($nombreUsuario == "") {
     header("Location: login.php");
     exit;
   }
@@ -154,14 +113,12 @@ function menuAdmin()
   echo '
   <nav class="sidebar sidebar-offcanvas me-3" id="sidebar">
     <ul class="nav">
-
       <li class="nav-item nav-profile">
         <a href="../vHome/inicio.php?vista=perfilUsuario" class="nav-link">
           <div class="nav-profile-image">
             <img src="../assets/images/faces/face1.jpg" alt="profile" />
             <span class="login-status online"></span>
           </div>
-
           <div class="nav-profile-text d-flex flex-column">
             <span class="font-weight-bold mb-2">' . $nombreUsuario . '</span>
             <span class="text-secondary text-small">Administrador</span>
@@ -169,94 +126,70 @@ function menuAdmin()
         </a>
       </li>
 
-      <!-- CONFIGURACION -->
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#configuracionMenu" aria-expanded="false">
           <span class="menu-title">Configuración</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
+          <i class="mdi mdi-settings menu-icon"></i>
         </a>
-
         <div class="collapse" id="configuracionMenu">
           <ul class="nav flex-column sub-menu">
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=registro">
-                Creación de Usuarios
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=clientes">
-                Creación Clientes
-              </a>
-            </li>
-
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=registro">Creación de Usuarios</a></li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">Cambiar Contraseña</a></li>
+            <li class="nav-item"><a class="nav-link" href="../vHome/inicio.php?vista=clientes">Creación Clientes</a></li>
           </ul>
         </div>
       </li>
 
-      <!-- ACCIONES DE PERSONAL -->
       <li class="nav-item">
         <a class="nav-link" data-bs-toggle="collapse" href="#accionesPersonalMenu" aria-expanded="false">
           <span class="menu-title">Acciones de Personal</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
+          <i class="mdi mdi-account-check menu-icon"></i>
         </a>
-
         <div class="collapse" id="accionesPersonalMenu">
           <ul class="nav flex-column sub-menu">
-
             <li class="nav-item">
-              <a class="nav-link" href="../vHome/inicio.php?vista=pantallaAccionesAdmin">
-                Gestión de Acciones <br> de Personal
-              </a>
+              <a class="nav-link" href="../vHome/inicio.php?vista=pantallaAccionesAdmin">Gestión de Acciones</a>
             </li>
-
           </ul>
         </div>
       </li>
 
-      <!-- PERFIL -->
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="collapse" href="#reporteriaMenu" aria-expanded="false">
+          <span class="menu-title">Reportería</span>
+          <i class="menu-arrow"></i>
+          <i class="mdi mdi-file-document menu-icon"></i>
+        </a>
+        <div class="collapse" id="reporteriaMenu">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item">
+              <a class="nav-link" href="../vHome/inicio.php?vista=reporteria">Reporte de Horas</a>
+            </li>
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item">
         <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
           <span class="menu-title">Perfil Administrador</span>
           <i class="mdi mdi-account menu-icon"></i>
         </a>
       </li>
-
     </ul>
-  </nav>
-  ';
+  </nav>';
 }
 
 function menuSuperiorGeneral()
 {
-  $nombreUsuario = "";
-  if (isset($_SESSION["NombreUsuario"])) {
-    $nombreUsuario = $_SESSION["NombreUsuario"];
-  } else {
-    header("Location: login.php");
-    exit;
-  }
-
+  $nombreUsuario = $_SESSION["NombreUsuario"] ?? "";
   echo '
       <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
         <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a class="navbar-brand brand-logo" href="inicio.php"><img src="../assets/images/logo.png" alt="logo" /></a>
-          <a class="navbar-brand brand-logo-mini" href="inicio.php"><img src="../assets/images/logo-mini.svg" alt="logo" /></a>
         </div>
         <div class="navbar-menu-wrapper d-flex align-items-stretch">
-          <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
-            <span class="mdi mdi-menu"></span>
-          </button>
-      
           <ul class="navbar-nav navbar-nav-right">
 
             <li class="nav-item dropdown">
@@ -282,17 +215,12 @@ function menuSuperiorGeneral()
             </li>
 
             <li class="nav-item nav-profile dropdown">
-              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="nav-profile-img">
-                  <img src="../assets/images/faces/face1.jpg" alt="image">
-                  <span class="availability-status online"></span>
-                </div>
+              <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown">
                 <div class="nav-profile-text">
                   <p class="mb-1 text-black">' . $nombreUsuario . '</p>
                 </div>
               </a>
               <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
-                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#0" onclick="CerrarSesion()">
                   <i class="mdi mdi-logout me-2 text-primary"></i> Cerrar Sesión </a>
               </div>
@@ -305,9 +233,6 @@ function menuSuperiorGeneral()
             </li>        
 
           </ul>
-          <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
-            <span class="mdi mdi-menu"></span>
-          </button>
         </div>
       </nav>';
 }

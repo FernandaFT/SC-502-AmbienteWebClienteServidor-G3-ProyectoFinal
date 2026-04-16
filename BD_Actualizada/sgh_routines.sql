@@ -370,6 +370,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_EditarHoras`(
     IN p_idRegistro INT,
     IN p_idCliente INT,
     IN p_idCategoriaHora INT,
+    IN p_clasificacionHora VARCHAR(20),
     IN p_cantidad INT,
     IN p_descripcion VARCHAR(255),
     IN p_fecha DATE
@@ -378,6 +379,7 @@ BEGIN
     UPDATE registro_horas
     SET id_cliente = p_idCliente,
         id_categoria_hora = p_idCategoriaHora,
+        clasificacion_hora = p_clasificacionHora,
         cantidad = p_cantidad,
         descripcion = p_descripcion,
         fecha = p_fecha
@@ -498,6 +500,7 @@ BEGIN
     SELECT rh.id_registro,
            c.nombre AS cliente,
            cat.nombre AS categoria,
+           rh.clasificacion_hora,
            rh.cantidad,
            rh.descripcion,
            rh.fecha
@@ -622,6 +625,7 @@ BEGIN
     SELECT rh.id_registro,
            rh.id_cliente,
            rh.id_categoria_hora,
+           rh.clasificacion_hora,
            rh.cantidad,
            rh.descripcion,
            rh.fecha
@@ -781,13 +785,14 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistrarHoras`(
     IN p_idUsuario INT,
     IN p_idCliente INT,
     IN p_idCategoriaHora INT,
+    IN p_clasificacionHora VARCHAR(20),
     IN p_cantidad INT,
     IN p_descripcion VARCHAR(255),
     IN p_fecha DATE
 )
 BEGIN
-    INSERT INTO registro_horas(id_usuario, id_cliente, id_categoria_hora, cantidad, descripcion, fecha)
-    VALUES (p_idUsuario, p_idCliente, p_idCategoriaHora, p_cantidad, p_descripcion, p_fecha);
+    INSERT INTO registro_horas(id_usuario, id_cliente, id_categoria_hora, clasificacion_hora, cantidad, descripcion, fecha)
+    VALUES (p_idUsuario, p_idCliente, p_idCategoriaHora, p_clasificacionHora, p_cantidad, p_descripcion, p_fecha);
 
     SELECT 1 AS resultado, 'Horas registradas correctamente' AS mensaje;
 END ;;
