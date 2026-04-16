@@ -13,7 +13,10 @@ if (!$idUsuario) {
     exit;
 }
 
-// Obtener datos de paginación
+// Al entrar a "ver todas", dejarlas como leídas
+MarcarTodasComoLeidas($idUsuario);
+
+// Obtener datos de paginación (ya con estado actualizado)
 $notificaciones = ObtenerNotificacionesUsuario($idUsuario);
 
 // Obtener información de solicitud para cada notificación

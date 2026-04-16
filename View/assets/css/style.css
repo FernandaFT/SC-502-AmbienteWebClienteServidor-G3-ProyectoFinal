@@ -192,6 +192,37 @@
     opacity: 1;
   }
 }
+
+/* =========================================================
+   Overrides de legibilidad (texto más oscuro)
+   ========================================================= */
+:root {
+  /* Texto base */
+  --bs-body-color: #212529;
+  --bs-emphasis-color: #212529;
+
+  /* Textos secundarios (utilizados por .text-muted / .text-body-secondary) */
+  --bs-secondary-color: #495057;
+  --bs-tertiary-color: #6c757d;
+}
+
+/* Clases muy usadas en el sistema */
+.text-muted,
+.text-body-secondary {
+  color: #495057 !important;
+}
+
+.text-gray,
+.card .card-subtitle {
+  color: #5c636a !important;
+}
+
+/* Desplegables: el valor seleccionado no debe verse "placeholder" */
+select.form-control,
+select.form-select,
+.form-select {
+  color: #212529 !important;
+}
 @-moz-keyframes bounce {
   0% {
     -webkit-transform: translateY(0);

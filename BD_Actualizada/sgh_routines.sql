@@ -1069,6 +1069,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesUsuario`(
 BEGIN
     SELECT 
         n.id_notificacion,
+        n.id_usuario_origen,
         n.descripcion,
         n.fecha_creacion,
         n.leida,
@@ -1099,8 +1100,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesNoLeidas`(
 BEGIN
     SELECT 
         n.id_notificacion,
+        n.id_usuario_origen,
         n.descripcion,
         n.fecha_creacion,
+        n.leida,
         u.nombre AS nombre_origen
     FROM notificacion n
     INNER JOIN usuario u ON n.id_usuario_origen = u.id_usuario
@@ -1159,6 +1162,75 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerTodosEncargados` */;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerTodosEncargados`()
+BEGIN
+    SELECT DISTINCT id_usuario
+    FROM usuario
+    WHERE rol = 1
+    ORDER BY id_usuario;
+END ;;
+DELIMITER ;
+
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas` */;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas`(
+    IN pIdUsuarioOrigen INT,
+    IN pTipo VARCHAR(20)
+)
+BEGIN
+    DECLARE vPatron VARCHAR(200);
+
+    SET vPatron = '%ha creado una solicitud de permiso%';
+    IF LOWER(TRIM(pTipo)) = 'vacaciones' THEN
+        SET vPatron = '%ha creado una solicitud de vacaciones%';
+    END IF;
+
+    UPDATE notificacion n
+    INNER JOIN usuario u ON u.id_usuario = n.id_usuario_destino
+    SET n.leida = 1
+    WHERE u.rol = 1
+      AND n.id_usuario_origen = pIdUsuarioOrigen
+      AND n.leida = 0
+      AND n.descripcion LIKE vPatron;
+END ;;
+DELIMITER ;
+
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudDeNotificacion` */;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudDeNotificacion`(
+    IN pIdOrigen INT,
+    IN pDescripcion VARCHAR(500)
+)
+BEGIN
+    DECLARE vTipo VARCHAR(20);
+
+    SET vTipo = 'Permiso';
+    IF LOCATE('vacaciones', LOWER(pDescripcion)) > 0 THEN
+        SET vTipo = 'Vacaciones';
+    END IF;
+
+    IF vTipo = 'Vacaciones' THEN
+        SELECT
+            (SELECT id_solicitud
+             FROM solicitud_vacaciones
+             WHERE id_usuario_solicita = pIdOrigen
+             ORDER BY fecha_solicitud DESC
+             LIMIT 1) AS id_solicitud,
+            vTipo AS tipo;
+    ELSE
+        SELECT
+            (SELECT id_solicitud
+             FROM solicitud_permiso
+             WHERE id_usuario = pIdOrigen
+             ORDER BY fecha_solicitud DESC
+             LIMIT 1) AS id_solicitud,
+            vTipo AS tipo;
+    END IF;
+END ;;
+DELIMITER ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

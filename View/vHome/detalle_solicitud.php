@@ -48,9 +48,6 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
                         <h4 class="mb-0">
                             Detalle de Acción de Personal
                         </h4>
-                        <a href="?vista=mi_solicitudes" class="btn btn-light btn-sm">
-                            Volver
-                        </a>
                     </div>
                 </div>
 

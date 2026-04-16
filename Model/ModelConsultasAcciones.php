@@ -97,3 +97,36 @@ function ObtenerIdUsuarioSolicitante($id_solicitud, $tipo)
     CloseDBPractica($context);
     return $idUsuario;
 }
+
+/**
+ * Obtener datos básicos del usuario (nombre y correo) para notificaciones por correo.
+ * Se usa al aprobar/rechazar solicitudes para avisar al empleado.
+ *
+ * @param int $idUsuario
+ * @return array|null  ['nombre' => string, 'correo' => string] o null si no existe
+ */
+function ObtenerDatosUsuarioBasicosPorId($idUsuario)
+{
+    $context = OpenDBPractica();
+    $idUsuario = (int)$idUsuario;
+
+    $query = "SELECT nombre, correo
+              FROM usuario
+              WHERE id_usuario = $idUsuario
+              LIMIT 1";
+
+    $datos = null;
+    if ($result = $context->query($query)) {
+        $row = $result->fetch_assoc();
+        if ($row) {
+            $datos = [
+                'nombre' => $row['nombre'] ?? null,
+                'correo' => $row['correo'] ?? null,
+            ];
+        }
+        $result->free();
+    }
+
+    CloseDBPractica($context);
+    return $datos;
+}
