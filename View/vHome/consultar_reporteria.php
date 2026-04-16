@@ -22,6 +22,7 @@ $fvCliente = isset($filtros["id_cliente"]) ? (string)(int)$filtros["id_cliente"]
     <?php if (!empty($mensajeReporte)) {
         echo $mensajeReporte;
     } ?>
+
     <form id="FormReporteHoras" method="POST" action="inicio.php?vista=reporteria" class="mt-3">
 
         <div class="row g-3">
