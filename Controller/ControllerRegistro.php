@@ -10,12 +10,13 @@ $mensaje = "";
 /* REGISTRAR USUARIO */
 if (isset($_POST["btnRegistro"])) {
 
+    $identificacion = trim($_POST["identificacion"] ?? "");
     $nombre = trim($_POST["nombre"] ?? "");
     $correo = trim($_POST["correo"] ?? "");
     $contrasenna = trim($_POST["password"] ?? "");
     $rol = (int)($_POST["rol"] ?? 0);
 
-    $result = RegistrarUsuario($nombre, $correo, $contrasenna, $rol);
+    $result = RegistrarUsuario($identificacion, $nombre, $correo, $contrasenna, $rol);
 
     if ($result && $result["resultado"] == 1) {
         $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
@@ -68,17 +69,18 @@ if (
 if (isset($_POST["btnActualizar"])) {
 
     $id = (int)($_POST["id_usuario"] ?? 0);
+    $identificacion = trim($_POST["identificacion"] ?? "");
     $nombre = trim($_POST["nombre"] ?? "");
     $rol = (int)($_POST["rol"] ?? 0);
 
-    $result = ActualizarUsuario($id, $nombre, $rol);
+    $result = ActualizarUsuario($id, $identificacion, $nombre, $rol);
 
-    if ($result) {
-        $mensaje = "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
+    if ($result && isset($result["resultado"]) && $result["resultado"] == 1) {
+        $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
         $esEdicion = false;
         $usuarioEditar = null;
     } else {
-        $mensaje = "<div class='alert alert-danger'>Error al actualizar usuario.</div>";
+        $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "Error al actualizar usuario.") . "</div>";
         $esEdicion = true;
         $usuarioEditar = ObtenerUsuarioPorId($id);
     }

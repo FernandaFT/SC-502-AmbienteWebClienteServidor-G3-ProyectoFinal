@@ -4,7 +4,7 @@ $(function () {
         rules: {
             NuevaContrasenna: {
                 required: true,
-                minlength: 8
+                minlength: 6
             },
             ConfirmarContrasenna: {
                 required: true,
@@ -14,7 +14,7 @@ $(function () {
         messages: {
             NuevaContrasenna: {
                 required: "Campo obligatorio",
-                minlength: "Mínimo 8 caracteres"
+                minlength: "Mínimo 6 caracteres"
             },
             ConfirmarContrasenna: {
                 required: "Campo obligatorio",
