@@ -1,5 +1,6 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelPermiso.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/ModelNotificacion.php";
 
 // Variables de sesión
 $idUsuarioLogueado = $_SESSION["IdUsuario"] ?? null;
@@ -43,6 +44,19 @@ if (isset($_POST["btnSolicitar"])) {
 
             if ($result && $result["resultado"] == 1) {
                 $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+                
+                // Registrar notificación a TODOS los encargados (administradores)
+                $encargados = ObtenerTodosEncargados();
+                if (!empty($encargados)) {
+                    $nombreUsuario = $_SESSION["NombreUsuario"] ?? "Un usuario";
+                    $descripcionNotif = "$nombreUsuario ha creado una solicitud de permiso";
+                    
+                    // Notificar a cada administrador
+                    foreach ($encargados as $idEncargado) {
+                        RegistrarNotificacion($idEncargado, $idUsuarioLogueado, $descripcionNotif);
+                    }
+                }
+                
                 $fechaInicio = "";
                 $fechaFin = "";
                 $descripcion = "";

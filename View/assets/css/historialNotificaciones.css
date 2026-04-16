@@ -1,0 +1,96 @@
+.ibox {
+    margin-bottom: 20px;
+    border: 1px solid #e3e3e3;
+    border-radius: 4px;
+    background: white;
+}
+
+.ibox-head {
+    padding: 15px 20px;
+    border-bottom: 1px solid #e3e3e3;
+    background: #f8f9fa;
+}
+
+.ibox-title h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #333;
+}
+
+.ibox-body {
+    padding: 20px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.badge {
+    padding: 5px 10px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+    color: #000;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+.badge-success {
+    background-color: #28a745;
+    color: #fff;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+    color: white;
+    text-decoration: none;
+}
+
+.pagination {
+    margin: 20px 0 0 0;
+}
+
+.page-link {
+    color: #007bff;
+    cursor: pointer;
+}
+
+.page-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.ver-solicitud {
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+}

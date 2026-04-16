@@ -67,3 +67,33 @@ function RechazarSolicitudModel($id, $tipo)
     CloseDBPractica($context);
     return $resultado;
 }
+
+/**
+ * Obtener el ID del usuario que realizó la solicitud
+ * @param int $id_solicitud - ID de la solicitud
+ * @param string $tipo - Tipo de solicitud ('Permiso' o 'Vacaciones')
+ * @return int - ID del usuario o 0 si no existe
+ */
+function ObtenerIdUsuarioSolicitante($id_solicitud, $tipo)
+{
+    $context = OpenDBPractica();
+    $id_solicitud = (int)$id_solicitud;
+    $idUsuario = 0;
+
+    if ($tipo === "Permiso") {
+        $query = "SELECT id_usuario FROM solicitud_permiso WHERE id_solicitud = $id_solicitud LIMIT 1";
+    } else {
+        $query = "SELECT id_usuario_solicita as id_usuario FROM solicitud_vacaciones WHERE id_solicitud = $id_solicitud LIMIT 1";
+    }
+
+    if ($result = $context->query($query)) {
+        $row = $result->fetch_assoc();
+        if ($row && isset($row['id_usuario'])) {
+            $idUsuario = (int)$row['id_usuario'];
+        }
+        $result->free();
+    }
+
+    CloseDBPractica($context);
+    return $idUsuario;
+}

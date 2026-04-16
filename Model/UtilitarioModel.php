@@ -2,7 +2,7 @@
 function OpenDBPractica(){
     mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
     // Ajustado: usar puerto 3308
-    return mysqli_connect("127.0.0.1:3306","root","","sgh");
+    return mysqli_connect("127.0.0.1:3307","root","","sgh");
 }
 
 function CloseDBPractica($context){
