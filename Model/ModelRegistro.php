@@ -1,16 +1,17 @@
 <?php
 include_once $_SERVER["DOCUMENT_ROOT"] . "/SC-502-AMBIENTEWEBCLIENTESERVIDOR-G3-PROYECTOFINAL/Model/UtilitarioModel.php";
 
-function RegistrarUsuario($nombre, $correo, $contrasenna, $rol)
+function RegistrarUsuario($identificacion, $nombre, $correo, $contrasenna, $rol)
 {
     $context = OpenDBPractica();
 
+    $identificacion = $context->real_escape_string($identificacion);
     $nombre = $context->real_escape_string($nombre);
     $correo = $context->real_escape_string($correo);
     $contrasenna = $context->real_escape_string($contrasenna);
     $rol = (int)$rol;
 
-    $sp = "CALL sgh_RegistroUsuario('$nombre', '$correo', '$contrasenna', '$rol')";
+    $sp = "CALL sgh_RegistroUsuario('$identificacion', '$nombre', '$correo', '$contrasenna', '$rol')";
     $result = $context->query($sp);
 
     $respuesta = null;
@@ -113,22 +114,27 @@ function ObtenerUsuarioPorId($id)
     return $usuario;
 }
 
-function ActualizarUsuario($id, $nombre, $rol)
+function ActualizarUsuario($id, $identificacion, $nombre, $rol)
 {
     $context = OpenDBPractica();
 
     $id = (int)$id;
+    $identificacion = $context->real_escape_string($identificacion);
     $nombre = $context->real_escape_string($nombre);
     $rol = (int)$rol;
 
-    $sql = "CALL sgh_ActualizarUsuario('$id', '$nombre', '$rol')";
+    $sql = "CALL sgh_ActualizarUsuario('$id', '$identificacion', '$nombre', '$rol')";
     $result = $context->query($sql);
 
-    if ($result instanceof mysqli_result) {
+    $respuesta = null;
+
+    if ($result) {
+        $respuesta = $result->fetch_assoc();
+
         $result->free();
         while ($context->more_results() && $context->next_result()) { }
     }
 
     CloseDBPractica($context);
-    return $result;
+    return $respuesta;
 }

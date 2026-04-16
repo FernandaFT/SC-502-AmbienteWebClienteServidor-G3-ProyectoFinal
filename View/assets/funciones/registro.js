@@ -3,6 +3,9 @@ $(document).ready(function(){
     $("#formRegistro").validate({
 
         rules:{
+            identificacion:{
+                required:true
+            },
             nombre:{
                 required:true
             },
@@ -20,6 +23,9 @@ $(document).ready(function(){
         },
 
         messages:{
+            identificacion:{
+                required:"Ingrese una identificación"
+            },
             nombre:{
                 required:"Ingrese el nombre"
             },
@@ -54,3 +60,23 @@ $(document).ready(function(){
     });
 
 });
+
+function ConsultarNombre() {
+
+    document.getElementById("nombre").value = "";
+    let identificacion = document.getElementById("identificacion").value;
+
+    if (identificacion.length >= 9) {
+        $.ajax({
+            url: 'https://apis.gometa.org/cedulas/' + identificacion,
+            method: 'GET',
+            dataType: 'json',
+            success: function (response) {
+                if(response.resultcount > 0)
+                {
+                    document.getElementById("nombre").value = response.nombre;
+                }                
+            }
+        });
+    }
+}

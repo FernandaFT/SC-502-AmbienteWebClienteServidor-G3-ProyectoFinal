@@ -8,9 +8,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
 
 <div class="row">
 
-  <!-- FORMULARIO -->
   <div class="col-lg-4 auth">
-
     <div class="auth-form-light text-left p-5 border border-4 rounded">
 
       <div class="brand-logo">
@@ -34,11 +32,23 @@ if (!isset($_SESSION["NombreUsuario"])) {
         <div class="form-group">
           <input type="text"
             class="form-control form-control-lg"
+            id="identificacion"
+            name="identificacion"
+            placeholder="Identificación"
+            maxlength="15"
+            required
+            onkeyup="ConsultarNombre();"
+            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["identificacion"] ?? "") : ""; ?>">
+        </div>
+
+        <div class="form-group">
+          <input type="text"
+            class="form-control form-control-lg"
             id="nombre"
             name="nombre"
             placeholder="Nombre"
             required
-            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["nombre"]) : ""; ?>">
+            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["nombre"] ?? "") : ""; ?>">
         </div>
 
         <div class="form-group">
@@ -48,7 +58,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
             name="correo"
             placeholder="Correo Electrónico"
             required
-            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["correo"]) : ""; ?>"
+            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["correo"] ?? "") : ""; ?>"
             <?php echo $esEdicion ? 'readonly' : ''; ?>>
         </div>
 
@@ -66,8 +76,8 @@ if (!isset($_SESSION["NombreUsuario"])) {
         <div class="form-group">
           <select class="form-select form-select-lg" id="rol" name="rol" required>
             <option value="" disabled <?php echo !$esEdicion ? "selected" : ""; ?>>Seleccione el rol</option>
-            <option value="1" <?php echo ($esEdicion && $usuarioEditar["rol"] == 1) ? "selected" : ""; ?>>Administrador</option>
-            <option value="2" <?php echo ($esEdicion && $usuarioEditar["rol"] == 2) ? "selected" : ""; ?>>Empleado</option>
+            <option value="1" <?php echo ($esEdicion && ($usuarioEditar["rol"] ?? 0) == 1) ? "selected" : ""; ?>>Administrador</option>
+            <option value="2" <?php echo ($esEdicion && ($usuarioEditar["rol"] ?? 0) == 2) ? "selected" : ""; ?>>Empleado</option>
           </select>
         </div>
 
@@ -94,10 +104,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
     </div>
   </div>
 
-
-  <!-- TABLA -->
   <div class="col-lg-8">
-
     <div class="card">
       <div class="card-body">
 
@@ -110,6 +117,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
             <thead>
               <tr>
                 <th>Fecha Contrato</th>
+                <th>Identificación</th>
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Rol</th>
@@ -121,11 +129,10 @@ if (!isset($_SESSION["NombreUsuario"])) {
             <tbody>
 
               <?php if (!empty($listaUsuarios)) { ?>
-
                 <?php foreach ($listaUsuarios as $u) { ?>
-
                   <tr>
                     <td><?php echo date("d/m/Y", strtotime($u["fecha_registro"])); ?></td>
+                    <td><?php echo htmlspecialchars($u["identificacion"]); ?></td>
                     <td><?php echo htmlspecialchars($u["nombre"]); ?></td>
                     <td><?php echo htmlspecialchars($u["correo"]); ?></td>
 
@@ -154,42 +161,31 @@ if (!isset($_SESSION["NombreUsuario"])) {
                         </a>
 
                         <?php if ($u["estado"]) { ?>
-
                           <a href="?vista=registro&accion=inactivar&id=<?php echo $u["id_usuario"]; ?>"
                             class="btn btn-gradient-danger btn-rounded btn-sm">
                             Inactivar
                           </a>
-
                         <?php } else { ?>
-
                           <a href="?vista=registro&accion=activar&id=<?php echo $u["id_usuario"]; ?>"
                             class="btn btn-gradient-success btn-rounded btn-sm">
                             Activar
                           </a>
-
                         <?php } ?>
-
-
 
                       </div>
                     </td>
                   </tr>
-
                 <?php } ?>
-
               <?php } else { ?>
-
                 <tr>
-                  <td colspan="6">No hay usuarios registrados.</td>
+                  <td colspan="7">No hay usuarios registrados.</td>
                 </tr>
-
               <?php } ?>
 
             </tbody>
 
           </table>
 
-          <!-- PAGINACIÓN -->
           <nav class="mt-3">
             <ul class="pagination justify-content-center">
 
@@ -220,7 +216,6 @@ if (!isset($_SESSION["NombreUsuario"])) {
 
       </div>
     </div>
-
   </div>
 
 </div>
