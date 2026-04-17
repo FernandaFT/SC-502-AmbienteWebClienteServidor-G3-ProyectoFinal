@@ -48,7 +48,8 @@ if (!isset($_SESSION["NombreUsuario"])) {
             name="nombre"
             placeholder="Nombre"
             required
-            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["nombre"] ?? "") : ""; ?>">
+            value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["nombre"] ?? "") : ""; ?>"
+            <?php echo $esEdicion ? 'readonly' : ''; ?>>
         </div>
 
         <div class="form-group">
