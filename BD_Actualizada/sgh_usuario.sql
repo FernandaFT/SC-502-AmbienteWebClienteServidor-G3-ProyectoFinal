@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -24,15 +26,17 @@ DROP TABLE IF EXISTS `usuario`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `identificacion` varchar(15) NOT NULL,
   `nombre` varchar(200) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `contrasenna` varchar(255) NOT NULL,
   `estado` bit(1) NOT NULL,
   `rol` int(11) NOT NULL,
-  `fecha_registro` date NOT NULL DEFAULT curdate(),
+  `fecha_registro` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `correo` (`correo`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  UNIQUE KEY `correo` (`correo`),
+  UNIQUE KEY `uq_usuario_identificacion` (`identificacion`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -41,7 +45,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Administrador','admin@admin.com','123456',_binary '',1,'2026-03-24'),(2,'Sebastian','sebas@gmail.com','123456',_binary '',2,'2026-01-05');
+INSERT INTO `usuario` VALUES (1,'111111111','Administrador','admin@admin.com','123456',_binary '',1,'2026-03-24 00:00:00'),(10,'116700557','FAJARDO TORRES MARIA FERNANDA','nanda199784@gmail.com','123456',_binary '',2,'2026-04-15 22:26:58'),(11,'305600242','ARROYO MOLINA SEBASTIAN ANDRES','arroyo.molina.sebas@gmail.com','C0ntraseña2',_binary '',2,'2026-04-16 17:58:25'),(12,'305600243','BENAVIDES MORALES GERALD JESUS','admin@admin2.com','C0ntraseña2',_binary '',1,'2026-04-18 11:22:07');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -54,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-06 12:05:22
+-- Dump completed on 2026-04-18 11:32:47

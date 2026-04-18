@@ -501,7 +501,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ListarUsuarios`(
     pCantidad INT
 )
 BEGIN
-	SELECT id_usuario, nombre,correo, rol, estado, fecha_registro
+	SELECT id_usuario, identificacion, nombre, correo, rol, estado, fecha_registro
     FROM usuario
     ORDER BY id_usuario DESC
     LIMIT pInicio, pCantidad;
@@ -621,7 +621,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerUsuarioPorId`(
     pId INT
 )
 BEGIN
-	SELECT id_usuario, nombre, correo, rol
+	SELECT id_usuario, identificacion, nombre, correo, rol
     FROM usuario
     WHERE id_usuario = pId;
 END ;;

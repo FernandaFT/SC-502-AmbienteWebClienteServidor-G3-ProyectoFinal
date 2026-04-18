@@ -13,6 +13,9 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
     $solicitudDetalle = DetalleSolicitud($idSolicitud, $tipoSolicitud);
     
 }
+
+$esVistaAdmin = isset($_GET["origen"]) && $_GET["origen"] === "admin";
+$paginaVolverAdmin = isset($_GET["pagina"]) ? max(1, (int)$_GET["pagina"]) : 1;
 ?>
 
 <div class="row">
@@ -27,7 +30,14 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
         <?php if ($solicitudDetalle): ?>
 
             <?php
-            $estado = $solicitudDetalle['estado'];
+            $estadoRaw = $solicitudDetalle['estado'] ?? '';
+            $estado = match ((string)$estadoRaw) {
+                '1', 'Pendiente' => 'Pendiente',
+                '2', 'Aprobado' => 'Aprobado',
+                '3', 'Rechazado' => 'Rechazado',
+                default => (string)$estadoRaw,
+            };
+            $solicitudGestionada = !in_array((string)$estadoRaw, ['Pendiente', '1'], true);
 
             $badgeEstado = match ($estado) {
                 'Pendiente' => 'bg-warning text-dark',
@@ -144,7 +154,7 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
                         </div>
                     </div>
 
-                    <?php if ($estado != 'Pendiente'): ?>
+                    <?php if ($solicitudGestionada): ?>
 
                         <hr>
 
@@ -153,16 +163,21 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
                             <div class="col-md-6">
                                 <h6 class="text-muted">Evaluado por</h6>
                                 <p class="h5">
-                                    <?php echo $solicitudDetalle['nombre_encargado'] ?? 'N/A'; ?>
+                                    <?php
+                                    $nombreEnc = trim((string)($solicitudDetalle['nombre_encargado'] ?? ''));
+                                    echo $nombreEnc !== '' ? htmlspecialchars($nombreEnc) : 'N/A';
+                                    ?>
                                 </p>
                             </div>
 
                             <div class="col-md-6">
                                 <h6 class="text-muted">Fecha respuesta</h6>
                                 <p class="h5">
-                                    <?php 
-                                    echo $solicitudDetalle['fecha_respuesta']
-                                        ? date('d/m/Y H:i', strtotime($solicitudDetalle['fecha_respuesta']))
+                                    <?php
+                                    $fechaResp = $solicitudDetalle['fecha_respuesta'] ?? null;
+                                    $tsResp = $fechaResp ? strtotime((string)$fechaResp) : false;
+                                    echo ($fechaResp && $tsResp && $tsResp > 0)
+                                        ? date('d/m/Y H:i', $tsResp)
                                         : 'N/A';
                                     ?>
                                 </p>
@@ -175,9 +190,15 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
                 </div>
 
                 <div class="card-footer bg-light">
+                    <?php if ($esVistaAdmin): ?>
+                    <a href="?vista=pantallaAccionesAdmin&amp;pagina=<?php echo $paginaVolverAdmin; ?>" class="btn btn-outline-secondary">
+                        Volver a aprobaciones
+                    </a>
+                    <?php else: ?>
                     <a href="?vista=mi_solicitudes" class="btn btn-outline-secondary">
                         Volver a mis solicitudes
                     </a>
+                    <?php endif; ?>
                 </div>
 
             </div>
@@ -188,7 +209,7 @@ if ($vista == "detalle_solicitud" && isset($_GET["id"]) && isset($_GET["tipo"]))
                 La solicitud no fue encontrada
             </div>
 
-            <a href="?vista=mi_solicitudes" class="btn btn-outline-primary">
+            <a href="<?php echo $esVistaAdmin ? '?vista=pantallaAccionesAdmin&pagina=' . $paginaVolverAdmin : '?vista=mi_solicitudes'; ?>" class="btn btn-outline-primary">
                 Volver
             </a>
 

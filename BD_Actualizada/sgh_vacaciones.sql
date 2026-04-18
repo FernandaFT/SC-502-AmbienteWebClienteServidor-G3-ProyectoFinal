@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -31,7 +33,7 @@ CREATE TABLE `vacaciones` (
   PRIMARY KEY (`id_vacacion`),
   KEY `id_usuario` (`id_usuario`),
   CONSTRAINT `vacaciones_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,7 +42,7 @@ CREATE TABLE `vacaciones` (
 
 LOCK TABLES `vacaciones` WRITE;
 /*!40000 ALTER TABLE `vacaciones` DISABLE KEYS */;
-INSERT INTO `vacaciones` VALUES (1,2,3,1,'2026-01-05');
+INSERT INTO `vacaciones` VALUES (4,3,0,0,'2026-04-15'),(5,4,0,0,'2026-04-15'),(7,6,0,0,'2026-04-15'),(8,7,0,0,'2026-04-15'),(9,8,0,0,'2026-04-15'),(12,9,0,0,'2026-04-15'),(13,10,0,0,'2026-04-15'),(14,11,2,2,'2026-02-16'),(15,12,0,0,'2026-04-18');
 /*!40000 ALTER TABLE `vacaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -53,4 +55,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-06 12:05:22
+-- Dump completed on 2026-04-18 11:32:47

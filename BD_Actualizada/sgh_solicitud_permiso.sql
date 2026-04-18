@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -42,7 +44,7 @@ CREATE TABLE `solicitud_permiso` (
   CONSTRAINT `solicitud_permiso_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
   CONSTRAINT `solicitud_permiso_ibfk_2` FOREIGN KEY (`id_encargado`) REFERENCES `usuario` (`id_usuario`) ON DELETE SET NULL,
   CONSTRAINT `solicitud_permiso_ibfk_3` FOREIGN KEY (`id_categoria`) REFERENCES `categoria_permiso` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -51,7 +53,7 @@ CREATE TABLE `solicitud_permiso` (
 
 LOCK TABLES `solicitud_permiso` WRITE;
 /*!40000 ALTER TABLE `solicitud_permiso` DISABLE KEYS */;
-INSERT INTO `solicitud_permiso` VALUES (1,2,'2026-04-05','2026-04-06','Prueba',1,'Rechazado',NULL,'2026-04-05 10:40:21',NULL),(2,2,'2026-04-25','2026-04-25','1',2,'Aprobado',NULL,'2026-04-05 21:55:23',NULL);
+INSERT INTO `solicitud_permiso` VALUES (11,11,'2026-04-18','2026-04-18','QA',2,'Aprobado',12,'2026-04-18 11:01:52','2026-04-18 11:22:32'),(12,11,'2026-04-18','2026-04-18','QA',2,'Rechazado',1,'2026-04-18 11:04:05','2026-04-18 11:18:40'),(13,11,'2026-04-19','2026-04-19','qa',2,'Aprobado',1,'2026-04-18 11:04:13','2026-04-18 11:18:36'),(14,11,'2026-04-19','2026-04-19','Se enfermo',1,'Aprobado',NULL,'2026-04-18 11:06:04',NULL);
 /*!40000 ALTER TABLE `solicitud_permiso` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -64,4 +66,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-06 12:05:22
+-- Dump completed on 2026-04-18 11:32:48

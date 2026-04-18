@@ -31,6 +31,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
                                 <th>Categoría</th>
                                 <th>Descripción</th>
                                 <th>Estado</th>
+                                <th>Detalle</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -39,7 +40,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
 
                             <?php if ($totalSolicitudesAdmin === 0): ?>
                             <tr>
-                                <td colspan="8" class="text-center text-muted">No hay solicitudes para gestionar.</td>
+                                <td colspan="9" class="text-center text-muted">No hay solicitudes para gestionar.</td>
                             </tr>
                             <?php else: ?>
                             <?php foreach ($solicitudes as $solicitud): ?>
@@ -90,6 +91,13 @@ if (!isset($_SESSION["NombreUsuario"])) {
                                         <span class="badge <?= $badgeEstado ?>">
                                             <?= $estado ?>
                                         </span>
+                                    </td>
+
+                                    <td>
+                                        <a class="btn btn-sm btn-outline-primary"
+                                            href="?vista=detalle_solicitud&amp;id=<?= (int)$solicitud['id_solicitud']; ?>&amp;tipo=<?= urlencode($solicitud['tipo']); ?>&amp;origen=admin&amp;pagina=<?= (int)$pagina; ?>">
+                                            Ver detalle
+                                        </a>
                                     </td>
 
                                     <td>

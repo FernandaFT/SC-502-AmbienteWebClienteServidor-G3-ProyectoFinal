@@ -132,13 +132,13 @@ if (!isset($_SESSION["NombreUsuario"])) {
               <?php if (!empty($listaUsuarios)) { ?>
                 <?php foreach ($listaUsuarios as $u) { ?>
                   <tr>
-                    <td><?php echo date("d/m/Y", strtotime($u["fecha_registro"])); ?></td>
-                    <td><?php echo htmlspecialchars($u["identificacion"]); ?></td>
-                    <td><?php echo htmlspecialchars($u["nombre"]); ?></td>
-                    <td><?php echo htmlspecialchars($u["correo"]); ?></td>
+                    <td><?php echo !empty($u["fecha_registro"]) ? date("d/m/Y", strtotime($u["fecha_registro"])) : ""; ?></td>
+                    <td><?php echo htmlspecialchars((string)($u["identificacion"] ?? "")); ?></td>
+                    <td><?php echo htmlspecialchars((string)($u["nombre"] ?? "")); ?></td>
+                    <td><?php echo htmlspecialchars((string)($u["correo"] ?? "")); ?></td>
 
                     <td>
-                      <?php if ($u["rol"] == 1) { ?>
+                      <?php if (($u["rol"] ?? 0) == 1) { ?>
                         <span class="badge bg-warning text-dark">Admin</span>
                       <?php } else { ?>
                         <span class="badge bg-info">Empleado</span>
@@ -156,18 +156,18 @@ if (!isset($_SESSION["NombreUsuario"])) {
                     <td>
                       <div class="d-flex gap-2">
 
-                        <a href="?vista=registro&accion=editar&id=<?php echo $u["id_usuario"]; ?>"
+                        <a href="?vista=registro&accion=editar&id=<?php echo (int)($u["id_usuario"] ?? 0); ?>"
                           class="btn btn-gradient-primary btn-rounded btn-sm">
                           Editar
                         </a>
 
                         <?php if ($u["estado"]) { ?>
-                          <a href="?vista=registro&accion=inactivar&id=<?php echo $u["id_usuario"]; ?>"
+                          <a href="?vista=registro&accion=inactivar&id=<?php echo (int)($u["id_usuario"] ?? 0); ?>"
                             class="btn btn-gradient-danger btn-rounded btn-sm">
                             Inactivar
                           </a>
                         <?php } else { ?>
-                          <a href="?vista=registro&accion=activar&id=<?php echo $u["id_usuario"]; ?>"
+                          <a href="?vista=registro&accion=activar&id=<?php echo (int)($u["id_usuario"] ?? 0); ?>"
                             class="btn btn-gradient-success btn-rounded btn-sm">
                             Activar
                           </a>
