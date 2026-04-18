@@ -48,6 +48,7 @@ if (!isset($_SESSION["NombreUsuario"])) {
             name="nombre"
             placeholder="Nombre"
             required
+            readonly
             value="<?php echo $esEdicion ? htmlspecialchars($usuarioEditar["nombre"] ?? "") : ""; ?>"
             <?php echo $esEdicion ? 'readonly' : ''; ?>>
         </div>
