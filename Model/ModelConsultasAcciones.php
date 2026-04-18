@@ -48,14 +48,17 @@ function ObtenerSolicitudes()
     return $datos;
 }
 
-function AprobarSolicitudModel($id, $tipo)
+function AprobarSolicitudModel($id, $tipo, $idEncargado)
 {
     $context = OpenDBPractica();
 
+    $id = (int)$id;
+    $idEncargado = (int)$idEncargado;
+
     if ($tipo == "Permiso") {
-        $sp = "CALL sgh_AprobarSolicitudPermiso('$id')";
+        $sp = "CALL sgh_AprobarSolicitudPermiso($id, $idEncargado)";
     } else {
-        $sp = "CALL sgh_AprobarSolicitudVacaciones('$id')";
+        $sp = "CALL sgh_AprobarSolicitudVacaciones($id, $idEncargado)";
     }
 
     $resultado = mysqli_query($context, $sp);
@@ -64,14 +67,17 @@ function AprobarSolicitudModel($id, $tipo)
     return $resultado;
 }
 
-function RechazarSolicitudModel($id, $tipo)
+function RechazarSolicitudModel($id, $tipo, $idEncargado)
 {
     $context = OpenDBPractica();
 
+    $id = (int)$id;
+    $idEncargado = (int)$idEncargado;
+
     if ($tipo == "Permiso") {
-        $sp = "CALL sgh_RechazarSolicitudPermiso('$id')";
+        $sp = "CALL sgh_RechazarSolicitudPermiso($id, $idEncargado)";
     } else {
-        $sp = "CALL sgh_RechazarSolicitudVacaciones('$id')";
+        $sp = "CALL sgh_RechazarSolicitudVacaciones($id, $idEncargado)";
     }
 
     $resultado = mysqli_query($context, $sp);

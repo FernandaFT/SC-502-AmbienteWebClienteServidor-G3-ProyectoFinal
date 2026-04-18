@@ -1,14 +1,61 @@
--- Estructura de la tabla para notificaciones
-CREATE TABLE IF NOT EXISTS `notificacion` (
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
+-- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
+--
+-- Host: 127.0.0.1    Database: sgh
+-- ------------------------------------------------------
+-- Server version	5.5.5-10.4.32-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `notificacion`
+--
+
+DROP TABLE IF EXISTS `notificacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `notificacion` (
   `id_notificacion` int(11) NOT NULL AUTO_INCREMENT,
   `id_usuario_destino` int(11) NOT NULL COMMENT 'Quién recibe la notificación (Empleado o Administrador)',
   `id_usuario_origen` int(11) NOT NULL COMMENT 'Quién generó la acción (genera la notificación)',
   `descripcion` varchar(500) NOT NULL COMMENT 'Breve descripción de lo que se notifica',
   `leida` bit(1) DEFAULT b'0' COMMENT 'Marca si la notificación fue leída (interacción)',
-  `fecha_creacion` datetime DEFAULT CURRENT_TIMESTAMP COMMENT 'Fecha de creación automática',
+  `fecha_creacion` datetime DEFAULT current_timestamp() COMMENT 'Fecha de creación automática',
   PRIMARY KEY (`id_notificacion`),
   KEY `fk_usuario_destino` (`id_usuario_destino`),
   KEY `fk_usuario_origen` (`id_usuario_origen`),
   CONSTRAINT `fk_notificacion_destino` FOREIGN KEY (`id_usuario_destino`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
   CONSTRAINT `fk_notificacion_origen` FOREIGN KEY (`id_usuario_origen`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci AUTO_INCREMENT=1;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `notificacion`
+--
+
+LOCK TABLES `notificacion` WRITE;
+/*!40000 ALTER TABLE `notificacion` DISABLE KEYS */;
+INSERT INTO `notificacion` VALUES (1,1,10,'FAJARDO TORRES MARIA FERNANDA ha creado una solicitud de permiso',_binary '','2026-04-16 08:00:18'),(2,10,1,'Administrador ha aprobado tu solicitud de permiso',_binary '','2026-04-16 08:00:46'),(3,10,1,'Administrador ha rechazado tu solicitud de permiso',_binary '','2026-04-16 08:00:47'),(4,1,10,'FAJARDO TORRES MARIA FERNANDA ha creado una solicitud de vacaciones',_binary '','2026-04-16 08:07:21'),(5,10,11,'Marco Tulio ha aprobado tu solicitud de vacaciones',_binary '','2026-04-16 08:08:12'),(6,1,15,'Sebastian Arroyo Molina ha creado una solicitud de permiso',_binary '','2026-04-16 08:27:26'),(7,11,15,'Sebastian Arroyo Molina ha creado una solicitud de permiso',_binary '','2026-04-16 08:27:26'),(8,15,11,'Marco Tulio ha aprobado tu solicitud de permiso',_binary '','2026-04-16 08:27:42'),(9,1,15,'Sebastian Arroyo Molina ha creado una solicitud de permiso',_binary '','2026-04-16 08:29:04'),(10,11,15,'Sebastian Arroyo Molina ha creado una solicitud de permiso',_binary '','2026-04-16 08:29:04'),(11,15,11,'Marco Tulio ha rechazado tu solicitud de permiso',_binary '','2026-04-16 08:30:05'),(12,1,11,'ARROYO MOLINA SEBASTIAN ANDRES ha creado una solicitud de permiso',_binary '','2026-04-18 11:04:05'),(13,1,11,'ARROYO MOLINA SEBASTIAN ANDRES ha creado una solicitud de permiso',_binary '','2026-04-18 11:04:13'),(14,1,11,'ARROYO MOLINA SEBASTIAN ANDRES ha creado una solicitud de permiso',_binary '','2026-04-18 11:06:04'),(15,1,11,'ARROYO MOLINA SEBASTIAN ANDRES ha creado una solicitud de vacaciones',_binary '','2026-04-18 11:07:24'),(16,11,1,'Administrador ha aprobado tu solicitud de vacaciones',_binary '','2026-04-18 11:13:13'),(17,11,1,'Administrador ha aprobado tu solicitud de vacaciones',_binary '','2026-04-18 11:14:18'),(18,11,1,'Administrador ha aprobado tu solicitud de permiso',_binary '','2026-04-18 11:14:29'),(19,11,1,'Administrador ha aprobado tu solicitud de permiso',_binary '','2026-04-18 11:18:36'),(20,11,1,'Administrador ha rechazado tu solicitud de permiso',_binary '','2026-04-18 11:18:40'),(21,11,12,'BENAVIDES MORALES GERALD JESUS ha aprobado tu solicitud de permiso',_binary '','2026-04-18 11:22:32');
+/*!40000 ALTER TABLE `notificacion` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-04-18 11:32:48

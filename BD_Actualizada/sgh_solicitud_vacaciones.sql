@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `sgh` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */;
+USE `sgh`;
 -- MySQL dump 10.13  Distrib 8.0.44, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: sgh
@@ -38,7 +40,7 @@ CREATE TABLE `solicitud_vacaciones` (
   KEY `solicitud_vacaciones_ibfk_2` (`id_encargado`),
   CONSTRAINT `solicitud_vacaciones_ibfk_1` FOREIGN KEY (`id_usuario_solicita`) REFERENCES `usuario` (`id_usuario`),
   CONSTRAINT `solicitud_vacaciones_ibfk_2` FOREIGN KEY (`id_encargado`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -47,7 +49,7 @@ CREATE TABLE `solicitud_vacaciones` (
 
 LOCK TABLES `solicitud_vacaciones` WRITE;
 /*!40000 ALTER TABLE `solicitud_vacaciones` DISABLE KEYS */;
-INSERT INTO `solicitud_vacaciones` VALUES (1,2,NULL,1,'2026-04-07','2026-04-07','QA','Aprobado','2026-04-05 10:43:00',NULL),(2,2,NULL,1,'2026-04-30','2026-04-30','Pruebas','Rechazado','2026-04-06 12:03:30',NULL);
+INSERT INTO `solicitud_vacaciones` VALUES (3,11,NULL,2,'2026-04-18','2026-04-19','qa','Aprobado','2026-04-18 11:07:24',NULL);
 /*!40000 ALTER TABLE `solicitud_vacaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -60,4 +62,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-06 12:05:21
+-- Dump completed on 2026-04-18 11:32:48

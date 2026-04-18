@@ -11,8 +11,9 @@ if (isset($_POST["btnAprobar"])) {
 
     // Obtener el ID del usuario que hizo la solicitud
     $idUsuarioSolicitante = ObtenerIdUsuarioSolicitante($id_accion, $tipo);
+    $idEncargado = (int)($_SESSION["IdUsuario"] ?? 0);
 
-    $result = AprobarSolicitudModel($id_accion, $tipo);
+    $result = AprobarSolicitudModel($id_accion, $tipo, $idEncargado);
 
     if ($result) {
         $mensaje = "<div class='alert alert-success'>Solicitud aprobada correctamente.</div>";
@@ -51,8 +52,9 @@ if (isset($_POST["btnRechazar"])) {
 
     // Obtener el ID del usuario que hizo la solicitud
     $idUsuarioSolicitante = ObtenerIdUsuarioSolicitante($id_accion, $tipo);
+    $idEncargado = (int)($_SESSION["IdUsuario"] ?? 0);
 
-    $result = RechazarSolicitudModel($id_accion, $tipo);
+    $result = RechazarSolicitudModel($id_accion, $tipo, $idEncargado);
 
     if ($result) {
         $mensaje = "<div class='alert alert-success'>Solicitud rechazada correctamente.</div>";
