@@ -19,11 +19,20 @@ if (isset($_POST["btnRegistro"])) {
     $result = RegistrarUsuario($identificacion, $nombre, $correo, $contrasenna, $rol);
 
     if ($result && $result["resultado"] == 1) {
-        $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+        $mensaje = "<div class='alert alert-success'>Usuario registrado correctamente.</div>";
         $esEdicion = false;
         $usuarioEditar = null;
     } else {
-        $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "No se pudo registrar el usuario.") . "</div>";
+        $codigo = $result["codigo"] ?? "";
+        $textoError = "No se pudo registrar el usuario.";
+        if ($codigo === "err_ident") {
+            $textoError = "Esa identificación ya está registrada.";
+        } elseif ($codigo === "err_correo") {
+            $textoError = "El correo ya está registrado.";
+        } elseif ($codigo === "err_duplicado") {
+            $textoError = "Ya existe un usuario con esos datos.";
+        }
+        $mensaje = "<div class='alert alert-danger'>" . $textoError . "</div>";
         $esEdicion = false;
         $usuarioEditar = null;
     }
@@ -76,11 +85,18 @@ if (isset($_POST["btnActualizar"])) {
     $result = ActualizarUsuario($id, $identificacion, $nombre, $rol);
 
     if ($result && isset($result["resultado"]) && $result["resultado"] == 1) {
-        $mensaje = "<div class='alert alert-success'>" . $result["mensaje"] . "</div>";
+        $mensaje = "<div class='alert alert-success'>Usuario actualizado correctamente.</div>";
         $esEdicion = false;
         $usuarioEditar = null;
     } else {
-        $mensaje = "<div class='alert alert-danger'>" . ($result["mensaje"] ?? "Error al actualizar usuario.") . "</div>";
+        $codigo = $result["codigo"] ?? "";
+        $textoError = "Error al actualizar usuario.";
+        if ($codigo === "err_ident") {
+            $textoError = "Esa identificación ya está registrada.";
+        } elseif ($codigo === "err_duplicado") {
+            $textoError = "Ya existe un usuario con esos datos.";
+        }
+        $mensaje = "<div class='alert alert-danger'>" . $textoError . "</div>";
         $esEdicion = true;
         $usuarioEditar = ObtenerUsuarioPorId($id);
     }

@@ -1,3 +1,5 @@
+DELIMITER ;;
+DROP PROCEDURE IF EXISTS `sgh_ActualizarUsuario` ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ActualizarUsuario`(
     pId INT,
     pIdentificacion VARCHAR(15),
@@ -19,4 +21,5 @@ BEGIN
 
         SELECT 1 AS resultado, 'ok' AS codigo;
     END IF;
-END
+END ;;
+DELIMITER ;

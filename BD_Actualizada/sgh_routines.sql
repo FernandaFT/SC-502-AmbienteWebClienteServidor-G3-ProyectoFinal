@@ -143,13 +143,20 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ActualizarUsuario`(
     pRol INT
 )
 BEGIN
-	UPDATE usuario
-    SET identificacion = pIdentificacion,
-        nombre = pNombre,
-        rol = pRol
-    WHERE id_usuario = pId;
+    IF EXISTS (
+        SELECT 1 FROM usuario
+        WHERE identificacion = pIdentificacion AND id_usuario <> pId
+    ) THEN
+        SELECT 0 AS resultado, 'err_ident' AS codigo;
+    ELSE
+        UPDATE usuario
+        SET identificacion = pIdentificacion,
+            nombre = pNombre,
+            rol = pRol
+        WHERE id_usuario = pId;
 
-    SELECT 1 AS resultado, 'Usuario actualizado correctamente' AS mensaje;
+        SELECT 1 AS resultado, 'ok' AS codigo;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -1424,8 +1431,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistroUsuario`(
 BEGIN
     DECLARE idUsuarioN INT;
 
-    IF EXISTS (SELECT 1 FROM usuario WHERE correo = pCorreo) THEN
-        SELECT 0 AS resultado, 'El correo ya está registrado' AS mensaje;
+    IF EXISTS (SELECT 1 FROM usuario WHERE identificacion = pIdentificacion) THEN
+        SELECT 0 AS resultado, 'err_ident' AS codigo;
+    ELSEIF EXISTS (SELECT 1 FROM usuario WHERE correo = pCorreo) THEN
+        SELECT 0 AS resultado, 'err_correo' AS codigo;
     ELSE
         INSERT INTO usuario(identificacion, nombre, correo, contrasenna, estado, rol)
         VALUES(pIdentificacion, pNombre, pCorreo, pContrasenna, b'1', pRol);
@@ -1435,7 +1444,7 @@ BEGIN
         INSERT INTO vacaciones(id_usuario, dias_acumulados, dias_usados, fecha_ultimo_calculo)
         VALUES(idUsuarioN, 0, 0, CURDATE());
 
-        SELECT 1 AS resultado, 'Usuario registrado correctamente' AS mensaje;
+        SELECT 1 AS resultado, 'ok' AS codigo;
     END IF;
 END ;;
 DELIMITER ;

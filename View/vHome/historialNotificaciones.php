@@ -35,16 +35,21 @@ foreach ($notificaciones as &$notif) {
 unset($notif);
 
 $totalItems = count($notificaciones);
-$itemsPorPagina = 15;
-$totalPaginas = ceil($totalItems / $itemsPorPagina);
+$registrosPorPagina = 5;
+$totalPaginas = (int)ceil($totalItems / $registrosPorPagina);
 
-// Validar página
-if ($pagina < 1) $pagina = 1;
-if ($pagina > $totalPaginas && $totalPaginas > 0) $pagina = $totalPaginas;
+if ($pagina < 1) {
+    $pagina = 1;
+}
+if ($totalPaginas < 1) {
+    $totalPaginas = 1;
+}
+if ($pagina > $totalPaginas) {
+    $pagina = $totalPaginas;
+}
 
-// Calcular offset
-$offset = ($pagina - 1) * $itemsPorPagina;
-$notificacionesPaginadas = array_slice($notificaciones, $offset, $itemsPorPagina);
+$offset = ($pagina - 1) * $registrosPorPagina;
+$notificacionesPaginadas = array_slice($notificaciones, $offset, $registrosPorPagina);
 ?>
 
 <link rel="stylesheet" href="../assets/css/historialNotificaciones.css">
@@ -104,51 +109,27 @@ $notificacionesPaginadas = array_slice($notificaciones, $offset, $itemsPorPagina
                     </table>
                 </div>
 
-                <!-- Paginación -->
-                <?php if ($totalPaginas > 1): ?>
-                    <nav class="mt-4">
-                        <ul class="pagination justify-content-center">
-                            <?php if ($pagina > 1): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="inicio.php?vista=historialNotificaciones&pagina=1">Primera</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="inicio.php?vista=historialNotificaciones&pagina=<?php echo $pagina - 1; ?>">Anterior</a>
-                                </li>
-                            <?php endif; ?>
-
-                            <?php 
-                            $inicio = max(1, $pagina - 2);
-                            $fin = min($totalPaginas, $pagina + 2);
-                            
-                            for ($i = $inicio; $i <= $fin; $i++):
-                            ?>
-                                <li class="page-item <?php echo $i === $pagina ? 'active' : ''; ?>">
-                                    <a class="page-link" href="inicio.php?vista=historialNotificaciones&pagina=<?php echo $i; ?>">
-                                        <?php echo $i; ?>
-                                    </a>
-                                </li>
-                            <?php endfor; ?>
-
-                            <?php if ($pagina < $totalPaginas): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="inicio.php?vista=historialNotificaciones&pagina=<?php echo $pagina + 1; ?>">Siguiente</a>
-                                </li>
-                                <li class="page-item">
-                                    <a class="page-link" href="inicio.php?vista=historialNotificaciones&pagina=<?php echo $totalPaginas; ?>">Última</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
-                <?php endif; ?>
-
-                <!-- Información de paginación -->
-                <div class="text-center text-muted mt-3">
-                    <small>
-                        Mostrando <?php echo $offset + 1; ?> - <?php echo min($offset + $itemsPorPagina, $totalItems); ?> 
-                        de <?php echo $totalItems; ?> notificaciones
-                    </small>
-                </div>
+                <nav class="mt-3">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item <?php echo ($pagina <= 1) ? "disabled" : ""; ?>">
+                            <a class="page-link" href="?vista=historialNotificaciones&pagina=<?php echo $pagina - 1; ?>">
+                                Anterior
+                            </a>
+                        </li>
+                        <?php for ($i = 1; $i <= $totalPaginas; $i++) { ?>
+                            <li class="page-item <?php echo ($i == $pagina) ? "active" : ""; ?>">
+                                <a class="page-link" href="?vista=historialNotificaciones&pagina=<?php echo $i; ?>">
+                                    <?php echo $i; ?>
+                                </a>
+                            </li>
+                        <?php } ?>
+                        <li class="page-item <?php echo ($pagina >= $totalPaginas) ? "disabled" : ""; ?>">
+                            <a class="page-link" href="?vista=historialNotificaciones&pagina=<?php echo $pagina + 1; ?>">
+                                Siguiente
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             <?php endif; ?>
         </div>
     </div>
