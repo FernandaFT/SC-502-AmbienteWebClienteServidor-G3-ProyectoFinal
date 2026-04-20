@@ -26,14 +26,16 @@ DROP TABLE IF EXISTS `usuario`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `identificacion` varchar(15) NOT NULL,
   `nombre` varchar(200) NOT NULL,
   `correo` varchar(150) NOT NULL,
   `contrasenna` varchar(255) NOT NULL,
   `estado` bit(1) NOT NULL,
   `rol` int(11) NOT NULL,
-  `fecha_registro` date NOT NULL DEFAULT curdate(),
+  `fecha_registro` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `correo` (`correo`)
+  UNIQUE KEY `correo` (`correo`),
+  UNIQUE KEY `uq_usuario_identificacion` (`identificacion`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -43,7 +45,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'Administrador','admin@admin.com','123456',_binary '',1,'2026-03-24');
+INSERT INTO `usuario` VALUES (1,'111111111','Administrador','admin@admin.com','123456',_binary '',1,'2026-03-24 00:00:00');
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -56,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-24 22:19:01
+-- Dump completed on 2026-04-20 11:53:56
