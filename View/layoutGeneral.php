@@ -83,7 +83,7 @@ function menuEmpleado()
         <a class="nav-link" data-bs-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
           <span class="menu-title">Actividad Colaboradores</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
+          <i class="mdi mdi-clock-outline menu-icon"></i>
         </a>
 
         <div class="collapse" id="auth">
@@ -91,13 +91,15 @@ function menuEmpleado()
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=horas">
+                <i class="mdi mdi-timetable me-2"></i>
                 <span class="menu-title">Registro de Horas</span>
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
+                <i class="mdi mdi-key-variant me-2"></i>
+                <span class="menu-title">Cambiar mi Contraseña</span>
               </a>
             </li>
             
@@ -109,24 +111,27 @@ function menuEmpleado()
         <a class="nav-link" data-bs-toggle="collapse" href="#permisos" aria-expanded="false" aria-controls="permisos">
           <span class="menu-title">Acciones de Personal</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-calendar-check menu-icon"></i>
+          <i class="mdi mdi-account-heart-outline menu-icon"></i>
         </a>
 
         <div class="collapse" id="permisos">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_permiso">
-                Solicitar Permiso
+                <i class="mdi mdi-file-document-edit-outline me-2"></i>
+                <span class="menu-title">Solicitar Permiso</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=solicitar_vacaciones">
-                Solicitar Vacación
+                <i class="mdi mdi-beach me-2"></i>
+                <span class="menu-title">Solicitar Vacación</span>
               </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=mi_solicitudes">
-                 Mis Solicitudes
+                <i class="mdi mdi-format-list-bulleted me-2"></i>
+                <span class="menu-title">Mis Solicitudes</span>
               </a>
             </li>
           </ul>
@@ -135,7 +140,7 @@ function menuEmpleado()
       <li class="nav-item">
         <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
           <span class="menu-title">Perfil Empleado</span>
-          <i class="mdi mdi-account menu-icon"></i>
+          <i class="mdi mdi-account-circle-outline menu-icon"></i>
         </a>
       </li>
 
@@ -180,7 +185,7 @@ function menuAdmin()
         <a class="nav-link" data-bs-toggle="collapse" href="#configuracionMenu" aria-expanded="false">
           <span class="menu-title">Configuración</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
+          <i class="mdi mdi-cog-outline menu-icon"></i>
         </a>
 
         <div class="collapse" id="configuracionMenu">
@@ -188,19 +193,22 @@ function menuAdmin()
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=registro">
-                Creación de Usuarios
+                <i class="mdi mdi-account-multiple-plus-outline me-2"></i>
+                <span class="menu-title">Creación de Usuarios</span>
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=cambioContrasenna">
-                Cambiar mi Contraseña
+                <i class="mdi mdi-key-variant me-2"></i>
+                <span class="menu-title">Cambiar mi Contraseña</span>
               </a>
             </li>
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=clientes">
-                Creación Clientes
+                <i class="mdi mdi-domain me-2"></i>
+                <span class="menu-title">Creación Clientes</span>
               </a>
             </li>
 
@@ -213,7 +221,7 @@ function menuAdmin()
         <a class="nav-link" data-bs-toggle="collapse" href="#accionesPersonalMenu" aria-expanded="false">
           <span class="menu-title">Acciones de Personal</span>
           <i class="menu-arrow"></i>
-          <i class="mdi mdi-lock menu-icon"></i>
+          <i class="mdi mdi-clipboard-account-outline menu-icon"></i>
         </a>
 
         <div class="collapse" id="accionesPersonalMenu">
@@ -221,7 +229,8 @@ function menuAdmin()
 
             <li class="nav-item">
               <a class="nav-link" href="../vHome/inicio.php?vista=pantallaAccionesAdmin">
-                Gestión de Acciones <br> de Personal
+                <i class="mdi mdi-clipboard-check-outline me-2"></i>
+                <span class="menu-title">Gestión de Acciones <br> de Personal</span>
               </a>
             </li>
 
@@ -233,7 +242,7 @@ function menuAdmin()
       <li class="nav-item">
         <a class="nav-link" href="../vHome/inicio.php?vista=perfilUsuario">
           <span class="menu-title">Perfil Administrador</span>
-          <i class="mdi mdi-account menu-icon"></i>
+          <i class="mdi mdi-shield-account-outline menu-icon"></i>
         </a>
       </li>
 
@@ -241,7 +250,7 @@ function menuAdmin()
       <li class="nav-item">
         <a class="nav-link" href="../vHome/inicio.php?vista=consultar_reporteria">
           <span class="menu-title">Reportería</span>
-          <i class="mdi mdi-account menu-icon"></i>
+          <i class="mdi mdi-chart-box-outline menu-icon"></i>
         </a>
       </li>
 
