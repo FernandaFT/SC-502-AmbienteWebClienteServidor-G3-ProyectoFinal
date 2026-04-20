@@ -138,14 +138,18 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ActualizarUsuario`(
     pId INT,
+    pIdentificacion VARCHAR(15),
     pNombre VARCHAR(200),
     pRol INT
 )
 BEGIN
 	UPDATE usuario
-    SET nombre = pNombre,
+    SET identificacion = pIdentificacion,
+        nombre = pNombre,
         rol = pRol
     WHERE id_usuario = pId;
+
+    SELECT 1 AS resultado, 'Usuario actualizado correctamente' AS mensaje;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;

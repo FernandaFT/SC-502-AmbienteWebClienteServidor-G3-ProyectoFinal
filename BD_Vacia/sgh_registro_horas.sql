@@ -32,7 +32,7 @@ CREATE TABLE `registro_horas` (
   `clasificacion_hora` enum('Ordinaria','Extra','Doble') NOT NULL DEFAULT 'Ordinaria',
   `cantidad` int(11) NOT NULL,
   `descripcion` varchar(255) DEFAULT NULL,
-  `fecha` date NOT NULL DEFAULT curdate(),
+  `fecha` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id_registro`),
   KEY `fk_usuario` (`id_usuario`),
   KEY `fk_cliente` (`id_cliente`),
@@ -40,7 +40,7 @@ CREATE TABLE `registro_horas` (
   CONSTRAINT `fk_categoria` FOREIGN KEY (`id_categoria_hora`) REFERENCES `categoria_hora` (`id_categoria_hora`),
   CONSTRAINT `fk_cliente` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
   CONSTRAINT `fk_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -61,4 +61,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-24 22:19:01
+-- Dump completed on 2026-04-20 11:53:56

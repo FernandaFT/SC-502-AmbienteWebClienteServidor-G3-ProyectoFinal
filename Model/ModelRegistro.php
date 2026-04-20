@@ -123,7 +123,7 @@ function ActualizarUsuario($id, $identificacion, $nombre, $rol)
     $nombre = $context->real_escape_string($nombre);
     $rol = (int)$rol;
 
-    $sql = "CALL sgh_ActualizarUsuario('$id', '$identificacion', '$nombre', '$rol')";
+    $sql = "CALL sgh_ActualizarUsuario($id, '$identificacion', '$nombre', $rol)";
     $result = $context->query($sql);
 
     $respuesta = null;

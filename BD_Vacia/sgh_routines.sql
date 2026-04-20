@@ -34,7 +34,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `gh_ObtenerUsuarioPorId`(
     pId INT
 )
 BEGIN
-	SELECT id_usuario, nombre, correo, rol
+    SELECT id_usuario, identificacion, nombre, correo, rol
     FROM usuario
     WHERE id_usuario = pId;
 END ;;
@@ -138,14 +138,18 @@ DELIMITER ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ActualizarUsuario`(
     pId INT,
+    pIdentificacion VARCHAR(15),
     pNombre VARCHAR(200),
     pRol INT
 )
 BEGIN
 	UPDATE usuario
-    SET nombre = pNombre,
+    SET identificacion = pIdentificacion,
+        nombre = pNombre,
         rol = pRol
     WHERE id_usuario = pId;
+
+    SELECT 1 AS resultado, 'Usuario actualizado correctamente' AS mensaje;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -167,6 +171,58 @@ BEGIN
 	UPDATE vacaciones 
 	SET dias_acumulados = TIMESTAMPDIFF(MONTH, fecha_ultimo_calculo, CURDATE())
 	WHERE id_usuario =pIdUsuario;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_AprobarSolicitudPermiso` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_AprobarSolicitudPermiso`(
+    pId INT,
+    pIdEncargado INT
+)
+BEGIN
+	UPDATE solicitud_permiso 
+	SET estado = 'Aprobado',
+        id_encargado = pIdEncargado,
+        fecha_respuesta = NOW()
+	WHERE id_solicitud = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_AprobarSolicitudVacaciones` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_AprobarSolicitudVacaciones`(
+    pId INT,
+    pIdEncargado INT
+)
+BEGIN
+	UPDATE solicitud_vacaciones 
+    SET estado = 'Aprobado',
+        id_encargado = pIdEncargado,
+        fecha_respuesta = NOW()
+    WHERE id_solicitud = pId;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -215,6 +271,61 @@ BEGIN
   UPDATE usuario
   SET estado = IF(pEstado = 1, b'1', b'0')
   WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ConsultarClientes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ConsultarClientes`(
+)
+BEGIN
+	SELECT id_cliente, nombre FROM cliente WHERE activo = 1;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ConsultarReporteHoras` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ConsultarReporteHoras`(
+    IN p_fecha_inicio DATE,
+    IN p_fecha_fin DATE,
+    pCliente INT
+)
+BEGIN
+			SELECT 
+			u.nombre as empleado,
+                r.fecha,
+                r.cantidad,
+                r.descripcion,
+                c.nombre as cliente,
+                ch.nombre as categoria
+            FROM registro_horas r
+            INNER JOIN usuario u ON r.id_usuario = u.id_usuario
+            INNER JOIN cliente c ON r.id_cliente = c.id_cliente
+            INNER JOIN categoria_hora ch ON r.id_categoria_hora = ch.id_categoria_hora
+            WHERE r.fecha BETWEEN p_fecha_inicio AND p_fecha_fin
+            AND r.id_cliente = pCliente;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -282,44 +393,53 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_detalleSolicitud`(pIdSolicitud INT)
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_detalleSolicitud`(
+    pIdSolicitud INT, 
+    pTipo VARCHAR(10)
+)
 BEGIN
-	SELECT 
-                sp.id_solicitud,
-                sp.fecha_inicio,
-                sp.fecha_fin,
-                c.nombre AS categoria,
-                sp.descripcion,
-                sp.estado,
-                sp.fecha_solicitud,
-                sp.fecha_respuesta,
-                u.nombre AS nombre_empleado,
-                e.nombre AS nombre_encargado,
-                'Permiso' AS tipo
-            FROM solicitud_permiso sp
-            INNER JOIN usuario u ON sp.id_usuario = u.id_usuario
-            LEFT JOIN usuario e ON sp.id_encargado = e.id_usuario
-            INNER JOIN categoria_permiso c ON sp.id_categoria = c.id_categoria
-            WHERE sp.id_solicitud = pIdSolicitud
-
-            UNION ALL
-
-            SELECT 
-                sv.id_solicitud,
-                sv.fecha_inicio,
-                sv.fecha_fin,
-                'Vacaciones' AS categoria,
-                sv.descripcion,
-                sv.estado,
-                sv.fecha_solicitud,
-                sv.fecha_respuesta,
-                u.nombre AS nombre_empleado,
-                e.nombre AS nombre_encargado,
-                'Vacaciones' AS tipo
-            FROM solicitud_vacaciones sv
-            INNER JOIN usuario u ON sv.id_usuario_solicita = u.id_usuario
-            LEFT JOIN usuario e ON sv.id_encargado = e.id_usuario
-            WHERE sv.id_solicitud = pIdSolicitud;
+    IF pTipo = 'Vacaciones' THEN
+    
+        SELECT 
+            sv.id_solicitud,
+            sv.fecha_inicio,
+            sv.fecha_fin,
+            'Vacaciones' AS categoria,
+            sv.descripcion,
+            sv.estado,
+            sv.fecha_solicitud,
+            sv.fecha_respuesta,
+            u.nombre AS nombre_empleado,
+            e.nombre AS nombre_encargado,
+            'Vacaciones' AS tipo
+        FROM solicitud_vacaciones sv
+        INNER JOIN usuario u 
+            ON sv.id_usuario_solicita = u.id_usuario
+        LEFT JOIN usuario e 
+            ON sv.id_encargado = e.id_usuario
+        WHERE sv.id_solicitud = pIdSolicitud;
+    ELSE
+        SELECT 
+            sp.id_solicitud,
+            sp.fecha_inicio,
+            sp.fecha_fin,
+            c.nombre AS categoria,
+            sp.descripcion,
+            sp.estado,
+            sp.fecha_solicitud,
+            sp.fecha_respuesta,
+            u.nombre AS nombre_empleado,
+            e.nombre AS nombre_encargado,
+            'Permiso' AS tipo
+        FROM solicitud_permiso sp
+        INNER JOIN usuario u 
+            ON sp.id_usuario = u.id_usuario
+        LEFT JOIN usuario e 
+            ON sp.id_encargado = e.id_usuario
+        INNER JOIN categoria_permiso c 
+            ON sp.id_categoria = c.id_categoria
+        WHERE sp.id_solicitud = pIdSolicitud;
+    END IF;
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -511,6 +631,87 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas`(
+    IN pIdUsuarioOrigen INT,
+    IN pTipo VARCHAR(20)
+)
+BEGIN
+    DECLARE vPatron VARCHAR(200);
+
+    SET vPatron = '%ha creado una solicitud de permiso%';
+    IF LOWER(TRIM(pTipo)) = 'vacaciones' THEN
+        SET vPatron = '%ha creado una solicitud de vacaciones%';
+    END IF;
+
+    UPDATE notificacion n
+    INNER JOIN usuario u ON u.id_usuario = n.id_usuario_destino
+    SET n.leida = 1
+    WHERE u.rol = 1
+      AND n.id_usuario_origen = pIdUsuarioOrigen
+      AND n.leida = 0
+      AND n.descripcion LIKE vPatron;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarNotificacionLeida` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarNotificacionLeida`(
+    IN pIdNotificacion INT
+)
+BEGIN
+    UPDATE notificacion 
+    SET leida = 1 
+    WHERE id_notificacion = pIdNotificacion;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarTodasNotificacionesLeidas` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarTodasNotificacionesLeidas`(
+    IN pIdUsuario INT
+)
+BEGIN
+    UPDATE notificacion 
+    SET leida = 1 
+    WHERE id_usuario_destino = pIdUsuario AND leida = 0;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerAccionesPersonal` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -580,6 +781,168 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerDatosDashboard` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerDatosDashboard`(
+     IN p_id_usuario INT,
+    IN p_rol INT
+)
+BEGIN
+    DECLARE v_horas_totales INT DEFAULT 0;
+    DECLARE v_vacaciones_disponibles INT DEFAULT 0;
+    DECLARE v_pendientes_usuario INT DEFAULT 0;
+    DECLARE v_pendientes_admin INT DEFAULT 0;
+    DECLARE v_total_usuarios INT DEFAULT 0;
+    DECLARE v_clientes_activos INT DEFAULT 0;
+    DECLARE v_aprobadas INT DEFAULT 0;
+    DECLARE v_rechazadas INT DEFAULT 0;
+
+    DECLARE v_cliente VARCHAR(200) DEFAULT 'Sin registros';
+    DECLARE v_categoria VARCHAR(100) DEFAULT 'Sin categoría';
+    DECLARE v_cantidad INT DEFAULT 0;
+    DECLARE v_fecha DATETIME DEFAULT NULL;
+
+    SELECT IFNULL(SUM(rh.cantidad), 0)
+    INTO v_horas_totales
+    FROM registro_horas rh
+    WHERE rh.id_usuario = p_id_usuario;
+
+    SELECT IFNULL(MAX(v.dias_acumulados - v.dias_usados), 0)
+    INTO v_vacaciones_disponibles
+    FROM vacaciones v
+    WHERE v.id_usuario = p_id_usuario;
+
+    SELECT COUNT(*)
+    INTO v_pendientes_usuario
+    FROM solicitud_permiso sp
+    WHERE sp.id_usuario = p_id_usuario
+      AND sp.estado = 'Pendiente';
+
+    SELECT v_pendientes_usuario + COUNT(*)
+    INTO v_pendientes_usuario
+    FROM solicitud_vacaciones sv
+    WHERE sv.id_usuario_solicita = p_id_usuario
+      AND sv.estado = 'Pendiente';
+
+    SELECT COUNT(*)
+    INTO v_pendientes_admin
+    FROM solicitud_permiso
+    WHERE estado = 'Pendiente';
+
+    SELECT v_pendientes_admin + COUNT(*)
+    INTO v_pendientes_admin
+    FROM solicitud_vacaciones
+    WHERE estado = 'Pendiente';
+
+    IF p_rol = 1 THEN
+
+        SELECT COUNT(*)
+        INTO v_total_usuarios
+        FROM usuario
+        WHERE estado = b'1';
+
+        SELECT COUNT(*)
+        INTO v_clientes_activos
+        FROM cliente
+        WHERE activo = b'1';
+
+        SELECT COUNT(*)
+        INTO v_aprobadas
+        FROM solicitud_permiso
+        WHERE estado = 'Aprobado';
+
+        SELECT v_aprobadas + COUNT(*)
+        INTO v_aprobadas
+        FROM solicitud_vacaciones
+        WHERE estado = 'Aprobado';
+
+        SELECT COUNT(*)
+        INTO v_rechazadas
+        FROM solicitud_permiso
+        WHERE estado = 'Rechazado';
+
+        SELECT v_rechazadas + COUNT(*)
+        INTO v_rechazadas
+        FROM solicitud_vacaciones
+        WHERE estado = 'Rechazado';
+
+    END IF;
+
+    SELECT
+        c.nombre,
+        ch.nombre,
+        rh.cantidad,
+        rh.fecha
+    INTO
+        v_cliente,
+        v_categoria,
+        v_cantidad,
+        v_fecha
+    FROM registro_horas rh
+    LEFT JOIN cliente c
+        ON rh.id_cliente = c.id_cliente
+    LEFT JOIN categoria_hora ch
+        ON rh.id_categoria_hora = ch.id_categoria_hora
+    WHERE rh.id_usuario = p_id_usuario
+    ORDER BY rh.fecha DESC, rh.id_registro DESC
+    LIMIT 1;
+
+    SELECT
+        v_horas_totales AS horas_totales,
+        v_vacaciones_disponibles AS vacaciones,
+        v_pendientes_usuario AS pendientes_usuario,
+        v_pendientes_admin AS pendientes_admin,
+        v_total_usuarios AS total_usuarios,
+        v_clientes_activos AS clientes_activos,
+        v_aprobadas AS solicitudes_aprobadas,
+        v_rechazadas AS solicitudes_rechazadas,
+        v_cliente AS cliente,
+        v_categoria AS categoria,
+        v_cantidad AS cantidad,
+        IFNULL(DATE_FORMAT(v_fecha, '%d/%m/%Y'), 'Sin fecha') AS fecha;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerDetalleSolicitud` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerDetalleSolicitud`(
+    pIdSolicitud INT
+)
+BEGIN
+    SELECT sp.id_solicitud, sp.id_usuario, u.nombre AS nombre_empleado, sp.fecha_inicio, 
+           sp.fecha_fin, sp.descripcion, cp.nombre AS categoria, sp.estado, sp.fecha_solicitud,
+           sp.fecha_respuesta, sp.motivo_rechazo, sp.observaciones, 
+           e.nombre AS nombre_encargado
+    FROM solicitud_permiso sp
+    INNER JOIN usuario u ON sp.id_usuario = u.id_usuario
+    INNER JOIN categoria_permiso cp ON sp.id_categoria = cp.id_categoria
+    LEFT JOIN usuario e ON sp.id_encargado = e.id_usuario
+    WHERE sp.id_solicitud = pIdSolicitud;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerHoraPorId` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -607,6 +970,242 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerNotificacionesNoLeidas` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesNoLeidas`(
+    IN pIdUsuario INT
+)
+BEGIN
+    SELECT 
+        n.id_notificacion,
+        n.id_usuario_origen,
+        n.descripcion,
+        n.fecha_creacion,
+        n.leida,
+        u.nombre AS nombre_origen
+    FROM notificacion n
+    INNER JOIN usuario u ON n.id_usuario_origen = u.id_usuario
+    WHERE n.id_usuario_destino = pIdUsuario AND n.leida = 0
+    ORDER BY n.fecha_creacion DESC
+    LIMIT 10;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerNotificacionesUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesUsuario`(
+    IN pIdUsuario INT
+)
+BEGIN
+    SELECT 
+        n.id_notificacion,
+        n.id_usuario_origen,
+        n.descripcion,
+        n.fecha_creacion,
+        n.leida,
+        u.nombre AS nombre_origen
+    FROM notificacion n
+    INNER JOIN usuario u ON n.id_usuario_origen = u.id_usuario
+    WHERE n.id_usuario_destino = pIdUsuario
+    ORDER BY n.fecha_creacion DESC;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudDeNotificacion` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudDeNotificacion`(
+    IN pIdOrigen INT,
+    IN pDescripcion VARCHAR(500)
+)
+BEGIN
+    DECLARE vTipo VARCHAR(20);
+
+    SET vTipo = 'Permiso';
+    IF LOCATE('vacaciones', LOWER(pDescripcion)) > 0 THEN
+        SET vTipo = 'Vacaciones';
+    END IF;
+
+    IF vTipo = 'Vacaciones' THEN
+        SELECT
+            (SELECT id_solicitud
+             FROM solicitud_vacaciones
+             WHERE id_usuario_solicita = pIdOrigen
+             ORDER BY fecha_solicitud DESC
+             LIMIT 1) AS id_solicitud,
+            vTipo AS tipo;
+    ELSE
+        SELECT
+            (SELECT id_solicitud
+             FROM solicitud_permiso
+             WHERE id_usuario = pIdOrigen
+             ORDER BY fecha_solicitud DESC
+             LIMIT 1) AS id_solicitud,
+            vTipo AS tipo;
+    END IF;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudesGestionar` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudesGestionar`()
+BEGIN
+SELECT 
+    sp.id_solicitud,
+    u.nombre AS usuario,
+    sp.fecha_inicio,
+    sp.fecha_fin,
+    c.nombre AS categoria,
+    sp.descripcion,
+    sp.estado,
+    sp.fecha_solicitud,
+    'Permiso' AS tipo
+FROM solicitud_permiso sp
+INNER JOIN categoria_permiso c 
+    ON sp.id_categoria = c.id_categoria
+INNER JOIN usuario u
+    ON sp.id_usuario = u.id_usuario
+
+UNION ALL
+
+SELECT 
+    sv.id_solicitud,
+    u.nombre AS usuario,
+    sv.fecha_inicio,
+    sv.fecha_fin,
+    'Vacaciones' AS categoria,
+    sv.descripcion,
+    sv.estado,
+    sv.fecha_solicitud,
+    'Vacaciones' AS tipo
+FROM solicitud_vacaciones sv
+INNER JOIN usuario u
+    ON sv.id_usuario_solicita = u.id_usuario
+
+ORDER BY fecha_solicitud DESC;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudespendientes` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudespendientes`(
+    pIdEncargado INT
+)
+BEGIN
+    SELECT sp.id_solicitud, sp.id_usuario, u.nombre AS nombre_empleado, sp.fecha_inicio, 
+           sp.fecha_fin, sp.descripcion, cp.nombre AS categoria, sp.estado, sp.fecha_solicitud
+    FROM solicitud_permiso sp
+    INNER JOIN usuario u ON sp.id_usuario = u.id_usuario
+    INNER JOIN categoria_permiso cp ON sp.id_categoria = cp.id_categoria
+    WHERE sp.id_encargado = pIdEncargado AND sp.estado = 'Pendiente'
+    ORDER BY sp.fecha_solicitud DESC;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudesUsuario` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudesUsuario`(
+    pIdUsuario INT
+)
+BEGIN
+    SELECT sp.id_solicitud, sp.fecha_inicio, sp.fecha_fin, sp.descripcion, 
+           cp.nombre AS categoria, sp.estado, sp.fecha_solicitud, sp.fecha_respuesta,
+           sp.motivo_rechazo, u.nombre AS nombre_encargado
+    FROM solicitud_permiso sp
+    INNER JOIN categoria_permiso cp ON sp.id_categoria = cp.id_categoria
+    LEFT JOIN usuario u ON sp.id_encargado = u.id_usuario
+    WHERE sp.id_usuario = pIdUsuario
+    ORDER BY sp.fecha_solicitud DESC;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerTodosEncargados` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_AUTO_VALUE_ON_ZERO' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerTodosEncargados`()
+BEGIN
+    SELECT DISTINCT id_usuario
+    FROM usuario
+    WHERE rol = 1
+    ORDER BY id_usuario;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 /*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerUsuarioPorId` */;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -624,6 +1223,72 @@ BEGIN
 	SELECT id_usuario, identificacion, nombre, correo, rol
     FROM usuario
     WHERE id_usuario = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_RechazarSolicitudPermiso` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RechazarSolicitudPermiso`(
+    pId INT,
+    pIdEncargado INT
+)
+BEGIN
+	UPDATE solicitud_permiso 
+	SET estado = 'Rechazado',
+        id_encargado = pIdEncargado,
+        fecha_respuesta = NOW()
+	WHERE id_solicitud = pId;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_RechazarSolicitudVacaciones` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RechazarSolicitudVacaciones`(
+    pId INT,
+    pIdEncargado INT
+)
+BEGIN
+
+    DECLARE pUsuario INT;
+    DECLARE pDias INT;
+
+    SELECT id_usuario_solicita, dias_solicitados
+    INTO pUsuario, pDias
+    FROM solicitud_vacaciones
+    WHERE id_solicitud = pId;
+
+    UPDATE solicitud_vacaciones 
+    SET estado = 'Rechazado',
+        id_encargado = pIdEncargado,
+        fecha_respuesta = NOW()
+    WHERE id_solicitud = pId;
+
+    UPDATE vacaciones
+    SET dias_usados = dias_usados - pDias
+    WHERE id_usuario = pUsuario;
+
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -654,6 +1319,30 @@ BEGIN
     VALUES (p_idUsuario, p_idCliente, p_idCategoriaHora, p_clasificacionHora, p_cantidad, p_descripcion, p_fecha);
 
     SELECT 1 AS resultado, 'Horas registradas correctamente' AS mensaje;
+END ;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 DROP PROCEDURE IF EXISTS `sgh_RegistrarNotificacion` */;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistrarNotificacion`(
+    IN pIdDestino INT,
+    IN pIdOrigen INT,
+    IN pDescripcion VARCHAR(500)
+)
+BEGIN
+    INSERT INTO notificacion (id_usuario_destino, id_usuario_origen, descripcion, leida, fecha_creacion)
+    VALUES (pIdDestino, pIdOrigen, pDescripcion, 0, NOW());
 END ;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -726,22 +1415,25 @@ DELIMITER ;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistroUsuario`(
-	pNombre VARCHAR(200),
+    pIdentificacion VARCHAR(50),
+    pNombre VARCHAR(200),
     pCorreo VARCHAR(150),
     pContrasenna VARCHAR(255),
     pRol INT
 )
 BEGIN
-	DECLARE idUsuarioN INT;
+    DECLARE idUsuarioN INT;
 
-	IF EXISTS (SELECT 1 FROM usuario WHERE correo = pCorreo) THEN
+    IF EXISTS (SELECT 1 FROM usuario WHERE correo = pCorreo) THEN
         SELECT 0 AS resultado, 'El correo ya está registrado' AS mensaje;
     ELSE
-        INSERT INTO usuario(nombre, correo, contrasenna, estado, rol)
-        VALUES(pNombre, pCorreo, pContrasenna, b'1', pRol);
+        INSERT INTO usuario(identificacion, nombre, correo, contrasenna, estado, rol)
+        VALUES(pIdentificacion, pNombre, pCorreo, pContrasenna, b'1', pRol);
+
         SELECT LAST_INSERT_ID() INTO idUsuarioN;
-        INSERT INTO vacaciones(id_usuario,dias_acumulados,dias_usados,fecha_ultimo_calculo)
-        VALUES(idUsuarioN,0,0,CURDATE());
+
+        INSERT INTO vacaciones(id_usuario, dias_acumulados, dias_usados, fecha_ultimo_calculo)
+        VALUES(idUsuarioN, 0, 0, CURDATE());
 
         SELECT 1 AS resultado, 'Usuario registrado correctamente' AS mensaje;
     END IF;
@@ -893,153 +1585,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_RegistrarNotificacion` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_RegistrarNotificacion`(
-    IN pIdDestino INT,
-    IN pIdOrigen INT,
-    IN pDescripcion VARCHAR(500)
-)
-BEGIN
-    INSERT INTO notificacion (id_usuario_destino, id_usuario_origen, descripcion, leida, fecha_creacion)
-    VALUES (pIdDestino, pIdOrigen, pDescripcion, 0, NOW());
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerNotificacionesUsuario` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesUsuario`(
-    IN pIdUsuario INT
-)
-BEGIN
-    SELECT 
-        n.id_notificacion,
-        n.id_usuario_origen,
-        n.descripcion,
-        n.fecha_creacion,
-        n.leida,
-        u.nombre AS nombre_origen
-    FROM notificacion n
-    INNER JOIN usuario u ON n.id_usuario_origen = u.id_usuario
-    WHERE n.id_usuario_destino = pIdUsuario
-    ORDER BY n.fecha_creacion DESC;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerNotificacionesNoLeidas` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerNotificacionesNoLeidas`(
-    IN pIdUsuario INT
-)
-BEGIN
-    SELECT 
-        n.id_notificacion,
-        n.id_usuario_origen,
-        n.descripcion,
-        n.fecha_creacion,
-        n.leida,
-        u.nombre AS nombre_origen
-    FROM notificacion n
-    INNER JOIN usuario u ON n.id_usuario_origen = u.id_usuario
-    WHERE n.id_usuario_destino = pIdUsuario AND n.leida = 0
-    ORDER BY n.fecha_creacion DESC
-    LIMIT 10;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarNotificacionLeida` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarNotificacionLeida`(
-    IN pIdNotificacion INT
-)
-BEGIN
-    UPDATE notificacion 
-    SET leida = 1 
-    WHERE id_notificacion = pIdNotificacion;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarTodasNotificacionesLeidas` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarTodasNotificacionesLeidas`(
-    IN pIdUsuario INT
-)
-BEGIN
-    UPDATE notificacion 
-    SET leida = 1 
-    WHERE id_usuario_destino = pIdUsuario AND leida = 0;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerTodosEncargados` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerTodosEncargados`()
-BEGIN
-    SELECT DISTINCT id_usuario
-    FROM usuario
-    WHERE rol = 1
-    ORDER BY id_usuario;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_MarcarNotificacionesEncargadosSolicitudComoLeidas`(
-    IN pIdUsuarioOrigen INT,
-    IN pTipo VARCHAR(20)
-)
-BEGIN
-    DECLARE vPatron VARCHAR(200);
-
-    SET vPatron = '%ha creado una solicitud de permiso%';
-    IF LOWER(TRIM(pTipo)) = 'vacaciones' THEN
-        SET vPatron = '%ha creado una solicitud de vacaciones%';
-    END IF;
-
-    UPDATE notificacion n
-    INNER JOIN usuario u ON u.id_usuario = n.id_usuario_destino
-    SET n.leida = 1
-    WHERE u.rol = 1
-      AND n.id_usuario_origen = pIdUsuarioOrigen
-      AND n.leida = 0
-      AND n.descripcion LIKE vPatron;
-END ;;
-DELIMITER ;
-
-/*!50003 DROP PROCEDURE IF EXISTS `sgh_ObtenerSolicitudDeNotificacion` */;
-DELIMITER ;;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `sgh_ObtenerSolicitudDeNotificacion`(
-    IN pIdOrigen INT,
-    IN pDescripcion VARCHAR(500)
-)
-BEGIN
-    DECLARE vTipo VARCHAR(20);
-
-    SET vTipo = 'Permiso';
-    IF LOCATE('vacaciones', LOWER(pDescripcion)) > 0 THEN
-        SET vTipo = 'Vacaciones';
-    END IF;
-
-    IF vTipo = 'Vacaciones' THEN
-        SELECT
-            (SELECT id_solicitud
-             FROM solicitud_vacaciones
-             WHERE id_usuario_solicita = pIdOrigen
-             ORDER BY fecha_solicitud DESC
-             LIMIT 1) AS id_solicitud,
-            vTipo AS tipo;
-    ELSE
-        SELECT
-            (SELECT id_solicitud
-             FROM solicitud_permiso
-             WHERE id_usuario = pIdOrigen
-             ORDER BY fecha_solicitud DESC
-             LIMIT 1) AS id_solicitud,
-            vTipo AS tipo;
-    END IF;
-END ;;
-DELIMITER ;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1050,4 +1595,4 @@ DELIMITER ;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-03-24 22:19:01
+-- Dump completed on 2026-04-20 11:53:56

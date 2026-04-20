@@ -18,28 +18,34 @@ USE `sgh`;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `categoria_hora`
+-- Table structure for table `notificacion`
 --
 
-DROP TABLE IF EXISTS `categoria_hora`;
+DROP TABLE IF EXISTS `notificacion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categoria_hora` (
-  `id_categoria_hora` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(100) NOT NULL,
-  `descripcion` varchar(255) DEFAULT NULL,
-  `activo` bit(1) DEFAULT b'1',
-  PRIMARY KEY (`id_categoria_hora`)
+CREATE TABLE `notificacion` (
+  `id_notificacion` int(11) NOT NULL AUTO_INCREMENT,
+  `id_usuario_destino` int(11) NOT NULL COMMENT 'Quién recibe la notificación (Empleado o Administrador)',
+  `id_usuario_origen` int(11) NOT NULL COMMENT 'Quién generó la acción (genera la notificación)',
+  `descripcion` varchar(500) NOT NULL COMMENT 'Breve descripción de lo que se notifica',
+  `leida` bit(1) DEFAULT b'0' COMMENT 'Marca si la notificación fue leída (interacción)',
+  `fecha_creacion` datetime DEFAULT current_timestamp() COMMENT 'Fecha de creación automática',
+  PRIMARY KEY (`id_notificacion`),
+  KEY `fk_usuario_destino` (`id_usuario_destino`),
+  KEY `fk_usuario_origen` (`id_usuario_origen`),
+  CONSTRAINT `fk_notificacion_destino` FOREIGN KEY (`id_usuario_destino`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE,
+  CONSTRAINT `fk_notificacion_origen` FOREIGN KEY (`id_usuario_origen`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `categoria_hora`
+-- Dumping data for table `notificacion`
 --
 
-LOCK TABLES `categoria_hora` WRITE;
-/*!40000 ALTER TABLE `categoria_hora` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categoria_hora` ENABLE KEYS */;
+LOCK TABLES `notificacion` WRITE;
+/*!40000 ALTER TABLE `notificacion` DISABLE KEYS */;
+/*!40000 ALTER TABLE `notificacion` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
