@@ -237,6 +237,14 @@ function menuAdmin()
         </a>
       </li>
 
+      <!-- Reporteria -->
+      <li class="nav-item">
+        <a class="nav-link" href="../vHome/inicio.php?vista=consultar_reporteria">
+          <span class="menu-title">Reportería</span>
+          <i class="mdi mdi-account menu-icon"></i>
+        </a>
+      </li>
+
     </ul>
   </nav>
   ';

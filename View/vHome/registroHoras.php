@@ -80,12 +80,21 @@ if (!isset($_SESSION["NombreUsuario"])) {
             value="<?php echo $esEdicion ? htmlspecialchars($registroEditar["descripcion"]) : ""; ?>">
         </div>
 
+        <?php
+        $valorFechaEdicion = "";
+        if ($esEdicion && !empty($registroEditar["fecha"])) {
+          $rawFecha = (string)$registroEditar["fecha"];
+          if (preg_match("/^(\d{4}-\d{2}-\d{2})/", $rawFecha, $m)) {
+            $valorFechaEdicion = $m[1];
+          }
+        }
+        ?>
         <div class="form-group">
           <label>Fecha</label>
           <input type="date"
             class="form-control form-control-lg"
             name="fecha" id="fecha"
-            value="<?php echo $esEdicion ? htmlspecialchars($registroEditar["fecha"]) : ""; ?>">
+            value="<?php echo htmlspecialchars($valorFechaEdicion); ?>">
         </div>
 
         <div class="mt-3 d-grid gap-2">
@@ -136,7 +145,13 @@ if (!isset($_SESSION["NombreUsuario"])) {
                     <td><?php echo htmlspecialchars($h["clasificacion_hora"] ?? ""); ?></td>
                     <td><?php echo htmlspecialchars($h["cantidad"]); ?></td>
                     <td><?php echo htmlspecialchars($h["descripcion"]); ?></td>
-                    <td><?php echo htmlspecialchars($h["fecha"]); ?></td>
+                    <td><?php
+                      $fList = $h["fecha"] ?? "";
+                      if ($fList !== "" && $fList !== null) {
+                        $tsList = strtotime((string)$fList);
+                        echo $tsList ? htmlspecialchars(date("d/m/Y", $tsList)) : "";
+                      }
+                    ?></td>
                     <td>
                       <a href="?vista=horas&accion=editar&id=<?php echo $h["id_registro"]; ?>"
                         class="btn btn-gradient-primary btn-rounded btn-sm">Editar</a>
